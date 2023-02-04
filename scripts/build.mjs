@@ -1,9 +1,5 @@
-
-// To run this script, install dev dependencies, compile the typescript and create a "build" folder
-// Inside the build folder you must create a "css" folder and a "dest" folder
-// Lastly, copy the "classes", "images" and "fonts" folders to the build folder
-
 import * as fs from 'fs'
+import * as path from 'path'
 import { minify } from "terser"
 import postcss from 'postcss'
 import cssnano from 'cssnano'
@@ -58,6 +54,9 @@ const stats = (() => {
 		get fullName() {
 			return this.name + (this.type ? ` ${this.type}` : '')
 		}
+		get folderName() {
+			return this.fullName.replace(/[  ‑]/g, '-').toLowerCase()
+		}
 	}
 	const characters = []
 	for (let i = 0; i < 29; i++) characters[i] = new Character(i);
@@ -70,6 +69,28 @@ const stats = (() => {
 		characters
 	}
 })()
+
+const logError = err => err && console.log(err)
+
+// Creating folders if they don't exist
+if (!fs.existsSync('./classes')) {
+	fs.mkdirSync('./classes')
+
+	stats.characters.forEach((char) => {
+		fs.mkdirSync('./classes/' + char.folderName)
+	})
+}
+
+if (!fs.existsSync('./build')) {
+	fs.mkdirSync('./build')
+	fs.mkdirSync('./build/css')
+	fs.mkdirSync('./build/dest')
+	copyDir('./classes', './build/classes')
+	copyDir('./fonts', './build/fonts')
+	copyDir('./images', './build/images')
+}
+
+fs.writeFileSync('./classes/content.txt', getClassesContent())
 
 const round = num => Math.round(num * 1e6) / 1e6
 
@@ -93,20 +114,17 @@ const pronouns = [
 	'his', 'its', 'its', 'his', 'her', 'his'
 ]
 
-const folderName = char => char.fullName.replace(/[  ‑]/g, '-').toLowerCase(),
-logError = err => err && console.log(err)
-
 stats.characters.forEach((char, id) => {
 
 	const linkTargets = getLinkTargets(char),
 	html1 = getClassesHTML(char, linkTargets),
 	html2 = getClassesHTML(char, linkTargets, true)
 
-	fs.writeFile(`classes/${folderName(char)}/index.html`, html1, logError)
-	fs.writeFile(`classes/${folderName(char)}/abilities.html`, html2, logError)
+	fs.writeFile(`classes/${char.folderName}/index.html`, html1, logError)
+	fs.writeFile(`classes/${char.folderName}/abilities.html`, html2, logError)
 
-	fs.writeFile(`build/classes/${folderName(char)}/index.html`, getBuild(html1), logError)
-	fs.writeFile(`build/classes/${folderName(char)}/abilities.html`, getBuild(html2), logError)
+	fs.writeFile(`build/classes/${char.folderName}/index.html`, getBuild(html1), logError)
+	fs.writeFile(`build/classes/${char.folderName}/abilities.html`, getBuild(html2), logError)
 })
 
 const classContent = fs.readFileSync('classes/content.txt', 'utf-8').replace(/\n|\t|\r/g, '')
@@ -169,6 +187,19 @@ const prosessor = cssnano([cssnano({ preset: 'default' })]);
 		fs.writeFile(`build/css/${name}`, result.css, logError)
 	})
 })
+
+async function copyDir(src, dest) {
+	await fs.promises.mkdir(dest, { recursive: true })
+	const entries = await fs.promises.readdir(src, { withFileTypes: true })
+
+	for (const entry of entries) {
+		const srcPath = path.join(src, entry.name)
+		const destPath = path.join(dest, entry.name)
+
+		if (entry.isDirectory()) await copyDir(srcPath, destPath)
+		else await fs.promises.copyFile(srcPath, destPath)
+	}	
+}
 
 function getBuild(html) {
 	return html.replace(/(?<=\.(css|js))(?=[^\w])/g, cacheParam).replace(/\t|\n|\r/g, '')
@@ -268,4 +299,50 @@ function getClassesHTML(char, linkTargets, abilities) {
 	</div>
 </body>
 </html>`
+}
+
+function getClassesContent() {
+	return `<div id="classes" style="display:none">
+	<header class="char">
+		<div class="icon_c">
+			<img src="/images/all-icons-large.webp" id="icon">
+			<div>
+				<h1> </h1>
+				<p> <span></span></p>
+			</div>
+		</div>
+		<div class="abilities">
+			<a title="Left ability"></a>
+			<a title="Center ability"></a>
+			<a title="Right ability"></a>
+		</div>
+		<div class="nav_c">
+			<a id="next" class="btn" title="(→)">Next</a>
+			<a id="prev" class="btn" title="(←)">Prev</a>
+		</div>
+	</header>
+	<div class="options_c">
+		<div class="upg-container">
+			<div class="select" id="upg"><button>Upgrades (0/7)</button></div>
+			<div class="select" id="temp"><button>Temporary upgrades</button></div>
+		</div>
+		<div class="group_c2">
+			<div class="upgrades"></div>
+			<div>
+				<a class="btn" id="passenger"></a>
+				<a class="btn" id="vehicle"></a>
+			</div>
+		</div>
+		<div class="group_c3">
+			<div class="input-group">
+				<label for="zoom">Zooming</label>
+				<input type="checkbox" id="zoom">
+			</div>
+			<div class="input-group">
+				<label for="starz"> </label>
+				<input type="checkbox" id="starz">
+			</div>
+		</div>
+	</div>
+</div>`
 }

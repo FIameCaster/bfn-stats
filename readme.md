@@ -6,4 +6,12 @@ BFN Stats is a website for viewing statistics for all playable characters in PVZ
 
 The website is hosted with Netlify: https://bfn-stats.netlify.app.
 
-If you wish to run it locally, clone the repository and run it on any http server.
+If you wish to run it locally, install dependencies:
+
+	npm install
+
+And run the build script:
+
+	npm run build
+
+Lastly, run the site with any server.

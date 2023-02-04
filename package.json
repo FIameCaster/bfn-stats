@@ -1,8 +1,7 @@
 {
 	"name": "bfn-stats",
 	"scripts": {
-		"build": "tsc -w false && node scripts/build.mjs",
-		"init": "tsc -w false && node scripts/create-folders.mjs"
+		"build": "tsc -w false && node scripts/build.mjs"
 	},
 	"devDependencies": {
 		"cssnano": "^5.1.14",
