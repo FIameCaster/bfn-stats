@@ -1,0 +1,247 @@
+.perk-list {
+	position: absolute;
+	z-index: 10;
+	top: calc(100% + 0.5rem);
+	left: 0;
+	background-color: var(--bg-secondary);
+	border-radius: .25em;
+	width: 22.5em;
+	display: grid;
+	gap: .2em;
+	padding: .2em;
+	overflow-y: scroll;
+	font-size: 1.6rem;
+	font-size: min(4.7vw, 1.6rem);
+	align-items: start;
+}
+
+.perk-info {
+	display: none;
+	background-color: var(--bg-primary);
+	padding: 0 0.5em 0 3em;
+	border-top: .15em solid hsl(210, 30%, 30%);
+	border-radius: 0 0 0.24em 0.24em;
+	font-size: 83.333%;
+}
+
+.perk {
+	background-image: linear-gradient(290deg, hsl(210, 30%, 30%) 4.18em, hsl(210, 45%, 16%) 0, hsl(210, 45%, 16%) 6.85em, var(--bg-primary) 0);
+	display: grid;
+	grid-template-columns: 1fr auto;
+	position: relative;
+	border-radius: 0.2em;
+}
+
+.perk > :first-child {
+	display: grid;
+	align-items: center;
+	grid-template-columns: auto 1fr auto auto;
+}
+
+.perk-type {
+	width: 2em;
+	height: 2em;
+	background-size: 26em;
+	margin-right: .5em;
+	background-image: url(/images/perk-icons-2x.webp);
+}
+
+.perk-role-container {
+	width: 1.825em;
+	height: 1.825em;
+	margin: 0 1em 0 auto;
+	position: relative;
+	background-image: radial-gradient(7.3em, #0004 12.5%, #0000 0);
+}
+
+.perk-role {
+	position: absolute;
+	top: 0.1em;
+	left: 0.1em;
+	right: 0.1em;
+	bottom: 0.1em;
+	background-size: auto 100%;
+}
+
+/* .perk-role-container::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #0004;
+	border-radius: 1em;
+} */
+
+.none > .perk {
+	background-image: linear-gradient(290deg, hsl(210, 30%, 30%) 4.18em, var(--bg-primary) 0);
+}
+
+.none .perk-role-container {
+	opacity: 0;
+}
+
+.cost {
+	display: flex;
+	align-items: center;
+	margin-right: 0.2em;
+	font-size: 0.8em;
+}
+
+.cost::before {
+	content: '';
+	width: 1em;
+	height: 1em;
+	background-color: #e01d83;
+	border: 0.125em solid var(--site-bg);
+	border-radius: 1em;
+	margin-right: .2em;
+}
+
+.perk-toggle {
+	height: 2em;			
+	width: 2em;
+	display: flex;				
+	justify-content: center;
+	align-items: center;
+	border-radius: .2em;
+}
+
+.perk-toggle::after {
+	content: '';
+	background-color: #fff;
+	width: .72em;
+	height: 1.2em;
+	clip-path: polygon(9.43% 39.34%, 0% 45%, 50% 75%, 100% 45%, 90.57% 39.34%, 50% 63.69%, 9.43% 39.34%);
+}
+
+.perk :focus-visible {
+	border-radius: .2em;
+}
+
+@media (hover: none) {
+	.perk:hover {
+		outline: none;
+		box-shadow: 0 0;
+	}
+	.perk:hover .perk-role-container {
+		clip-path: none;
+	}
+}
+
+@media (hover: hover) {
+	.perk-toggle:hover {
+		background-color: #0002;
+	}
+	:hover + .perk-info {
+		border-color: #0000;
+	}
+}
+
+.expanded .perk {
+	border-radius: 0.2em 0.2em 0 0;
+}
+
+.expanded > .perk-info {
+	display: block;
+}
+
+.selected .perk::after {
+	content: '';
+	position: absolute;
+	bottom: 0.1rem;
+	right: 0.1rem;
+	background-color: hsl(42, 83%, 68%);
+	width: .8em;
+	height: .8em;
+	clip-path: polygon(110% 10%, 110% 110%, 10% 110%);
+	border-bottom-right-radius: calc(0.2em - 0.1rem);
+	box-shadow: .1rem .1rem .2rem -0.1rem #0005;
+}
+
+.expensive ~ :not(.selected),
+.expensive {
+	opacity: 0.5;
+}
+
+.expensive ~ :not(.selected) button:first-child,
+.expensive button:first-child {
+	cursor: default;
+}
+
+.perk:focus-visible,
+.perk:hover {
+	outline: 0.1rem solid var(--focus-ring);
+	outline-offset: -0.1rem;
+	box-shadow: var(--focus-shadow);
+	border-radius: .2em;
+	z-index: 1;
+}
+
+/* button:focus-visible .perk-role-container,
+.perk:hover .perk-role-container {
+	clip-path: polygon(0 .1rem, 100% .1rem, 100% calc(2em - 0.1rem), 0 calc(2em - 0.1rem));
+} */
+
+.perk-list > :last-child {
+	opacity: 1;
+	justify-content: center;
+	display: none;
+}
+
+.perk-close {
+	width: 8em;
+}
+
+@media (max-width: 27em) {
+	.perk-list {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		max-height: none !important;
+		width: auto;
+		z-index: 999;
+		align-content: start;
+	}
+	.perk-list > :last-child {
+		display: flex;
+	}
+	/*Prevents two scrollbars being present while the menu is open
+	Not a big deal if the browser doesn't support :has()*/
+	:root:has(.perk-list) {
+		overflow: hidden;
+	}
+}
+
+.temp-list {
+	position: absolute;
+	z-index: 10;
+	top: calc(100% + 0.5rem);
+	left: 0;
+	background-color: var(--bg-primary);
+	border-radius: .25em;
+	width: 100%;
+	display: grid;
+	gap: .2em;
+	padding: .5em;
+	border: .1rem solid var(--border-primary);
+	overflow-y: auto;
+}
+
+.range {
+	display: grid;
+	grid-template-columns: auto 1fr;
+}
+
+.range > :first-child {
+	grid-column: 1 / 3;
+}
+
+.range > input {
+	width: calc(100% - 1rem);
+	justify-self: flex-end;
+	margin: 0;
+}
