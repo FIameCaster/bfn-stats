@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<meta name="description" content="Compare the stats of multiple classes in PVZ BFN.">
+	<meta property="og:description" content="Compare the stats of multiple classes in PVZ BFN.">
+	<meta property="og:title" content="Compare">
+	<title>Compare</title>
+	<link rel="icon" href="/images/icons/small/Peashooter.png" sizes="32x32">
+	<link rel="icon" href="/images/icons/medium/Peashooter.png" sizes="64x64">
+	<link rel="preload" href="fonts/Roboto.woff2" as="font" type="font/woff2" crossorigin="">
+	<link rel="preload" href="fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin="">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/compare.css">
+	<script type="module" src="/dest/router.js"></script>
+	<script type="module" src="/dest/stats.js"></script>
+	<script type="module" src="/dest/upgrades.js"></script>
+	<script type="module" src="/dest/compare.js"></script>
+</head>
+<body>
+	<div class="bg-pattern"><div></div></div>
+	<nav>
+		<ul class="main-menu">
+			<li class="nav-dropdown">
+				<button class="nav-link menu-toggle">Classes</button>
+				<ul class="dropdown-list">
+					<li><a class="nav-link" href="/">List</a></li>
+					<li><a class="nav-link" href="/classes/peashooter/"><span class="dropdown-text">Individual</span><span>Classes</span></a></li>
+					<li><a class="nav-link" href="/compare.html">Compare</a></li>
+					<li><a class="nav-link" href="/ttk.html">TTK</a></li>
+				</ul>
+			</li>
+			<li><a class="nav-link" href="/about.html">About</a></li>
+		</ul>
+		<div class="settings">
+			<button class="btn">
+				<img src="/images/options.webp" alt="Options">
+			</button>
+		</div>
+	</nav>
+	<div id="compare" style="display:none"><div id="observer"></div></div>
+</body>
+</html>
