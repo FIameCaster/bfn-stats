@@ -599,7 +599,7 @@ export const stats = (() => {
 
 export const getCompareLink = (char: Character) => {
 	const baseChar = stats.characters[char.id],
-	param = navbar.settings.searchStr + (baseChar == char ? '' : baseChar.name.endsWith(char.name) ? '&z=1' : '&u=20')
+	param = navbar.settings.searchStr + (baseChar == char ? '' : baseChar.name.endsWith(char.name) ? '&z=1' : '&u=k')
 
-	return `/classes/${baseChar.folderName}${param && '?' + param.slice(1)}`
+	return `/classes/${baseChar.folderName}/${param && '?' + param.slice(1)}`
 }

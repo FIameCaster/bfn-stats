@@ -615,20 +615,21 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 	createStatCard<number, StatSource>(
 		[char => getWeapon(char)?.getDamage(0, 0, crit, move)],
 		() => 'Damage output',
-		['DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst', 'Burst interval', 'Base RoF', 'Splash damage', 'Splash radius'],
+		['DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst', 'Burst interval', 'Shots/shell', 'Base RoF', 'Splash damage', 'Splash radius'],
 		[[
 			(_, char) => getWeapon(char).getDPS(dist, crit, move),
 			(_, char) => getWeapon(char).getDamage(dist, 0, crit, move),
 			(_, char) => getWeapon(char).effectiveRof * 60 || null,
 			(_, char) => getWeapon(char).burstSize,
 			(_, char) => getWeapon(char).burstInterval,
+			(_, char) => getWeapon(char).shotsPerShell == 1 ? null : getWeapon(char).shotsPerShell,
 			(_, char) => getWeapon(char).rof,
 			(_, char) => getWeapon(char).projectiles[0]?.splashDmg * getWeapon(char).shotsPerShell || 0,
 			(_, char) => getWeapon(char).projectiles[0]?.blastRadius || null
 		]],
 		[],
 		[,,,,1],
-		[,,,,2,,,1]
+		[,,,,2,,,,1]
 	),
 	createStatCard<Bullet | Missile, StatSource>(
 		[char => getWeapon(char)?.projectiles[0]],

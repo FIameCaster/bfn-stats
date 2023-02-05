@@ -230,8 +230,8 @@ const upgradeNames = [
 	// Support 16
 	"Super Savior", "Revive Reward", "Rollout", "Hard Target", "Combat Aura", 
 	// Peashooter 21
-	"Pro Spitter", "Reload Gatling", "Bean Party", "Escape Roots", "Explosive Gatling", 
-	"Feed the Beast", "Last Ditch", "Combat Adrenaline", "Homing Pea", "Party Time",
+	"Pro Spitter", "Last Ditch", "Reload Gatling", "Bean Party", "Escape Roots",
+	"Explosive Gatling", "Feed the Beast", "Combat Adrenaline", "Homing Pea", "Party Time",
 	// Chomper 31
 	"Face Bite", "Vampire Spikeweed", "Hotrod", "Symbiosis", "Upset Stomach", 
 	"Chomp Thing", "Dirt Bath", "Halitosis", "Well Fed", "Mastication",
@@ -328,12 +328,12 @@ const upgradeText = [
 	"Activate an aura with a 5m radius upon earning 5 vanquishes without dying, increasing damage by 25% of the user and all allies within. Lasts for 15 seconds.",
 	// Peashooter
 	"Increase Chili Bean Bomb launch speed by 50%.",
+	"Pea Cannon's last pea deals 2.647x damage.",
 	"Gain 25 ammo for every 5 critical hits with Pea Gatling.",
 	"Decrease cooldown of Chili Bean Bomb by 6.5 seconds over 2 seconds for each vanquish with it.",
 	"Move 17.1% faster for 3.75 seconds upon earning a vanquish.",
 	"Enemies vanquished by Pea Gatling or this upgrade explode dealing 40 damage in a 4.75 meter radius.",
 	"Decrease ability cooldown by 12 seconds over 3 seconds after a critical vanquish while in Pea Suped.",
-	"Pea Cannon's last pea deals 2.647x damage.",
 	"Increase Pea Suped's duration by 4.25 seconds after every four hits.",
 	"Pea Cannon's peas home towards the target.",
 	"Move 8.39% faster and deal 20% more damage for 15 seconds upon earning a vanquish streak of 3.",

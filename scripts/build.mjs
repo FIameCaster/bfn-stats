@@ -95,7 +95,7 @@ fs.writeFileSync('./classes/content.txt', getClassesContent())
 const round = num => Math.round(num * 1e6) / 1e6
 
 // Increment before pushing to production
-const cacheParam = '?v=0'
+const cacheParam = '?v=1'
 
 const nextMap = [,,,,,,,,,,,,,,,,,,,,,,0,8,13,19,8,19,22],
 prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]
@@ -265,8 +265,8 @@ function getClassesHTML(char, linkTargets, abilities) {
 				<a title="Right ability" href="abilities.html?a=2"></a>
 			</div>
 			<div class="nav_c">
-				<a href="/classes/${folderName(stats.characters[nextMap[id] ?? id + 1])}${abilities ? '/abilities.html' : ''}" id="next" class="btn" title="(→)">Next</a>
-				<a href="/classes/${folderName(stats.characters[prevMap[id] ?? id - 1])}${abilities ? '/abilities.html' : ''}" id="prev" class="btn" title="(←)">Prev</a>
+				<a href="/classes/${stats.characters[nextMap[id] ?? id + 1].folderName}${abilities ? '/abilities.html' : ''}" id="next" class="btn" title="(→)">Next</a>
+				<a href="/classes/${stats.characters[prevMap[id] ?? id - 1].folderName}${abilities ? '/abilities.html' : ''}" id="prev" class="btn" title="(←)">Prev</a>
 			</div>
 		</header>
 		<div class="options_c">
@@ -277,10 +277,10 @@ function getClassesHTML(char, linkTargets, abilities) {
 			<div class="group_c2">
 				<div class="upgrades"></div>
 				<div>
-					<a ${linkTargets[0] ? `href="classes/${folderName(linkTargets[0])}${abilities ? '/abilities.html' : ''}"` : 'style="display:none"'} class="btn" id="passenger">
+					<a ${linkTargets[0] ? `href="classes/${linkTargets[0].folderName}${abilities ? '/abilities.html' : ''}"` : 'style="display:none"'} class="btn" id="passenger">
 						${linkTargets[0] ? linkTargets[0].type || linkTargets[0].name : ''}
 					</a>
-					<a ${linkTargets[1] ? `href="classes/${folderName(linkTargets[1])}${abilities ? '/abilities.html' : ''}"` : 'style="display:none"'} class="btn" id="vehicle">
+					<a ${linkTargets[1] ? `href="classes/${linkTargets[1].folderName}${abilities ? '/abilities.html' : ''}"` : 'style="display:none"'} class="btn" id="vehicle">
 						${linkTargets[1] ? linkTargets[1].type || linkTargets[1].name : ''}
 					</a>
 				</div>

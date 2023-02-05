@@ -93,7 +93,7 @@ const content = (() => {
 	const categories = [
 		[
 			'Damage output', 'DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst', 
-			'Burst interval', 'Base RoF', 'Splash damage', 'Splash radius'
+			'Burst interval', 'Shots/shell', 'Base RoF', 'Splash damage', 'Splash radius'
 		],
 		[
 			'Bullet speed', 'Launch velocity', 'Launch velocity Y', 'Drag start','Drag end',
@@ -260,7 +260,8 @@ let zoom: boolean, dist = 0, crit: boolean = false, move: boolean = false
 const getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary
 
 const cacheFuncs: ((char: Character) => any)[] = [
-	,char => getWeapon(char).projectiles[0],
+	char => getWeapon(char),
+	char => getWeapon(char).projectiles[0],
 	char => getWeapon(char).trapezoid,
 	char => getWeapon(char).charges,,
 	char => getWeapon(char).overheat,
@@ -308,7 +309,7 @@ const colorData = [
 ]
 
 const unitData = [
-	[,,,,2,,,1],
+	[,,,,2,,,,1],
 	[3,3,1,1,3,6,3,2,1,6,1,1,1],
 	[,1,1,1,1,1,4],
 	[2,2,,,,,3,1,1,3,6,3,2,1,1,,,7],
@@ -331,14 +332,15 @@ const unitText = ['', 'm', 's', 'm/s', 'm²', '°', 'm/s²', '%']
 
 const statFuncs: ((category: unknown, char: Character, buttonState?: number) => number)[][] = [
 	[
-		(char: Character) => getWeapon(char).getDPS(dist, crit, move),
-		(char: Character) => getWeapon(char).getDamage(dist, 0, crit, move),
-		(char: Character) => getWeapon(char).effectiveRof * 60 || null,
-		(char: Character) => getWeapon(char).burstSize,
-		(char: Character) => getWeapon(char).burstInterval,
-		(char: Character) => getWeapon(char).rof,
-		(char: Character) => getWeapon(char).projectiles[0]?.splashDmg * getWeapon(char).shotsPerShell || 0,
-		(char: Character) => getWeapon(char).projectiles[0]?.blastRadius || null
+		(weapon: Weapon) => weapon.getDPS(dist, crit, move),
+		(weapon: Weapon) => weapon.getDamage(dist, 0, crit, move),
+		(weapon: Weapon) => weapon.effectiveRof * 60 || null,
+		(weapon: Weapon) => weapon.burstSize,
+		(weapon: Weapon) => weapon.burstInterval,
+		(weapon: Weapon) => weapon.shotsPerShell == 1 ? null : weapon.shotsPerShell,
+		(weapon: Weapon) => weapon.rof,
+		(weapon: Weapon) => weapon.projectiles[0]?.splashDmg * weapon.shotsPerShell || 0,
+		(weapon: Weapon) => weapon.projectiles[0]?.blastRadius || null
 	],
 	[
 		(bullet: Bullet | Missile) => bullet.startSpeed,
@@ -446,7 +448,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 // const categorySizes = statFuncs.map(a => a.length)
 // Can be computed with the line above instead
 const categorySizes = [
-	8,13,7,18,6,11,14,7,5,7,11,8,8,3
+	9,13,7,18,6,11,14,7,5,7,11,8,8,3
 ]
 
 const createColumn = (state: MenuState) => {

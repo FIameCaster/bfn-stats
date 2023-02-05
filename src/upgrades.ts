@@ -91,21 +91,21 @@ const upgrades: Upgrade[][] = [
 		commonUpgrades[1],
 		offensiveUpgrades[0],
 		offensiveUpgrades[1],
-		commonUpgrades[2],
-		offensiveUpgrades[3],
-		offensiveUpgrades[4],
-		[22, 2, 0, 4],
-		[23, 3, 3, 3],
-		commonUpgrades[3],
-		[24, 3, 9, 2],
-		[25, 3, 4, 4],
-		[26, 3, 3, 5],
-		[27, 3, 4, 2, {
+		[22, 2, 4, 2, {
 			"primary_projectiles_0": {
 				"impactDmg": 23.294,
 				"splashDmg": 16.306
 			} 
 		}],
+		commonUpgrades[2],
+		offensiveUpgrades[3],
+		offensiveUpgrades[4],
+		[23, 2, 0, 4],
+		[24, 3, 3, 3],
+		commonUpgrades[3],
+		[25, 3, 9, 2],
+		[26, 3, 4, 4],
+		[27, 3, 3, 5],
 		commonUpgrades[4],
 		offensiveUpgrades[5],
 		[28, 4, 5, 5],
