@@ -8,9 +8,9 @@ const rows: {
 	el?: HTMLDivElement,
 	update: (data: [Character, number, string]) => void,
 	updateLink: () => void
-}[] = new Array(54)
+}[] = new Array(55)
 
-for (let i = 0; i < 54; i++) {
+for (let i = 0; i < 55; i++) {
 	let oldData: [Character, number, string],
 	ttkNode: Text, notesText: Text, initialized: boolean, 
 	link: HTMLAnchorElement, ttkEl: HTMLDivElement
@@ -51,7 +51,7 @@ for (let i = 0; i < 54; i++) {
 
 const updateLinks = () => {
 	settings.updateLinks()
-	for (let i = 0; i < 54; i++) rows[i].updateLink()
+	for (let i = 0; i < 55; i++) rows[i].updateLink()
 }
 
 const updateRows = (alwaysCreate?: boolean) => {
@@ -221,6 +221,9 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 	])
 	if (defOnly) return result
 
+	if (char.id == 9) result.push([
+		char, totalTime(Math.ceil(health / dmg / 1.3)), 'With jinx'
+	])
 	if (splash) result.push([char, totalTime(Math.ceil(health / (range >= distance ? splash : 0))), 'Splash only'])
 	if (char.role == 'Swarm') result.push([char, distance > 5 ? Infinity : health > 50 ? totalTime(Math.ceil((health - 50) / dmg)) + 1 / 30 : 0, 'Melee finish'])
 

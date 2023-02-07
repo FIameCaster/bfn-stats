@@ -476,11 +476,13 @@ export const stats = (() => {
 		armor?: number
 		abilities?: AbilityType[]
 		dashes?: number[][]
+		folderName: string
 
 		constructor(id: number) {
 			this.id = id
 			this.iconId = id > 25 ? [7,18,21][id - 26] : id
 			this.resetStats()
+			this.folderName = this.fullName.replace(/[  ‑]/g, '-').toLowerCase()
 		}
 
 		resetStats() {
@@ -544,11 +546,7 @@ export const stats = (() => {
 		}
 
 		get fullName() {
-			return this.name + (this.type ? ` ${this.type}` : '')
-		}
-
-		get folderName() {
-			return this.fullName.replace(/[  ‑]/g, '-').toLowerCase()
+			return `${this.name}${this.type ? ` ${this.type}` : ''}`
 		}
 	}
 

@@ -240,6 +240,7 @@ type Character = {
 	armor?: number
 	abilities?: AbilityType[]
 	dashes?: number[][]
+	folderName: string
 	
 	resetStats(): void
 	resetCache(): void
@@ -248,7 +249,6 @@ type Character = {
 
 	get moveData(): [number?, number?, number?, number?, number?, number?, number?, number?, number?, number?, number?] | null
 	get fullName(): string
-	get folderName() :string
 }
 
 type Weapon = {

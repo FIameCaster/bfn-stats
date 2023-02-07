@@ -47,15 +47,10 @@ const stats = (() => {
 				this.health
 			] = data
 			this.role = data[2] || 0
-		}
-		resetStats() {
-			
+			this.folderName = this.fullName.replace(/[  ‑]/g, '-').toLowerCase()
 		}
 		get fullName() {
 			return this.name + (this.type ? ` ${this.type}` : '')
-		}
-		get folderName() {
-			return this.fullName.replace(/[  ‑]/g, '-').toLowerCase()
 		}
 	}
 	const characters = []
@@ -95,7 +90,7 @@ fs.writeFileSync('./classes/content.txt', getClassesContent())
 const round = num => Math.round(num * 1e6) / 1e6
 
 // Increment before pushing to production
-const cacheParam = '?v=1'
+const cacheParam = '?v=2'
 
 const nextMap = [,,,,,,,,,,,,,,,,,,,,,,0,8,13,19,8,19,22],
 prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]
@@ -150,7 +145,7 @@ const options = {
 				'folderName','upgrades','armor','dashes','upgradeMenu','tempUpgMenu','abilityCards','isClosed','setAbilities','abilities',
 				'classes','upgraded','resetStats','deployTime','backDelay','buff','debuff','spreadRad','buff2','stamina','decayRate',
 				'decayRateM','explosion','explosionDelay','beam','healSpray','warpDist','healRate','healRad','linkUpRange','spottingRange',
-				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon'
+				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon','sprintExit'
 			]
 		}
 	},

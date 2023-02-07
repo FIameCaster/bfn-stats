@@ -271,7 +271,7 @@ const table = (() => {
 				let l = currentCategory.length
 				currentStats = new Array(34)
 				for (let i = 0; i < 34; i++) {
-					currentStats[i] = []
+					currentStats[i] = new Array(l)
 					for (let j = 0; j < l; j++) {
 						currentStats[i][j] = getStats[0][currentCategory[j]](characters[i])
 					}
@@ -310,7 +310,7 @@ const table = (() => {
 					}
 					row.update(char, data)
 					if (isNewRow) newRows.push(row.el)
-					else if (row.el.style) row.el.removeAttribute('style')
+					else row.el.removeAttribute('style')
 				}
 				el.append(...newRows)
 				clearTimeout(timeout)
