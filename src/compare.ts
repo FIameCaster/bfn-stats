@@ -259,13 +259,15 @@ let zoom: boolean, dist = 0, crit: boolean = false, move: boolean = false
 
 const getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary
 
-const cacheFuncs: ((char: Character) => any)[] = [
+const cacheFuncs: ((char: Character) => unknown)[] = [
 	char => getWeapon(char),
 	char => getWeapon(char).projectiles[0],
 	char => getWeapon(char).trapezoid,
-	char => getWeapon(char).charges,,
+	char => getWeapon(char).charges,
+	char => getWeapon(char),
 	char => getWeapon(char).overheat,
-	char => char.moveData,,
+	char => char.moveData,
+	char => char,
 	char => char.shield,
 	char => getWeapon(char).homing,
 	char => getWeapon(char)[zoom ? 'gunSwayZoom' : 'gunSway'],
@@ -387,12 +389,12 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0 
 	],
 	[
-		(char: Character) => getWeapon(char).ammo,
-		(char: Character) => getWeapon(char).ammoPerShot,
-		(char: Character) => getWeapon(char).reload,
-		(char: Character) => getWeapon(char).getDmgPerClip(dist, crit, move),
-		(char: Character) => getWeapon(char).sustainableRof * 60 || null,
-		(char: Character) => getWeapon(char).getDPS(dist, crit, move, true)
+		(weapon: Weapon) => weapon.ammo,
+		(weapon: Weapon) => weapon.ammoPerShot,
+		(weapon: Weapon) => weapon.reload,
+		(weapon: Weapon) => weapon.getDmgPerClip(dist, crit, move),
+		(weapon: Weapon) => weapon.sustainableRof * 60 || null,
+		(weapon: Weapon) => weapon.getDPS(dist, crit, move, true)
 	],
 	[
 		(_, char) => getWeapon(char).overheatTime,
@@ -500,7 +502,7 @@ const createColumn = (state: MenuState) => {
 		colors = colorData[index], decimals = decimalData[index],
 		units = unitData[index], nodes = textNodes[index],
 		els = statEls[index], btnState = categoryState[index],
-		category = updateCache ? categoryData[index] = cacheFuncs[index] ? cacheFuncs[index](char) : char : categoryData[index]
+		category = updateCache ? categoryData[index] = cacheFuncs[index](char) : categoryData[index]
 
 		for (let i = 0; i < l; i++) {
 			updateStat(stats[i], stats[i] = category && funcs[i](category, char, btnState), nodes[i], decimals[i], units[i])
@@ -525,7 +527,7 @@ const createColumn = (state: MenuState) => {
 	]),
 	icon = element('a', { className: 'icon_co', onclick() { router.goTo(icon.href) }}),
 	statEls: HTMLDivElement[][] = [], textNodes: Text[][] = [],
-	columnStats: number[][] = [], categoryData: any[] = []
+	columnStats: number[][] = new Array(14), categoryData: any[] = []
 	if (isFirstCol) baseStats = columnStats
 
 	const children: HTMLElement[] = [

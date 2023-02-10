@@ -373,18 +373,20 @@ type AbilityType = {
 	spreadRad?: number
 	buff2?: Buff
 	buffZone?: number[]
+	dash?: number[]
 	charges?: number
 	stamina?: number
 	decayRate?: number
 	decayRateM?: number
 	explosion?: [number, number, number?]
-	explosionDelay?: number
 	vehicle?: [
 		number, number, number, number, number?, number?, number?, Weapon?, 
 		number?, number?, number?, number?, number?, number?, number?, number?
 	]
+	explosionDelay?: number
 	beam?: number[]
 	healSpray?: number[]
+	zoomSpray?: number[]
 	warpDist?: number
 	healRate?: number
 	healRad?: number

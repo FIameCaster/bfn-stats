@@ -175,7 +175,7 @@ const tempUpgMenu = (() => {
 
 				controls[i++] = element('li', { className: temp[1] ? 'range' : 'input-group' }, [
 					element('label', { htmlFor: 'input' + i, textContent: upgradeNames[upgs[id][0]] }),
-					...(temp[i] ? [element('label', { htmlFor: 'input' + i }, ['Stage: ', stageText = text(`${state[id] || 0}`)])] : []),
+					...(temp[1] ? [element('label', { htmlFor: 'input' + i }, ['Stage: ', stageText = text(`${state[id] || 0}`)])] : []),
 					element('input', {
 						type: temp[1] ? 'range' : 'checkbox', id: 'input' + i, max: temp.length - 1, 
 						...(temp[1] ? { value: state[id] || 0 } : { checked: state[id] == 0 }),

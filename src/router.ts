@@ -132,11 +132,11 @@ const router = (() => {
 	} = {},
 
 	prefetchStylesheets = (names: string[]) => names.map(name => {
-		return prefetchedStylesheets[name] = element('link', { rel: 'prefetch', href: `/css/${name}.css`, as: 'style' })
+		return prefetchedStylesheets[name] = element('link', { rel: 'preload', href: `/css/${name}.css`, as: 'style', crossOrigin: '' })
 	}),
 
 	prefetchScripts = (names: string[]) => names.map(name => {
-		return element('link', { rel: 'prefetch', href: `/dest/${name}.js`, as: 'script'})
+		return element('link', { rel: 'preload', href: `/dest/${name}.js`, as: 'script', crossOrigin: ''})
 	}),
 
 	prefetch = (names: string[]) => {

@@ -203,18 +203,18 @@ const pageHeaders = (() => {
 		const param2 = getParamStr(param1 + (upgParam && '&u=' + upgParam) + (tempParam && '&t=' + tempParam))
 		navbar.links[2].href = navbar.links[2].href.split('?')[0] + getParamStr(param1 + `&g=${id.toString(36)}${upgParam && '-' + upgParam}${tempParam && '-' + tempParam}`)
 
-		next.href = `/classes/${characters[nextMap[id] ?? id + 1].folderName}${ability == null ? '' : '/ability'}${getParamStr(param1)}`
-		prev.href = `/classes/${characters[prevMap[id] ?? id - 1].folderName}${ability == null ? '' : '/ability'}${getParamStr(param1)}`
+		next.href = `/classes/${characters[nextMap[id] ?? id + 1].folderName}/${ability == null ? '' : 'abilities.html'}${getParamStr(param1)}`
+		prev.href = `/classes/${characters[prevMap[id] ?? id - 1].folderName}/${ability == null ? '' : 'abilities.html'}${getParamStr(param1)}`
 
 
 		abilityIcons.forEach((icon, i) => {
-			icon.href = ability == i ? './' + getParamStr(param2) : 'abilities.html' + getParamStr((i ? '&a=' + i : '') + param2)
+			icon.href = ability == i ? './' + param2 : 'abilities.html' + getParamStr(param2 + (i ? '&a=' + i : ''))
 		})
 
 		getLinkTargets(char).forEach((char, i) => {
 			if (!char) return
 			const link = i ? vehicleLink : passengerLink
-			link.href = `/classes/${char.folderName}${ability == null ? '' : '/ability'}${param2}`
+			link.href = `/classes/${char.folderName}/${ability == null ? '' : 'abilities.html'}${param2}`
 		})
 	},
 	getUpgParam = () => {
@@ -254,7 +254,7 @@ const pageHeaders = (() => {
 		// Updating options
 		if (!(id % 7 || id < 9 || keepSpecialState)) {
 			show(specialToggle.parentElement)
-			specialText.data = id == 14 ? 'Non-tagged' : 'Starz Align'
+			specialText.data = id == 14 ? 'No tags' : 'Starz Align'
 			specialToggle.checked = true
 		}
 		else hide2(specialToggle.parentElement)
@@ -410,8 +410,10 @@ const getCharID = (() => {
 
 })()
 
-let abilityCards: ReturnType<typeof createStatCard<unknown, AbilityType>>[],
-currentCards: ReturnType<typeof createStatCard>[]
+let abilityCards: ReturnType<typeof createStatCard<unknown, AbilityType>>[]
+
+let prevIDs: Set<number>, newIDs: Set<number>
+const columns = Array.from({ length: 5 }, () => element('div'))
 
 const setState = async () => {
 
@@ -435,36 +437,40 @@ const updateContent = (smallUpdate?: boolean) => {
 
 	[dist, crit, move] = settings.state
 	zoom = pageHeaders.zoom
+	const ability = pageHeaders.ability
 	
 	if (smallUpdate) {
-		return currentCards.forEach(card => card.update())
+		const cards = ability == null ? statCards : abilityCards
+		for (const id of prevIDs) cards[id].update()
+		return
 	}
 	
-	const ability = pageHeaders.ability
 	const baseChar = characters[char.id]
+	newIDs = new Set<number>()
 	
-	currentCards = []
 	if (ability != null) {
 		const baseProp = baseChar.abilities[ability]
 		const prop = char.abilities[ability]
-		for (let i = 0, j = 0; i < abilityCards.length; i++) {
-			if (abilityCards[i].update(prop, baseProp)) currentCards[j++] = abilityCards[i]
+		for (let i = 0; i < abilityCards.length; i++) {
+			abilityCards[i].update(prop, baseProp) && newIDs.add(i)
 		}
 	}
-	else for (let i = 0, j = 0; i < statCards.length; i++) {
-		if (statCards[i].update(char, baseChar)) currentCards[j++] = statCards[i]
+	else for (let i = 0; i < statCards.length; i++) {
+		statCards[i].update(char, baseChar) && newIDs.add(i)
 	}	
 	createColumns(true)
 },
 getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary,
 createColumns = (forceUpdate?: boolean) => {
-	const totalHeight = currentCards.reduce((a, b) => a + b.height, 0),
-	colCount = clamp(1, Math.floor(Math.min((width - 16) / 266, totalHeight ** .75 / 55)), 5)
+	const cards = pageHeaders.ability == null ? statCards : abilityCards
+	let height = 0
+	for (const id of newIDs) height += cards[id].height
+
+	const colCount = clamp(1, Math.floor(Math.min((width - 16) / 266, height ** .75 / 55)), 5)
 
 	if (!forceUpdate && colCount == main.childElementCount) return
 
-	const divs: HTMLDivElement[] = [],
-	heights: number[] = [],
+	const heights: number[] = [],
 	getShortestColumn = () => {
 		let index = 0, smallest = 1e9
 		for (let i = 0; i < colCount; i++) {
@@ -476,16 +482,21 @@ createColumns = (forceUpdate?: boolean) => {
 
 	for (let i = 0; i < colCount; i++) {
 		heights[i] = 0
-		divs[i] = element('div')
+		// Conditional appending can significantly decrease style recalculations
+		if (!columns[i].parentElement) main.append(columns[i])
+	}
+	for (let i = colCount; i < 5; i++) columns[i].remove()
+
+	for (let i = 0; i < cards.length; i++) {
+		if (newIDs.has(i)) {
+			const index = getShortestColumn(), card = cards[i]
+			if (columns[index] != card.el.parentElement) columns[index].append(card.el)
+			heights[index] += card.height
+		}
+		else if (prevIDs?.has(i)) cards[i].el.remove()
 	}
 
-	for (let i = 0; i < currentCards.length; i++) {
-		const index = getShortestColumn(), card = currentCards[i]
-		// console.log(index, colCount, heights, divs, currentCards)
-		divs[index].append(card.el)
-		heights[index] += card.height
-	}
-	main.replaceChildren(...divs)
+	prevIDs = newIDs
 	pageHeaders.options.style.maxWidth = Math.max(colCount == 1 ? 146.8 : 54.4, maxWidth - 3.2) + 'rem'
 	main.style.maxWidth = maxWidth + 'rem'
 }
@@ -504,7 +515,7 @@ const createStatCard = <Category, StatSource>(
 ) => {
 	let index = 0, indexState = 0, maxIndex = 0, nameText: Text,
 	currentProp: Category, char: StatSource, baseProp: Category, baseChar: StatSource, 
-	btn: HTMLButtonElement, rowContainer: HTMLDivElement, currentRows: typeof rows
+	btn: HTMLButtonElement, rowContainer: HTMLDivElement, prevRowIDs: Set<number>
 
 	const getToggle = () => {
 		nameText.before(btn || (btn = element('button', { className: 'btn card-toggle', onclick() {
@@ -584,23 +595,27 @@ const createStatCard = <Category, StatSource>(
 					getToggle()
 					btn.textContent = toggleText[index]
 				}
-				const isNewBase = baseProp != (baseProp = prop[index](baseChar))
-				currentRows = []
+				const isNewBase = baseProp != (baseProp = prop[index](baseChar)),
+				newIDs = new Set<number>()
 				nameText.data = getName(currentProp)
 
-				const newRowEls: HTMLDivElement[] = []
-				for (let i = 0, j = 0; i < rows.length; i++) {
+				for (let i = 0; i < rows.length; i++) {
 					const row = rows[i]
-					if (row.update(isNewBase))
-						newRowEls[j] = (currentRows[j++] = row).el
-					
+					// Only adding and removing rows when necessary is significantly faster than
+					// something like rowContainer.replaceChildren(...newRows)
+					// It's also not too hard to do
+					if (row.update(isNewBase)) {
+						newIDs.add(i)
+						if (!prevRowIDs?.has(i)) rowContainer.append(row.el)
+					}
+					else if (prevRowIDs?.has(i)) row.el.remove()
 				}
-				self.height = 45 + newRowEls.length * 28
-				rowContainer.replaceChildren(...newRowEls)
+				self.height = 45 + newIDs.size * 28
+				prevRowIDs = newIDs
 			}
 			else {
 				currentProp = prop[index](char)
-				for (const row of currentRows) row.update()
+				for (const id of prevRowIDs) rows[id].update()
 			}
 			return true
 		}
