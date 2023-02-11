@@ -1,7 +1,7 @@
 import { qs, qsa, navbar, element, round, clamp, text, router, width } from './router.js'
 import { stats, getCompareLink } from './stats.js'
 
-let rowCount = 0, timeout: number
+let rowCount = 0, timeout: number, prevRowCount = 0
 const characters = stats.compareChars,
 settings = navbar.settings, url = router.url
 const rows: {
@@ -54,7 +54,7 @@ const updateLinks = () => {
 	for (let i = 0; i < 55; i++) rows[i].updateLink()
 }
 
-const updateRows = (alwaysCreate?: boolean) => {
+const updateRows = () => {
 	const hp = clamp(0, +health.value, 999) || 125,
 	armor2 = Math.abs(+armor.value) || 1,
 	defOnly = defaultOnly.checked, activeTeam = [,'Plant', 'Zombie'][team.value],
@@ -64,26 +64,38 @@ const updateRows = (alwaysCreate?: boolean) => {
 		ttk.push(...calcTTK(characters[i], distance, crit, move, hp, armor2, defOnly))
 	}
 	ttk.sort((a, b) => a[1] - b[1]).forEach((data, i) => rows[i].update(data))
-	if (rowCount != (rowCount = ttk.length) || alwaysCreate) createColumns(true)
+	if (rowCount != (rowCount = ttk.length)) createColumns()
 	clearTimeout(timeout)
 	timeout = setTimeout(updateLinks, 200)
 }
 
-const createColumns = (forceUpdate?: boolean) => {
-	const columns: HTMLDivElement[] = [], 
-	colCount = clamp(1, Math.floor(Math.min((width - 16) / 300, rowCount ** .77 / 4.2)), 4),
+const columns = [element('div'), element('div'), element('div'), element('div')]
+let prevColCount = 0
+
+const createColumns = () => {
+	const colCount = clamp(1, Math.floor(Math.min((width - 16) / 300, rowCount ** .77 / 4.2)), 4),
 	maxWidth = clamp(42, colCount * 40 + 1.6, 150)
 
-	if (!forceUpdate && colCount == cards.childElementCount) return
+	if (colCount == prevColCount && prevRowCount == rowCount) return
+
+	const sizeRatio = (prevRowCount * colCount) / (rowCount * prevColCount) || 0
 	
-	for (let i = 0; i < colCount; i++) {
-		const rowEls: HTMLDivElement[] = [], max = rowCount / colCount * (i + 1)
+	if (sizeRatio != 1) for (let i = 0; i < colCount; i++) {
+		const column = columns[i], firstChild = column.firstChild
+		const max = rowCount / colCount * (i + 1)
 		for (let j = Math.ceil(i * rowCount / colCount), k = 0; j < max; j++, k++) {
-			rowEls[k] = rows[j].el
+			const row = rows[j].el
+			if (row.parentElement != column) {
+				if (sizeRatio < 1 || !firstChild) column.append(row)
+				else firstChild.before(row)
+			}
 		}
-		columns[i] = element('div', 0, rowEls)
+		if (i >= prevColCount) cards.append(columns[i])
 	}
-	cards.replaceChildren(...columns)
+	for (let i = rowCount; i < prevRowCount; i++) rows[i].el.remove()
+	for (let i = colCount; i < prevColCount; i++) columns[i].remove()
+	prevRowCount = rowCount
+	prevColCount = colCount
 	options.style.maxWidth = Math.max(78.4, maxWidth - 3.2) + 'rem'
 	cards.style.maxWidth = maxWidth + 'rem'
 }
@@ -129,7 +141,7 @@ const setState = () => {
 		newVal => (crit = newVal, updateRows()),
 		newVal => (move = newVal, updateRows()),
 	]
-	updateRows(true)
+	updateRows()
 	settings.updateLinks()
 }
 

@@ -4,6 +4,9 @@ import { minify } from "terser"
 import postcss from 'postcss'
 import cssnano from 'cssnano'
 
+// Increment before pushing to production
+const cacheParam = '?v=4'
+
 const stats = (() => {
 	const charData = [
 		["Peashooter", , , 1, , 125],
@@ -88,9 +91,6 @@ if (!fs.existsSync('./build')) {
 fs.writeFileSync('./classes/content.txt', getClassesContent())
 
 const round = num => Math.round(num * 1e6) / 1e6
-
-// Increment before pushing to production
-const cacheParam = '?v=3'
 
 const nextMap = [,,,,,,,,,,,,,,,,,,,,,,0,8,13,19,8,19,22],
 prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]

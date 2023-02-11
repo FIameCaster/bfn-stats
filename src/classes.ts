@@ -412,7 +412,6 @@ const getCharID = (() => {
 
 let abilityCards: ReturnType<typeof createStatCard<unknown, AbilityType>>[]
 
-let prevIDs: Set<number>, newIDs: Set<number>
 const columns = Array.from({ length: 5 }, () => element('div'))
 
 const setState = async () => {
@@ -431,6 +430,8 @@ const setState = async () => {
 }
 
 let timeout: number, dist: number, crit: boolean, move: boolean, zoom: boolean
+let prevIDs: Set<number>, newIDs: Set<number>, prevCards: typeof statCards | typeof abilityCards
+
 const updateContent = (smallUpdate?: boolean) => {
 	clearTimeout(timeout)
 	timeout = setTimeout(pageHeaders.updateLinks, 200);
@@ -460,7 +461,7 @@ const updateContent = (smallUpdate?: boolean) => {
 	}	
 	createColumns(true)
 },
-getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary,
+
 createColumns = (forceUpdate?: boolean) => {
 	const cards = pageHeaders.ability == null ? statCards : abilityCards
 	let height = 0
@@ -487,21 +488,29 @@ createColumns = (forceUpdate?: boolean) => {
 	}
 	for (let i = colCount; i < 5; i++) columns[i].remove()
 
-	for (let i = 0; i < cards.length; i++) {
-		if (newIDs.has(i)) {
-			const index = getShortestColumn(), card = cards[i]
-			if (columns[index] != card.el.parentElement) columns[index].append(card.el)
-			heights[index] += card.height
-		}
+	const appendCard = (card: typeof cards[0]) => {
+		const index = getShortestColumn()
+		if (columns[index] != card.el.parentElement) columns[index].append(card.el)
+		heights[index] += card.height
+	}
+
+	if (cards == prevCards) for (let i = 0; i < cards.length; i++) {
+		if (newIDs.has(i)) appendCard(cards[i])
 		else if (prevIDs?.has(i)) cards[i].el.remove()
+	}
+	else {
+		for (const id of newIDs) appendCard(cards[id])
+		if (prevIDs) for (const id of prevIDs) prevCards[id].el.remove()
 	}
 
 	prevIDs = newIDs
+	prevCards = cards
 	pageHeaders.options.style.maxWidth = Math.max(colCount == 1 ? 146.8 : 54.4, maxWidth - 3.2) + 'rem'
 	main.style.maxWidth = maxWidth + 'rem'
 }
 
 const toggleText = ['1st', '2nd', '3rd']
+const getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary
 
 // Need a second generic type so this function can be used for both characters and abilities
 const createStatCard = <Category, StatSource>(

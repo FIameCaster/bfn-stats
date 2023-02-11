@@ -483,15 +483,13 @@ const createColumn = (state: MenuState) => {
 			text.data = stat == null ? '' : round(stat, decimals) + unitText[unit || 0]
 	},
 	updateColor = (baseStat: number, stat: number, cell: HTMLDivElement, color: number) => {
-		const useThreshold = color == 2
+		const useThreshold = color == 2 // Used for gun sway min angle
 		if (isFirstCol || baseStat == null || stat == null || (useThreshold ? baseStat == stat : Math.abs(baseStat) == Math.abs(stat)))
 			return cell.removeAttribute('style')
 
-		const offset = useThreshold ? Math.min(0, baseStat, stat) : 0
-
 		cell.style.backgroundColor = `${
 			(useThreshold ? stat < baseStat : color ^ +(Math.abs(stat) > Math.abs(baseStat))) ? 'rgba(30, 100' : 'rgba(120, 40'
-		}, 0, ${Math.min(1, (Math.max(Math.abs((baseStat - offset) / (stat - offset)), Math.abs((stat - offset) / (baseStat - offset))) - 1) * .9 + .1)})` 
+		}, 0, ${useThreshold && stat * baseStat < 0 ? 1 : Math.min(1, (Math.max(Math.abs(baseStat / stat), Math.abs(stat / baseStat)) - 1) * .9 + .1)})`
 	},
 	updateAllCategories = (updateCache?: boolean) => {
 		for (let i = 0; i < 14; i++) updateCategory(i, updateCache)
