@@ -178,18 +178,23 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 	// Snapdragon
 	if (weapon.dot) {
 		if (dmg) {
-			const targetDmg = health - 15 / armor
-			const getDot = (time: number) => Math.floor(time / .75) * 9
-			let shots = Math.ceil(targetDmg / dmg), 
-			totalDmg = dmg * shots + getDot(totalTime(shots))
-			shots -= Math.ceil((totalDmg - targetDmg) / dmg)
-			totalDmg = 0
-			while (totalDmg < targetDmg) {
-				totalDmg = dmg * ++shots + getDot(totalTime(shots))
-			}
-			result.push([
-				char, totalTime(shots + (totalDmg - dmg >= targetDmg ? Math.ceil(15 / armor / dmg) - 1 : Math.max(0, Math.ceil((health - totalDmg) / dmg)))), ''
+			if (health <= 15 / armor) result.push([
+				char, totalTime(Math.ceil(health / dmg)), ''
 			])
+			else {
+				const targetDmg = health - 15 / armor
+				const getDot = (time: number) => Math.floor(time / .75) * 9
+				let shots = Math.ceil(targetDmg / dmg), 
+				totalDmg = dmg * shots + getDot(totalTime(shots))
+				shots -= Math.ceil((totalDmg - targetDmg) / dmg)
+				totalDmg = 0
+				while (totalDmg < targetDmg) {
+					totalDmg = dmg * ++shots + getDot(totalTime(shots))
+				}
+				result.push([
+					char, totalTime(shots + (totalDmg - dmg >= targetDmg ? Math.ceil(15 / armor / dmg) - 1 : Math.max(0, Math.ceil((health - totalDmg) / dmg)))), ''
+				])
+			}
 		}
 		else result.push([char, Infinity, ''])
 		if (defOnly) return result
