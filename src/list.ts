@@ -127,7 +127,7 @@ const table = (() => {
 				(char: Character) => char.primary.getDamage(distance, 0, crit, move),//Damage/shot 2
 				(char: Character) => char.primary.getDPS(distance, crit, move, true),//Sustainable DPS 3
 				(char: Character) => char.primary.projectiles[0]?.startSpeed,//Launch velocity 4
-				(char: Character) => char.primary.projectiles[0]?.splashDmg,//Splash damage 5
+				(char: Character) => char.primary.getSplash(0),//Splash damage 5
 				(char: Character) => char.primary.projectiles[0]?.blastRadius || null,//Splash radius 6
 				(char: Character) => char.primary.trapezoid?.[0],//Spray damage 7
 				(char: Character) => char.primary.sprayRange || null,//Spray range 8
@@ -156,7 +156,7 @@ const table = (() => {
 					(char: Character) => char.primary.getChargeDPS(distance, i, crit, move),//Charge DPS 34
 					(char: Character) => char.primary.charges?.[i]?.[2],//Ammo/shot 35
 					(char: Character) => char.primary.getDamage(distance, i + 1, crit, move),//Damage/shot 36
-					(char: Character) => char.primary.projectiles[i + 1]?.splashDmg,//Splash damage 37
+					(char: Character) => char.primary.getSplash(i + 1),//Splash damage 37
 					(char: Character) => char.primary.projectiles[i + 1]?.startSpeed,//Launch velocity 38
 					(char: Character) => char.primary.getMaxRange(i + 1) || null,//Max range 39
 					(char: Character) => char.primary.travelTime(distance, i + 1),//Travel time 40

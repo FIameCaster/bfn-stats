@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=4'
+const cacheParam = '?v=5'
 
 const stats = (() => {
 	const charData = [
@@ -103,6 +103,15 @@ const getLinkTargets = (char) => {
 	]
 }
 
+const specialUpgs = [
+	'Pea Suped',,,,,,,,,
+	'Jinxed',,,,,
+	'Tagged',,,,
+	'Space Force',,
+	'Heavy Helper',
+	'Unaligned'
+]
+
 const pronouns = [
 	'his', 'his', 'his', 'her', 'his', 'her', 'his', 'his', 'her', 'her', 'their', 
 	'his', 'his', 'his', 'his', 'her', 'his', 'his', 'her', 'his', 'his', 'his', 'his',
@@ -145,7 +154,7 @@ const options = {
 				'folderName','upgrades','armor','dashes','upgradeMenu','tempUpgMenu','abilityCards','isClosed','setAbilities','abilities',
 				'classes','upgraded','resetStats','deployTime','backDelay','buff','debuff','spreadRad','buff2','stamina','decayRate',
 				'decayRateM','explosion','explosionDelay','beam','healSpray','warpDist','healRate','healRad','linkUpRange','spottingRange',
-				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon','sprintExit'
+				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon','sprintExit','getSplash'
 			]
 		}
 	},
@@ -201,7 +210,8 @@ function getBuild(html) {
 }
 
 function getClassesHTML(char, linkTargets, abilities) {
-	const id = char.id
+	const id = char.id,
+	ownerID = char.owner?.id || id
 
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -254,7 +264,7 @@ function getClassesHTML(char, linkTargets, abilities) {
 					<p>Role: ${roles[char.role]}<span style="background-position-x:${round(-2.1 * char.role)}rem"></span></p>
 				</div>
 			</div>
-			<div class="abilities" style="--icon:url(/images/abilities/ability-set${id}.webp)">
+			<div class="abilities" style="--icon:url('/images/abilities/set${id}.webp')">
 				<a title="Left ability" href="${abilities ? './' : 'abilities.html'}"></a>
 				<a title="Center ability" href="abilities.html?a=1"></a>
 				<a title="Right ability" href="abilities.html?a=2"></a>
@@ -285,9 +295,9 @@ function getClassesHTML(char, linkTargets, abilities) {
 					<label for="zoom">Zooming</label>
 					<input type="checkbox" id="zoom">
 				</div>
-				<div class="input-group"${id % 7 == 0 && id > 7 ? '' : 'style="visibility:hidden"'}>
-					<label for="starz">${id == 14 ? 'No tags' : 'Starz Align'}</label>
-					<input type="checkbox" id="starz" checked>
+				<div class="input-group"${specialUpgs[ownerID] ? '' : ' style="visibility:hidden"'}>
+					<label for="special">${specialUpgs[ownerID] || ' '}</label>
+					<input type="checkbox" id="special">
 				</div>
 			</div>
 		</div>
@@ -334,8 +344,8 @@ function getClassesContent() {
 				<input type="checkbox" id="zoom">
 			</div>
 			<div class="input-group">
-				<label for="starz"> </label>
-				<input type="checkbox" id="starz">
+				<label for="special"> </label>
+				<input type="checkbox" id="special">
 			</div>
 		</div>
 	</div>

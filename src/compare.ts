@@ -244,15 +244,15 @@ const getUpgradedClass = (state: MenuState) => {
 const getParamStr = (str: string) => str && '?' + str.slice(1)
 const getUpgParam = (upgs: Set<number>) => {
 	let result = ''
-	for (const id of upgs) result += '.' + id.toString(36)
-	return result.slice(1)
+	for (const id of upgs) result += id.toString(36)
+	return result
 },
 getTempParam = (temp: number[]) => {
 	let result = ''
 	temp.forEach((val, i) => {
-		if (val != null) result += '.' + i.toString(36) + val
+		if (val != null) result += i.toString(36) + val
 	})
-	return result.slice(1)
+	return result
 }
 
 let zoom: boolean, dist = 0, crit: boolean = false, move: boolean = false
@@ -341,7 +341,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(weapon: Weapon) => weapon.burstInterval,
 		(weapon: Weapon) => weapon.shotsPerShell == 1 ? null : weapon.shotsPerShell,
 		(weapon: Weapon) => weapon.rof,
-		(weapon: Weapon) => weapon.projectiles[0]?.splashDmg * weapon.shotsPerShell || 0,
+		(weapon: Weapon) => weapon.getSplash(0),
 		(weapon: Weapon) => weapon.projectiles[0]?.blastRadius || null
 	],
 	[
@@ -369,12 +369,12 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(trap: number[]) => (trap[4] + trap[5]) * 0.5 * trap[1],
 	],
 	[
-		(charge: number[][], char, i) => (charge[i]?.[0] * char.modifiers[0] * char.modifiers[4]) || null,
+		(charge: number[][], char, i) => (charge[i]?.[0] * char.modifiers[0] * char.modifiers[1]) || null,
 		(charge: number[][], char, i) => charge[i]?.[1],
 		(charge: number[][], char, i) => getWeapon(char).getChargeDPS(dist, i, crit, move),
 		(charge: number[][], char, i) => getWeapon(char).getDamage(dist, i + 1, crit, move),
 		(charge: number[][], char, i) => charge[i]?.[2],
-		(charge: number[][], char, i) => getWeapon(char).projectiles[i + 1]?.splashDmg,
+		(charge: number[][], char, i) => getWeapon(char).getSplash(i + 1),
 		(charge: number[][], char, i) => getWeapon(char).projectiles[i + 1]?.startSpeed,
 		(charge: number[][], char, i) => (<Bullet>getWeapon(char).projectiles[i + 1])?.dragStart || null,
 		(charge: number[][], char, i) => (<Bullet>getWeapon(char).projectiles[i + 1])?.dragEnd || null,
@@ -567,7 +567,7 @@ const createColumn = (state: MenuState) => {
 		toString() {
 			// String representing the state of the column
 			// columns.join('_') now gives the url param for all the columns
-			return `${state[0].toString(36)}${upgParam && '-' + upgParam}${tempParam && '-' + tempParam}`
+			return `${state[0].toString(36)}${' ' + upgParam}${' ' + tempParam}`.trimEnd().replace(/ /g, '-')
 		},
 		setFirstColumn() {
 			isFirstCol = true
@@ -577,21 +577,21 @@ const createColumn = (state: MenuState) => {
 	}
 }
 
-
 const parseUpgParam = (param: string) => {
 	const set = new Set<number>()
 	if (!param) return set
-	for (const str of param.split('.'))
-		set.add(parseInt(str, 36))
+	for (let i = 0; i < param.length; i++)
+		set.add(parseInt(param[i], 36))
 	return set
 },
 parseTempParam = (param: string) => {
 	const arr: number[] = []
 	if (!param) return arr
-	for (const str of param.split('.'))
-		arr[parseInt(str[0], 36)] = +str[1]
+	for (let i = 0; i < param.length; i+= 2)
+		arr[parseInt(param[i], 36)] = +param[i + 1]
 	return arr
 }
+
 const updateColumns = (fullUpdate?: boolean) => {
 	settings.updateLinks()
 	for (let i = 0; i < columns.length;) {

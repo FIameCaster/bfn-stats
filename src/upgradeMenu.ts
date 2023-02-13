@@ -27,6 +27,14 @@ const upgradeMenu = (() => {
 	roleImages: string[], currentUpgs: Set<number>,
 	countText: Text, currentPoints: number
 
+	const staticRoles = [
+		'none',
+		'url("/images/Perk_Attack.webp")',
+		'url("/images/Perk_Defend.webp")',
+		'url("/images/Perk_Support.webp")',
+		'url("/images/all-icons-large.webp")',
+	]
+
 	const options: {
 		el: HTMLLIElement,
 		setUpgrade: (upgrade: Upgrade) => any
@@ -36,13 +44,13 @@ const upgradeMenu = (() => {
 	let firstExpensiveUpg: HTMLLIElement
 
 	const getOffset = (num: number) => {
-		if (num == 1) return 0
-		if (num == 2) return -1.625 * currentChar.iconId
-		return -1.625 * ((num - 3) % 3)
+		if (num < 4) return 0
+		if (num > 4) return -1.625 * ((num - 2) % 3)
+		return -1.625 * currentChar.iconId
 	}
 
 	const getRoleImg = (num: number) => {
-		return roleImages[num < 4 ? num : Math.floor(num / 3 + 2)]
+		return staticRoles[num] || roleImages[Math.floor((num - 5) / 3)]
 	}
 
 	const updatePoints = (newPoints: number) => {
@@ -141,15 +149,11 @@ const upgradeMenu = (() => {
 				return open()
 
 			updatePoints(getUpgPoints(selected, upgs))
-			
-			roleImages = [
-				'none',
-				`url(/images/Perk_${currentChar.role}.webp)`,
-				`url(/images/all-icons-large.webp)`,
-			];
-			[currentChar, currentChar.vehicle, currentChar.passenger].forEach((character, i) => {
-				if (character) roleImages[i + 3] = `url(/images/abilities/ability-set${character.id}.webp)`
-			})
+
+			roleImages = [currentChar, currentChar.vehicle, currentChar.passenger].map(char => (
+				char && `url('/images/abilities/set${char.id}.webp')`
+			))
+
 			for (let i = 0; i < 21; i++) options[i].setUpgrade(upgs[i])
 			
 			loadStyleSheet(open)
@@ -469,11 +473,11 @@ const upgradeText = [
 	"Increase Gravity Grenade's radius by 43.75%.",
 	"Reduce Imp Blaster's recoil amplitude by 25%.",
 	"Increase Z-Mech's duration by 12.5 seconds and HP by 25 per enemy damaged with Bionic Bash.",
-	"Double movement speed and allow jumping during impkata .", // Test jumping
+	"Double movement speed and allow jumping during impkata .",
 	"Decrease Z-Mech cooldown by 5.5 seconds over 2 seconds by dealing damage.", // Test frequency
 	// Super Brainz
 	"Raise Alpha Better Shield when firing Super Ultra Ball even with Brainium Basher 9001.",
-	"Decrease the charge time of Ultra Flying Fist's or Brainium Basher 9001's next shot after dealing damage it by 33.3%.",
+	"Decrease the charge time of Ultra Flying Fist's or Brainium Basher 9001's next shot after dealing damage with it by 33.3%.",
 	"Increase movement speed by 43.3% for 3.8 seconds upon landing a full combo with Herioc Fists.",
 	"Exiting Turbo Twister knocks enemies in a 3 meter radius away.",
 	"Decrease Hyper Jump Thump's cooldown by 9 seconds over 3 seconds if it deals no damage.",
@@ -481,7 +485,7 @@ const upgradeText = [
 	"Deal 4 damage every 0.25s for 6 seconds in a 3.2 meter radius around where Super Ultra Ball hits.",
 	"Add a fourth punch to Heroic Fists dealing 50 damage.",
 	"Heal 15 HP per enemy damaged with Hyper Jump Thump. Can heal overhealth.",
-	"Increase Heroic Fists' RoF and decrease charge time for 10 seconds upon earning a vanquish. Can stack up to 3 times.", // Test if burst interval is affected
+	"Increase Heroic Fists' RoF and decrease charge time for 10 seconds upon earning a vanquish. Can stack up to 3 times.",
 	"Swap primary weapon for a charge up dash attack and the shield for an uppercut.",
 	// 80s Action Hero
 	"Tags on enemies remain after getting vanquished.",
@@ -528,7 +532,7 @@ const upgradeText = [
 	"Remove speed reduction and jump restriction while priming Football Cannon.",
 	"Deal an additional 50 damage to enemies directly impacted by Imp Punt.",
 	// Space Cadet
-	"Move 44% Faster while using Crater Maker.",
+	"Move 44% faster while using Crater Maker.",
 	"Connected Space Cadets recover 10 ammo when blocking damage with the Asteroid Shield.",
 	"Deal 7 damage (8.4 crit) 9 times every 0.12 seconds during the targeting period.",
 	"Gain a 20% increased RoF for 3 seconds upon dealing 50 critical damage.",

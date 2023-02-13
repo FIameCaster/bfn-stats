@@ -2,7 +2,7 @@ import { navbar } from './router.js'
 
 export const stats = (() => {
 
-	let getAbilities: (index: number) => AbilityType[]
+	let getAbilities: (index: number, modifiers: number[]) => AbilityType[]
 
 	const defaultSpeed = [6.2, 1.5, .95, .75]
 	const defaultMovement = [6.2, 1.5, .95, .75, 2.8, .83, .45]
@@ -175,7 +175,7 @@ export const stats = (() => {
 			] = data
 
 			addExplosion(this, data[2])
-			this.radius = data[0] == 50 ? .5 : 0
+			this.radius = data[0] == 50 ? .5 : data[0] == 100 ? .525 : 0
 		}
 		
 		travelTime(distance: number): number {
@@ -200,7 +200,6 @@ export const stats = (() => {
 		}
 		
 	}
-	// window['dings'] = new Bullet([0,1,5,400,0,0,10,0,225,50,80])
 	
 	const weaponPropData: [string, number?][] = [
 		["recoil", 2],
@@ -245,7 +244,7 @@ export const stats = (() => {
 		ignoreGrav?: boolean
 		multipliers: number[]
 
-		constructor(data: any[], type: 0 | 1 | 2, char?: Character) {
+		constructor(data: any[], type: 0 | 1 | 2, modifiers: number[]) {
 			[
 				this.rof,
 				this.ammoCapacity,
@@ -265,7 +264,7 @@ export const stats = (() => {
 			}
 			this.sideArrows = data[0] == 180 ? [[4,30,1.5],[2,30,4.1]] : null
 			this.cloud = data[0] == 165 ? [1,5,1/12,1.4,[25,20]] : data[0] == 58 ? [0,10,.25,1.4,[72,20]] : null
-			this.multipliers = char?.modifiers || [1,1,1,1,1]
+			this.multipliers = modifiers
 			if (data[0] == 190) this.arcs = [14,6,2]
 			
 			// 0 for normal weapon, 1 for no-zoom only, 2 for zoom only
@@ -283,7 +282,7 @@ export const stats = (() => {
 		}
 
 		get ammo(): number | null {
-			return this.ammoCapacity ? Math.floor(this.ammoCapacity * this.multipliers[1]) : null
+			return this.ammoCapacity ? Math.floor(this.ammoCapacity * this.multipliers[5]) : null
 		}
 
 		get timeToFireClip(): number {
@@ -337,15 +336,19 @@ export const stats = (() => {
 			return heat[4] + (1 - heat[5]) / heat[2]
 		}
 
+		getSplash(index: number) {
+			return this.projectiles[index] && this.projectiles[index].splashDmg * this.multipliers[6]
+		}
+
 		getDamage(distance: number, index: number, crit: boolean, move: boolean): number {
 			const bullet = this.projectiles[index], 
 			trapezoid = index ? null : this.trapezoid,
 			critMultiplier = crit && bullet?.critMultiplier || 1
 			
-			return !trapezoid && !bullet ? null : (this.getMaxRange(index) >= distance ? 
+			return !trapezoid && !bullet ? null : ((this.getMaxRange(index) >= distance ? 
 				((bullet?.splashDmg || 0) + (bullet ? bullet.impactDmg * critMultiplier : 0)) * this.shotsPerShell : 0)
-				+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[2] : 1) : 0)
-				+ this.getCloud(distance, index, move) + this.getSideArrows(distance, index) * critMultiplier
+				+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[7] : 1) : 0)
+				+ this.getCloud(distance, index, move) + this.getSideArrows(distance, index) * critMultiplier) * this.multipliers[6]
 		}
 
 		getCloud(distance: number, index: number, move: boolean): number {
@@ -390,7 +393,7 @@ export const stats = (() => {
 		getChargeRof(index: number): number {
 			const charge = this.charges?.[index]
 			if (!charge) return 0
-			return Math.min(this.rof / 60, 30 / Math.ceil((charge[0] * this.multipliers[0] * this.multipliers[4] + charge[1]) * 30 + 1))
+			return Math.min(this.rof / 60, 30 / Math.ceil((charge[0] * this.multipliers[0] * this.multipliers[1] + charge[1]) * 30 + 1))
 		}
 
 		get dotPS(): number {
@@ -498,10 +501,9 @@ export const stats = (() => {
 			[this.regenRate, this.regenDelay] = id == 24 ? [0, null] : [20, 8]
 			this.team = id > 10 && id != 23 && id != 26 ? "Zombie" : "Plant"
 			this.role = roles[data[2] || 0]
-			// Charge, Ammo, Special, Movement, Charge 2
-			this.modifiers = [1,1,1,1,1]
-			this.primary = new Weapon(weaponData[data[3] - 1], data[4] ? 1 : 0, this)
-			this.alt = data[4] ? new Weapon(weaponData[data[4] - 1], 2, this) : null
+			// [Charge, Charge, Movement, Movement, Movement, Ammo, Damage, Special]
+			this.primary = new Weapon(weaponData[data[3] - 1], data[4] ? 1 : 0, this.modifiers = [1,1,1,1,1,1,1,1])
+			this.alt = data[4] ? new Weapon(weaponData[data[4] - 1], 2, this.modifiers) : null
 			this.movement = data[6]?.slice() || null
 			this.shield = data[9]?.slice() || null
 			this.dashes = null
@@ -529,17 +531,18 @@ export const stats = (() => {
 		}
 
 		addAbility() {
-			this.abilities = getAbilities?.(this.id)
+			this.abilities = getAbilities?.(this.id, this.modifiers)
 		}
 
 		get moveData(): [number?, number?, number?, number?, number?, number?, number?, number?, number?, number?, number?] | null {
 			if (this.moveCache) return this.moveCache
 			if (!this.movement) return this.moveCache = null
+			let multiplier = this.modifiers[2] * this.modifiers[3] * this.modifiers[4]
 			let [speed, sprint, strafe, back, jump, hoverGrav, hoverDuration, airJump, hoverTime, hoverStrafe] = this.movement
-			speed *= this.modifiers[3]
+			speed *= multiplier
 
 			return this.moveCache = [
-				speed, speed * strafe, speed * back, sprint && 6.2 * sprint * this.modifiers[3],
+				speed, speed * strafe, speed * back, sprint && 6.2 * sprint * multiplier,
 				speed * this.zoomSpeed * (this.shield?.[3] || 1) * (this.primary.primeSpeed?.[0] || 1), 
 				hoverGrav * 100, hoverDuration || null, jump, airJump, hoverTime, hoverStrafe && hoverStrafe * speed
 			]
@@ -580,8 +583,8 @@ export const stats = (() => {
 			})
 			compareChars[4].shield = upgrades[0].shield
 			compareChars[4].name = "Shogun-Guard"
-			compareChars[4].primary = new Weapon(upgrades[0].primary, 0, compareChars[4])
-			compareChars[25].primary = new Weapon(upgrades[1].primary, 0, compareChars[25])
+			compareChars[4].primary = new Weapon(upgrades[0].primary, 0, compareChars[4].modifiers)
+			compareChars[25].primary = new Weapon(upgrades[1].primary, 0, compareChars[25].modifiers)
 			compareChars[21].name = "Deadbeard"
 			compareChars[25].name = "Steam Blaster"
 			compareChars.splice(33, 1)

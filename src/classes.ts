@@ -22,7 +22,7 @@ const pageHeaders = (() => {
 	abilities = qs('.abilities'), 
 	abilityIcons: HTMLAnchorElement[] = [].slice.call(abilities.children),
 	zoomToggle = <HTMLInputElement>qs('#zoom'),
-	specialToggle = <HTMLInputElement>qs('#starz'),
+	specialToggle = <HTMLInputElement>qs('#special'),
 	specialText = <Text>specialToggle.previousElementSibling.firstChild,
 	passengerLink = <HTMLAnchorElement>qs('#passenger'),
 	vehicleLink = <HTMLAnchorElement>qs('#vehicle'),
@@ -126,6 +126,7 @@ const pageHeaders = (() => {
 	specialToggle.oninput = () => {
 		updateChar()
 		updateContent()
+		url.setParam('s', specialToggle.checked ? '1' : '', '', false)
 	}
 	tempEl.onkeydown = e => { 
 		e.code == 'Escape' && tempUpgMenu?.close()
@@ -134,6 +135,43 @@ const pageHeaders = (() => {
 		e.code == 'Escape' && upgradeMenu?.close()
 	}
 
+	const specialUpgs: [string, UpgradeValue][] = [
+		['Pea Suped', {
+			"primary_rof": 120,
+			"modifiers_4": 1.1,
+			movement: {...[,1.65,1,1,6.72]},
+		}],,,,,,,,,
+		['Jinxed', {
+			"modifiers_6": 1.3
+		}],,,,,
+		['Tagged', {
+			"abilities_2_weapon": {
+				rof: 324.3,
+				homing: [0,0,180,90,15,1/3]
+			},
+			"abilities_2_weapon_recoil_4": 1.2719703977798333,
+			"abilities_2_weapon_projectiles_0_splashDmg": 25
+		}],,,,
+		['Space Force', {
+			"vehicle_modifiers_4": 1.25,
+			"vehicle_primary_rof": 910,
+			"vehicle_primary_recoil_0": [1.6,.52,.32,-.06,.06,6],
+			"passenger_primary_rof": 460
+		}],,
+		['Heavy Helper', {
+			"primary_rof": 112.5
+		}],
+		['Unaligned', {
+			"passenger_primary": {
+				rof: 300,
+				homing: null
+			},
+			"abilities_2": {
+				spottingRange: null
+			}
+		}]
+	]
+
 	const getLinkTargets = (char: Character) => {
 		const owner = getOwner(char)
 		return [
@@ -141,27 +179,17 @@ const pageHeaders = (() => {
 			owner.vehicle ? char.health > 200 ? owner : owner.vehicle : null
 		]
 	},
-	starzAlignUpg: UpgradeValue = {
-		"passenger_primary": {
-			rof: 300,
-			homing: null
-		},
-		"abilities_2": {
-			spottingRange: null
-		}
-	},
-	tagged80sUpg: UpgradeValue = {
-		"abilities_2_weapon": {
-			rof: 324.3,
-			homing: [0,0,180,90,15,1/3]
-		},
-		"abilities_2_weapon_recoil_4": 1.2719703977798333,
-		"abilities_2_weapon_projectiles_0_splashDmg": 25
-	},
 	getSpecialUpg = () => {
-		if (specialToggle.checked) return null
-		if (id == 14) return tagged80sUpg
-		if (id == 21 || id == 28) return starzAlignUpg
+		if (!specialToggle.checked) return null
+		return specialUpgs[char.owner?.id || id][1]
+	}
+	const updateSpecial = (ownerID: number) => {
+		const special = specialUpgs[ownerID]
+		if (special) {
+			specialText.data = special[0]
+			show(specialToggle.parentElement)
+		}
+		else hide2(specialToggle.parentElement)
 	}
 
 	let id: number
@@ -188,7 +216,7 @@ const pageHeaders = (() => {
 
 	const updatePath = (removeUpgrades?: boolean) => {
 		const param = new URLSearchParams(location.search)
-		if (removeUpgrades) param.delete('u'), param.delete('t')
+		if (removeUpgrades) param.delete('u'), param.delete('t'), param.delete('s')
 		param[ability ? 'set' : 'delete']('a', ''+ability);
 		updateContent()
 		updateTitle()
@@ -200,12 +228,11 @@ const pageHeaders = (() => {
 		settings.updateLinks()
 		const upgParam = getUpgParam(), tempParam = getTempParam()
 		const param1 = settings.searchStr + (zoomToggle.checked ? '&z=1' : '')
-		const param2 = getParamStr(param1 + (upgParam && '&u=' + upgParam) + (tempParam && '&t=' + tempParam))
+		const param2 = getParamStr(param1 + (upgParam && '&u=' + upgParam) + (tempParam && '&t=' + tempParam) + (specialToggle.checked ? '&s=1' : ''))
 		navbar.links[2].href = navbar.links[2].href.split('?')[0] + getParamStr(param1 + `&g=${id.toString(36)}${upgParam && '-' + upgParam}${tempParam && '-' + tempParam}`)
 
 		next.href = `/classes/${characters[nextMap[id] ?? id + 1].folderName}/${ability == null ? '' : 'abilities.html'}${getParamStr(param1)}`
 		prev.href = `/classes/${characters[prevMap[id] ?? id - 1].folderName}/${ability == null ? '' : 'abilities.html'}${getParamStr(param1)}`
-
 
 		abilityIcons.forEach((icon, i) => {
 			icon.href = ability == i ? './' + param2 : 'abilities.html' + getParamStr(param2 + (i ? '&a=' + i : ''))
@@ -219,26 +246,27 @@ const pageHeaders = (() => {
 	},
 	getUpgParam = () => {
 		let result = ''
-		for (const id of currentUpgs) result += '.' + id.toString(36)
-		return result.slice(1)
+		for (const id of currentUpgs) result += id.toString(36)
+		return result
 	},
 	getTempParam = () => {
 		let result = ''
 		tempState.forEach((val, i) => {
-			if (val != null) result += '.' + i.toString(36) + val
+			if (val != null) result += i.toString(36) + val
 		})
-		return result.slice(1)
+		return result
 	}
 
-	const setChar = (newID: number, resetUpgs?: boolean, keepSpecialState?: boolean) => {
+	const setChar = (newID: number, resetUpgs?: boolean) => {
 		// Updating Header
 		char = classData.getClass(id = newID)
 		icon.title = nameNode.data = char.fullName
 		roleNode.data = `Role: ${char.role}`
 		icon.style.objectPosition = `${-8.2 * char.iconId}rem 0`
 		roleIcon.style.backgroundPositionX = `${-2.1 * roleMap[char.role]}rem`
-		abilities.style.setProperty('--icon', `url(/images/abilities/ability-set${id}.webp)`)
+		abilities.style.setProperty('--icon', `url('/images/abilities/set${id}.webp')`)
 
+		const ownerID = char.owner?.id || id
 		if (resetUpgs) {
 			if (currentUpgs.size) {
 				currentUpgs.clear()
@@ -248,16 +276,12 @@ const pageHeaders = (() => {
 				updateUpgPoints(0)
 			}
 			classData.addUpgrades(id, currentUpgs, tempState)
+			specialToggle.checked = false
+
+			updateSpecial(ownerID)
 		}
-		charUpgrades = upgrades[char.owner?.id || id]
+		charUpgrades = upgrades[ownerID]
 		
-		// Updating options
-		if (!(id % 7 || id < 9 || keepSpecialState)) {
-			show(specialToggle.parentElement)
-			specialText.data = id == 14 ? 'No tags' : 'Starz Align'
-			specialToggle.checked = true
-		}
-		else hide2(specialToggle.parentElement)
 		const linkTargets = getLinkTargets(char)
 		for (let i = 0; i < 2; i++) {
 			const link = i ? vehicleLink : passengerLink
@@ -292,7 +316,7 @@ const pageHeaders = (() => {
 		get zoom() { return zoomToggle.checked },
 		get ability() { return ability },
 		updateLinks, options,
-		setState(upg: string, temp: string, charID: number, zoom: boolean, newAbility: number) {
+		setState(upg: string, temp: string, charID: number, zoom: boolean, newAbility: number, special: boolean) {
 			updateAbilityIcons(newAbility)
 
 			if (document.readyState == 'loading') {
@@ -301,15 +325,18 @@ const pageHeaders = (() => {
 			}
 			else {
 				setChar(charID)
+				updateSpecial(char.owner?.id || id)
 				upgradeMenu?.close()
 				tempUpgMenu?.close()
 			}
 			zoomToggle.checked = zoom
+			specialToggle.checked = special
 			
 			classData.addUpgrades(
 				charID, 
 				currentUpgs = parseUpgParam(upg), 
 				tempState = parseTempParam(temp),
+				getSpecialUpg()
 			)
 			
 			updateTempVisibility()
@@ -381,15 +408,15 @@ const classData = (() => {
 const parseUpgParam = (param: string) => {
 	const set = new Set<number>()
 	if (!param) return set
-	for (const str of param.split('.'))
-		set.add(parseInt(str, 36))
+	for (let i = 0; i < param.length; i++)
+		set.add(parseInt(param[i], 36))
 	return set
 },
 parseTempParam = (param: string) => {
 	const arr: number[] = []
 	if (!param) return arr
-	for (const str of param.split('.'))
-		arr[parseInt(str[0], 36)] = +str[1]
+	for (let i = 0; i < param.length; i+= 2)
+		arr[parseInt(param[i], 36)] = +param[i + 1]
 	return arr
 }
 
@@ -416,7 +443,7 @@ const columns = Array.from({ length: 5 }, () => element('div'))
 
 const setState = async () => {
 
-	let [distance, crit, move, upg, temp, ability, zoom] = url.getParams('d','c','m','u','t','a','z')
+	let [distance, crit, move, upg, temp, ability, zoom, special] = url.getParams('d','c','m','u','t','a','z','s')
 	const path = location.pathname.split('/')
 
 	settings.state = [clamp(0, +distance, 100) || 0, !!crit, !!move]
@@ -424,7 +451,7 @@ const setState = async () => {
 	if (path[3] && !abilityCards) ({ abilityCards } = await import('./abilities.js'))
 	settings.updateCallbacks = [() => updateContent(true), () => updateContent(true), () => updateContent(true)]
 	
-	pageHeaders.setState(upg, temp, getCharID(path[2]), !!zoom, path[3] ? +ability || 0 : null)
+	pageHeaders.setState(upg, temp, getCharID(path[2]), !!zoom, path[3] ? +ability || 0 : null, !!special)
 	onresize = () => createColumns()
 	settings.updateLinks()
 }
@@ -607,6 +634,7 @@ const createStatCard = <Category, StatSource>(
 				const isNewBase = baseProp != (baseProp = prop[index](baseChar)),
 				newIDs = new Set<number>()
 				nameText.data = getName(currentProp)
+				let prevRow: HTMLDivElement
 
 				for (let i = 0; i < rows.length; i++) {
 					const row = rows[i]
@@ -614,8 +642,12 @@ const createStatCard = <Category, StatSource>(
 					// something like rowContainer.replaceChildren(...newRows)
 					// It's also not too hard to do
 					if (row.update(isNewBase)) {
+						const el = row.el
 						newIDs.add(i)
-						if (!prevRowIDs?.has(i)) rowContainer.append(row.el)
+						if (!prevRowIDs?.has(i)) {
+							prevRow ? prevRow.after(el) : rowContainer.prepend(el)
+						}
+						prevRow = el
 					}
 					else if (prevRowIDs?.has(i)) row.el.remove()
 				}
@@ -635,7 +667,9 @@ const createStatCard = <Category, StatSource>(
 
 const unitText = ['', 'm', 's', 'm/s', 'm²', '°', 'm/s²', '%']
 
-const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => [
+const getWeaponCards = <StatSource extends {
+	modifiers: number[]
+}>(getWeapon: (char: StatSource) => Weapon) => [
 	createStatCard<number, StatSource>(
 		[char => getWeapon(char)?.getDamage(0, 0, crit, move)],
 		() => 'Damage output',
@@ -648,7 +682,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 			(_, char) => getWeapon(char).burstInterval,
 			(_, char) => getWeapon(char).shotsPerShell == 1 ? null : getWeapon(char).shotsPerShell,
 			(_, char) => getWeapon(char).rof,
-			(_, char) => getWeapon(char).projectiles[0]?.splashDmg * getWeapon(char).shotsPerShell || 0,
+			(_, char) => getWeapon(char).getSplash(0),
 			(_, char) => getWeapon(char).projectiles[0]?.blastRadius || null
 		]],
 		[],
@@ -828,12 +862,12 @@ const statCards = [
 			'Recoil amp scale X', 'Speed penalty'
 		],
 		[0,1,2].map(i => [
-			(charge, char) => charge[0] * char.modifiers[0] * char.modifiers[4],
+			(charge, char) => charge[0] * char.modifiers[0] * char.modifiers[1],
 			(charge, char) => charge[1],
 			(charge, char) => getWeapon(char).getChargeDPS(dist, i, crit, move),
 			(charge, char) => getWeapon(char).getDamage(dist, i + 1, crit, move),
 			(charge, char) => charge[2],
-			(charge, char) => getWeapon(char).projectiles[i + 1]?.splashDmg,
+			(charge, char) => getWeapon(char).getSplash(i + 1),
 			(charge, char) => getWeapon(char).projectiles[i + 1]?.startSpeed,
 			(charge, char) => (<Bullet>getWeapon(char).projectiles[i + 1])?.dragStart || null,
 			(charge, char) => (<Bullet>getWeapon(char).projectiles[i + 1])?.dragEnd || null,
@@ -863,7 +897,7 @@ const statCards = [
 			'Cone length', 'Near width', 'Far width', 'Knockback force Y', 'Knockback force Z'
 		],
 		[0,1,2].map(i => [
-			(dash, char) => dash[0] * char.modifiers[4],
+			(dash, char) => dash[0] * char.modifiers[5],
 			dash => dash[1],
 			dash => dash[2],
 			dash => dash[3],

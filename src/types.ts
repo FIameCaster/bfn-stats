@@ -290,6 +290,7 @@ type Weapon = {
 	get shotsToOverheat(): number
 	get overheatTime(): number | null
 	get cooldown(): number | null
+	getSplash(index: number): number
 	getDamage(distance: number, index: number, crit: boolean, move: boolean): number
 	getCloud(distance: number, index: number, move: boolean): number
 	getSideArrows(distance: number, index: number): number
@@ -393,6 +394,7 @@ type AbilityType = {
 	linkUpRange?: number
 	spottingRange?: number
 	allyArmor?: number
+	modifiers: number[]
 }
 
 interface PageContainerEventMap {

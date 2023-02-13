@@ -223,7 +223,7 @@
 	left: 0;
 	background-color: var(--bg-primary);
 	border-radius: .25em;
-	width: 100%;
+	min-width: 100%;
 	display: grid;
 	gap: .2em;
 	padding: .5em;

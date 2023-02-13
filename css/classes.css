@@ -128,7 +128,7 @@
 	display: grid;
 	grid-auto-flow: row;
 	gap: .4rem;
-	width: 7.5em;
+	width: 14rem;
 }
 
 .upg-container {
