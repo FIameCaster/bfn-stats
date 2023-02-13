@@ -337,7 +337,7 @@ export const stats = (() => {
 		}
 
 		getSplash(index: number) {
-			return this.projectiles[index] && this.projectiles[index].splashDmg * this.multipliers[6]
+			return this.projectiles[index] && this.projectiles[index].splashDmg * this.shotsPerShell * this.multipliers[6]
 		}
 
 		getDamage(distance: number, index: number, crit: boolean, move: boolean): number {

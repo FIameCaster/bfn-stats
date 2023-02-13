@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=5'
+const cacheParam = '?v=6'
 
 const stats = (() => {
 	const charData = [
@@ -168,7 +168,7 @@ const options = {
 
 	let file = fs.readFileSync(`dest/${name}.js`, 'utf-8')
 	// Adding v-param and replacing const with let
-	file = file.replace(/(?<=\.(css|js))(?=[^\w])/g, cacheParam).replace(/const /g, 'let ')
+	file = file.replace(/(?<=\.(css|txt|js))(?=[^\w])/g, cacheParam).replace(/const /g, 'let ')
 
 	if (name == 'classes')
 		file = file.replace(/\.html/g, '') // Removing .html extensions

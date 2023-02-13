@@ -667,9 +667,7 @@ const createStatCard = <Category, StatSource>(
 
 const unitText = ['', 'm', 's', 'm/s', 'm²', '°', 'm/s²', '%']
 
-const getWeaponCards = <StatSource extends {
-	modifiers: number[]
-}>(getWeapon: (char: StatSource) => Weapon) => [
+const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => [
 	createStatCard<number, StatSource>(
 		[char => getWeapon(char)?.getDamage(0, 0, crit, move)],
 		() => 'Damage output',
@@ -897,7 +895,7 @@ const statCards = [
 			'Cone length', 'Near width', 'Far width', 'Knockback force Y', 'Knockback force Z'
 		],
 		[0,1,2].map(i => [
-			(dash, char) => dash[0] * char.modifiers[5],
+			(dash, char) => dash[0] * char.modifiers[1],
 			dash => dash[1],
 			dash => dash[2],
 			dash => dash[3],
