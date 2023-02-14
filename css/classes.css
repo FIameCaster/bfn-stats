@@ -128,7 +128,7 @@
 	display: grid;
 	grid-auto-flow: row;
 	gap: .4rem;
-	width: 14rem;
+	width: 14.5rem;
 }
 
 .upg-container {
@@ -154,7 +154,7 @@
 	height: 2em;
 }
 
-@media (max-width: 37.5em) {
+@media (max-width: 38.1em) {
 	.options_c {
 		grid-template-columns: auto auto;
 	}

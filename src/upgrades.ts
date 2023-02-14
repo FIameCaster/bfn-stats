@@ -584,7 +584,7 @@ const upgrades: Upgrade[][] = [
 	],
 	// Super Brainz
 	[
-		[153, 1, 6, 5],
+		[153, 1, 6, 7],
 		commonUpgrades[0],
 		commonUpgrades[1],
 		offensiveUpgrades[0],
@@ -712,7 +712,9 @@ const upgrades: Upgrade[][] = [
 		[186, 2, 4, 7],
 		commonUpgrades[2],
 		[187, 2, 8, 4],
-		[188, 2, 9, 7],
+		[188, 2, 9, 7, , [{
+			"modifiers_4": 1.3
+		}]],
 		defensiveUpgrades[2],
 		defensiveUpgrades[3],
 		commonUpgrades[3],

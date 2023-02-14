@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=6'
+const cacheParam = '?v=7'
 
 const stats = (() => {
 	const charData = [
@@ -104,7 +104,8 @@ const getLinkTargets = (char) => {
 }
 
 const specialUpgs = [
-	'Pea Suped',,,,,,,,,
+	'Pea Suped',,
+	'Butter Beacon',,,,,,,
 	'Jinxed',,,,,
 	'Tagged',,,,
 	'Space Force',,

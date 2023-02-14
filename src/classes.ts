@@ -58,6 +58,7 @@ const pageHeaders = (() => {
 			
 			let i = 0
 			for (const num of currentUpgs) {
+				if (i == 6) break
 				newContent[i] = icons[i] || element('div')
 				newContent[i++].style.backgroundPositionX = `${-2 * charUpgrades[num][2]}em`
 			}
@@ -140,7 +141,10 @@ const pageHeaders = (() => {
 			"primary_rof": 120,
 			"modifiers_4": 1.1,
 			movement: {...[,1.65,1,1,6.72]},
-		}],,,,,,,,,
+		}],,
+		['Butter Beacon', {
+			"modifiers_6": 1.25
+		}],,,,,,,
 		['Jinxed', {
 			"modifiers_6": 1.3
 		}],,,,,
