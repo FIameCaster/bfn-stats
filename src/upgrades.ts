@@ -291,7 +291,9 @@ const upgrades: Upgrade[][] = [
 	[
 		commonUpgrades[0],
 		commonUpgrades[1],
-		[72, 2, 4, 7],
+		[72, 2, 4, 7, , [{
+			"modifiers_1": 1 / 3
+		}]],
 		defensiveUpgrades[0],
 		defensiveUpgrades[1],
 		commonUpgrades[2],

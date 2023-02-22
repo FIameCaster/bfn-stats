@@ -101,7 +101,7 @@ const upgradeMenu = (() => {
 					element('button', {
 						className: 'perk-toggle',
 						onclick() {
-							els[i].classList.toggle('expanded')
+							if (els[i].classList.toggle('expanded')) description.parentElement.scrollIntoView({ "block": "nearest" })
 						}
 					})
 				]),
@@ -343,7 +343,7 @@ const upgradeText = [
 	"Move 8.39% faster and deal 20% more damage for 15 seconds upon earning a vanquish streak of 3.",
 	// Chomper
 	"Deal 12 more damage when biting an enemy's face.",
-	"Heal 50 HP after an enemy steps on or destroys a Spikeweed. Can give overhealth.",
+	"Heal 50 HP after an enemy steps on a Spikeweed. Can give overhealth. Heals 50 HP when Spikeweeds are destroyed even without the upgrade.",
 	"Move 66.5% faster while digesting and 46.1% faster for 5.65 seconds after digesting.",
 	"Create a Spikeweed at Chomper's location after earning a vanquish with burrow that lasts for 90 seconds.",
 	"Double Groody Goop's duration.",
@@ -387,7 +387,7 @@ const upgradeText = [
 	"Reset weapon heat and reduce ability cooldown by 12 seconds over 8 seconds upon using Blue Blazes.",
 	"Swoop Slam ignites enemies in a 3 meter radius around the impact.",
 	// Cactus
-	"Gain an instant full charge for Spike Shot after using Petal Propeller.",
+	"Decrease charge time by 67% for 2 seconds after exiting Petal Propeller",
 	"Decrease tunnel vision effect while zooming by 50%.",
 	"75% change for enemies critically vanquished to explode dealing 40 damage in a 4.75 meter radius.",
 	"Display health bar of enemy for 4 seconds by damaging them with Needle Shot.",
@@ -507,7 +507,7 @@ const upgradeText = [
 	"Reduce Disco Tornado's cooldown by 7.5 seconds per vanquish with it over 2 seconds.",
 	"Boogie Bolt stuns enemies 58.3% faster.",
 	"Double the range of Boogie Bolt's electric arcs.",
-	"Deal 10 damage every 0.2 seconds in a 6 meter radius while in Outta Fight or inside a Disco Tornado.",
+	"Deal 10 damage every 0.2 seconds in a 6 meter radius while in Outta Fight and inside a Disco Tornado.",
 	"Start reloading and regenerating HP while in Outta Fight!.",
 	// Captain Deadbeard
 	"Increase launch force of Barrel Blast by 91.7%.",

@@ -72,7 +72,7 @@ const navbar = (() => {
 		};
 
 		el.onclick = e => {
-			if ((<HTMLElement>e.target).matches('button')) el.classList.toggle('open')
+			if ((<HTMLElement>e.target).tagName == 'BUTTON') el.classList.toggle('open')
 			e.stopPropagation()
 		}
 		addEventListener('click', () => el.className = 'settings')

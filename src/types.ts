@@ -60,7 +60,7 @@ type HTMLAttributes<T> = {
 	dirName?: string
 	disabled?: boolean
 	download?: string
-	draggable?: boolean | "true" | "false"
+	draggable?: boolean
 	form?: string
 	formAction?: string
 	formEnctype?: string

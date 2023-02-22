@@ -301,7 +301,7 @@ const pageHeaders = (() => {
 	prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]
 
 	addEventListener('keyup', e => {
-		if (!container.parentElement || (<HTMLElement>e.target).matches('input')) return
+		if (!container.parentElement || (<HTMLElement>e.target).tagName == 'INPUT') return
 		if (e.keyCode == 37) prev.click()
 		else if (e.keyCode == 39) next.click()
 	})
@@ -502,7 +502,7 @@ createColumns = (forceUpdate?: boolean) => {
 
 	if (!forceUpdate && colCount == main.childElementCount) return
 
-	const heights: number[] = [],
+	const heights: number[] = [], prevCardEls: HTMLDivElement[] = [],
 	getShortestColumn = () => {
 		let index = 0, smallest = 1e9
 		for (let i = 0; i < colCount; i++) {
@@ -520,8 +520,11 @@ createColumns = (forceUpdate?: boolean) => {
 	for (let i = colCount; i < 5; i++) columns[i].remove()
 
 	const appendCard = (card: typeof cards[0]) => {
-		const index = getShortestColumn()
-		if (columns[index] != card.el.parentElement) columns[index].append(card.el)
+		const index = getShortestColumn(), el = card.el, column = columns[index]
+		if (column != el.parentElement) {
+			prevCardEls[index] ? prevCardEls[index].after(el) : column.prepend(el)
+		}
+		prevCardEls[index] = el
 		heights[index] += card.height
 	}
 
