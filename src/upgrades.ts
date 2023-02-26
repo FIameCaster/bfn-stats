@@ -36,6 +36,33 @@ const addUpgrade = (char: Character, upgrade: UpgradeValue) => {
 	}
 }
 
+const parseUpgParam = (param: string) => {
+	const set = new Set<number>()
+	if (!param) return set
+	for (let i = 0; i < param.length; i++)
+		set.add(parseInt(param[i], 36))
+	return set
+},
+parseTempParam = (param: string) => {
+	const arr: number[] = []
+	if (!param) return arr
+	for (let i = 0; i < param.length; i+= 2)
+		arr[parseInt(param[i], 36)] = +param[i + 1]
+	return arr
+},
+getUpgParam = (upgs: Set<number>) => {
+	let result = ''
+	for (const id of upgs) result += id.toString(36)
+	return result
+},
+getTempParam = (temp: number[]) => {
+	let result = ''
+	temp.forEach((val, i) => {
+		if (val != null) result += i.toString(36) + val
+	})
+	return result
+}
+
 const commonUpgrades: Upgrade[] = [
 	[0, 1, 3, 0], // Refreshing Revive
 	[1, 1, 7, 0], // Rough Patch
@@ -962,4 +989,4 @@ const upgrades: Upgrade[][] = [
 	]
 ]
 
-export { upgrades, Upgrade, UpgradeValue, knockback, getUpgPoints, addUpgrade }
+export { upgrades, Upgrade, UpgradeValue, knockback, getUpgPoints, addUpgrade, parseTempParam, parseUpgParam, getUpgParam, getTempParam }

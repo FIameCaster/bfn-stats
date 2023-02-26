@@ -1,5 +1,5 @@
 import { element, qs, text, router } from "./router.js"
-import { upgrades, Upgrade, getUpgPoints } from "./upgrades.js"
+import { upgrades, Upgrade, getUpgPoints, parseUpgParam, parseTempParam, getUpgParam, getTempParam } from "./upgrades.js"
 
 type UpgradeMenuType = typeof upgradeMenu
 type TempUpgMenuType = typeof tempUpgMenu
@@ -22,9 +22,24 @@ interface TempMenuElement extends HTMLDivElement {
 	dispatchEvent<K extends keyof TempMenuEventMap>(ev: TempMenuEventMap[K]): boolean;
 }
 
+const rowTemplate = element('li')
+rowTemplate.innerHTML = '<div class="perk"><button><span class="perk-type"></span> <span class="perk-role-container"><span class="perk-role"></span></span><span class="cost"> </span></button><button class="perk-toggle"></button></div><div class="perk-info"> </div>'
+
+const getBuildUpgs = (charID: number, buildID: number) => {
+	const build: string = localStorage.getItem(`build${charID.toString(36)}${buildID}`)
+	if (!build) return new Set<number>()
+	return parseUpgParam(build.split('.')[0])
+}
+
+const getBuildTemp = (charID: number, buildID: number) => {
+	const build: string = localStorage.getItem(`build${charID.toString(36)}${buildID}`)
+	if (!build) return []
+	return parseTempParam(build.split('.')[1] || '')
+}
+
 const upgradeMenu = (() => {
 	let container: UpgradeMenuElement, currentChar: Character, 
-	roleImages: string[], currentUpgs: Set<number>,
+	roleImages: string[], selected: Set<number>, temp: number[],
 	countText: Text, currentPoints: number
 
 	const staticRoles = [
@@ -35,10 +50,17 @@ const upgradeMenu = (() => {
 		'url("/images/all-icons-large.webp")',
 	]
 
-	const options: {
-		el: HTMLLIElement,
-		setUpgrade: (upgrade: Upgrade) => any
-	}[] = [],
+	const isClosed = () => !list.parentElement,
+	open = () => {
+		list.style.maxHeight = `${Math.min(innerHeight - container.getBoundingClientRect().top - 40, 532)}px`
+		container.append(list)
+	},
+	close = () => {
+		if (!isClosed()) container.dispatchEvent(new CustomEvent('upgclose'))
+		list.remove()
+	}
+
+	const updateOptions: ((upgrade: Upgrade) => void)[] = [],
 	els: HTMLLIElement[] = []
 
 	let firstExpensiveUpg: HTMLLIElement
@@ -59,7 +81,7 @@ const upgradeMenu = (() => {
 		firstExpensiveUpg = null
 		const upgs = upgrades[currentChar.id], l = upgs.length
 		for (let i = 0; i < l; i++) {
-			if (upgs[i][1] + currentPoints > 7 && !currentUpgs.has(i)) {
+			if (upgs[i][1] + currentPoints > 7 && !selected.has(i)) {
 				return (firstExpensiveUpg = els[i]).classList.add('expensive')
 			}
 		}
@@ -70,92 +92,126 @@ const upgradeMenu = (() => {
 		role: HTMLSpanElement, cost: Text,
 		description: Text
 
-		options[i] = {
-			el: els[i] = element('li', 0, [
-				element('div', { className: 'perk' }, [
-					element('button', {
-						onclick() {
-							const cost = upgrades[currentChar.id][i][1]
-							if (currentUpgs.delete(i)) {
-								currentPoints -= cost
-							}
-							else {
-								if (currentPoints + cost > 7) return
-								currentUpgs.add(i)
-								currentPoints += cost
-							}
-							updatePoints(currentPoints)
-							container.dispatchEvent(new CustomEvent(currentUpgs.has(i) ? 'upgadd' : 'upgremove', { detail: i }))
-							els[i].classList.toggle('selected')
-						}
-					}, [
-						type = element('span', { className: 'perk-type' }),
-						name = text(''),
-						element('span', { className: 'perk-role-container'}, [
-							role = element('span', { className: 'perk-role' })
-						]),
-						element('span', { className: 'cost' }, [
-							cost = text('')
-						])
-					]),
-					element('button', {
-						className: 'perk-toggle',
-						onclick() {
-							if (els[i].classList.toggle('expanded')) description.parentElement.scrollIntoView({ "block": "nearest" })
-						}
-					})
-				]),
-				element('div', { className: 'perk-info' }, [
-					description = text('')
-				])
-			]),
-			setUpgrade(upgrade?: Upgrade) {
-				if (!upgrade) return els[i].style.display = 'none'
-				if (els[i].style) els[i].removeAttribute('style')
-				name.data = upgradeNames[upgrade[0]]
-				description.data = upgradeText[upgrade[0]]
-				cost.data = upgrade[1]+''
-				type.style.backgroundPositionX = `${-2 * upgrade[2]}em`
-				role.style.backgroundImage = getRoleImg(upgrade[3])
-				role.style.backgroundPositionX = `${getOffset(upgrade[3])}em`
-				els[i].className = ((upgrade[3] ? '' : 'none') + (currentUpgs.has(i) ? ' selected' : '') + (els[i] == firstExpensiveUpg ? ' expensive' : '')).trim()
+		const el = els[i] = <HTMLLIElement>rowTemplate.cloneNode(true)
+		const c1 = el.firstChild,
+		btn = <HTMLButtonElement>c1.firstChild
+		btn.onclick = () => {
+			const cost = upgrades[currentChar.id][i][1]
+			if (selected.delete(i)) {
+				currentPoints -= cost
 			}
+			else {
+				if (currentPoints + cost > 7) return
+				selected.add(i)
+				currentPoints += cost
+			}
+			updatePoints(currentPoints)
+			container.dispatchEvent(new CustomEvent(selected.has(i) ? 'upgadd' : 'upgremove', { detail: i }))
+			el.classList.toggle('selected')
+		}
+		(<HTMLButtonElement>btn.nextSibling).onclick = () => {
+			if (el.classList.toggle('expanded')) description.parentElement.scrollIntoView({ "block": "nearest" })
+		}
+		description = <Text>c1.nextSibling.firstChild
+		type = <HTMLSpanElement>btn.firstChild
+		name = <Text>type.nextSibling
+		role = <HTMLSpanElement>name.nextSibling.firstChild
+		cost = <Text>btn.lastChild.firstChild
+
+		updateOptions[i] = (upgrade?: Upgrade) => {
+			if (!upgrade) return el.style.display = 'none'
+			if (el.style) el.removeAttribute('style')
+			name.data = upgradeNames[upgrade[0]]
+			description.data = upgradeText[upgrade[0]]
+			cost.data = upgrade[1]+''
+			type.style.backgroundPositionX = `${-2 * upgrade[2]}em`
+			role.style.backgroundImage = getRoleImg(upgrade[3])
+			role.style.backgroundPositionX = `${getOffset(upgrade[3])}em`
+			el.className = ((upgrade[3] ? '' : 'none') + (selected.has(i) ? ' selected' : '') + (el == firstExpensiveUpg ? ' expensive' : '')).trim()
 		}
 	}
 
-	const isClosed = () => !list.parentElement,
-	open = () => {
-		list.style.maxHeight = `${Math.min(innerHeight - container.getBoundingClientRect().top - 40, 532)}px`
-		container.append(list)
+	const buildContainer = element('div', { className: 'select', id: 'builds' }, [
+		element('button', { textContent: 'Builds', onclick() {
+			buildList.parentElement ? buildList.remove() : openBuildList()
+		}})
+	]),
+	builds = [0,1,2].map(i => element('li', 0, [
+		element('div', { className: 'build' }),
+		element('button', { className: 'btn', textContent: 'Overwrite', onclick() {
+			const buildName = `build${currentChar.id.toString(36)}${i}`
+			if (selected.size) localStorage.setItem(buildName, `${getUpgParam(selected)}.${getTempParam(temp)}`)
+			else localStorage.removeItem(buildName)
+			updateBuildIcons(i)
+		}}),
+		element('button', { className: 'btn', onclick() {
+			// temp and selected can't get a new reference
+			temp.length = 0
+			selected.clear()
+			temp.push(...getBuildTemp(currentChar.id, i))
+			for (const id of getBuildUpgs(currentChar.id, i)) selected.add(id)
+			
+			updateState()
+			container.dispatchEvent(new CustomEvent('upgadd'))
+			container.nextElementSibling.dispatchEvent(new CustomEvent('tempchange'))
+		}})
+	])),
+	buildList = element('ul', { className: 'build-list' }, builds),
+	openBuildList = () => {
+		
+		for (let i = 0; i < 3; i++) updateBuildIcons(i)
+
+		buildList.style.maxHeight = list.getBoundingClientRect().height - buildContainer.getBoundingClientRect().height - 10 + 'px'
+		buildContainer.append(buildList)
 	},
-	close = () => {
-		if (!isClosed()) container.dispatchEvent(new CustomEvent('upgclose'))
-		list.remove()
+	updateBuildIcons = (index: number) => {
+		const upgs = upgrades[currentChar.id]
+		const build = <HTMLDivElement>builds[index].firstChild,
+		icons: HTMLDivElement[] = []
+
+		let count = 0, cost = 0
+		for (const num of getBuildUpgs(currentChar.id, index)) {
+			if (count == 6) break
+			icons[count++] = element('div', 0, 0, 0, {
+				backgroundPositionX: `${-2 * upgs[num][2]}em`
+			})
+			cost += upgs[num][1]
+		}
+		count ? build.replaceChildren(...icons) : build.textContent = 'Empty build'
+		builds[index].lastChild.textContent = `Select (${cost}/7)`
 	}
 
 	els[21] = element('li', 0, [
+		buildContainer,
 		element('button', { className: 'btn perk-close', onclick: close, textContent: 'Close' })
 	])
-	const list = element('ul', { className: 'perk-list' }, els)
+
+	const list = element('ul', { className: 'perk-list', onclick(e) {
+		if (!buildContainer.contains(<HTMLElement>e.target)) buildList.remove()
+	}}, els)
+
+	const updateState = () => {
+		const upgs = upgrades[currentChar.id]
+		updatePoints(getUpgPoints(selected, upgs))
+		for (let i = 0; i < 21; i++) updateOptions[i](upgs[i])
+	}
 
 	return {
-		open(char: Character, el: UpgradeMenuElement, selected: Set<number>) {
+		open(char: Character, el: UpgradeMenuElement, newSelected: Set<number>, newTemp: number[]) {
 			container = el
 			countText = <Text>el.firstChild.firstChild
-			
-			const isSameOwner = currentChar == (currentChar = char.owner || char)
-			const upgs = upgrades[currentChar.id]
-			if (currentUpgs == (currentUpgs = selected) && isSameOwner)
+			buildList.remove()
+
+			currentChar = char.owner || char
+			if (selected == (selected = newSelected))
 				return open()
 
-			updatePoints(getUpgPoints(selected, upgs))
-
+			temp = newTemp
 			roleImages = [currentChar, currentChar.vehicle, currentChar.passenger].map(char => (
 				char && `url('/images/abilities/set${char.id}.webp')`
 			))
-
-			for (let i = 0; i < 21; i++) options[i].setUpgrade(upgs[i])
 			
+			updateState()
 			loadStyleSheet(open)
 		},
 		close, isClosed
@@ -387,7 +443,7 @@ const upgradeText = [
 	"Reset weapon heat and reduce ability cooldown by 12 seconds over 8 seconds upon using Blue Blazes.",
 	"Swoop Slam ignites enemies in a 3 meter radius around the impact.",
 	// Cactus
-	"Decrease charge time by 67% for 2 seconds after exiting Petal Propeller",
+	"Decrease charge time by 67% for 2 seconds after exiting Petal Propeller.",
 	"Decrease tunnel vision effect while zooming by 50%.",
 	"75% change for enemies critically vanquished to explode dealing 40 damage in a 4.75 meter radius.",
 	"Display health bar of enemy for 4 seconds by damaging them with Needle Shot.",
@@ -409,7 +465,7 @@ const upgradeText = [
 	"Decrease Spin Dash's cooldown by over 2 seconds by 6 seconds per enemy hit.",
 	"Vanquishing enemies with Naval Laser extends its duration by 2 seconds.",
 	// Acorn
-	"Shell Shot holds 25% more ammo, Wood Grief has 40% more ammo. Connected Acorns lose 18% heat every 2 seconds.",
+	"Shell Shot holds 25% more ammo and Wood Grief has 40% more ammo. Connected Acorns lose 18% heat every 2 seconds.",
 	"Roll for Damage fires 4 additional logs and logs move 66.7% faster.",
 	"Enemies within 5 meters of both Sap Traps move 60% slower.",
 	"Enemies hit by Roll for Damage are knocked back.",
@@ -425,7 +481,7 @@ const upgradeText = [
 	"Enemies within a 7.5 meter radius are knocked back when activating Sunny Side Up.",
 	"Roughly doubled heal rate when target is at low health.", // Testing required
 	"Increase max overhealth of target by 15 HP while Heal Beam is attached.",
-	"Increase range of Heal Beam.",
+	"Increase the range of Heal Beam.",
 	"Recover 12.5 HP per second while healing allies. Lasts for 2 seconds after stopping to heal.",
 	"Recover 8.35 HP per second by dealing damage.",
 	"Create 5 sundrops at Sunflower's location by dealing damage with Sunbeam 10 times.",
@@ -525,7 +581,7 @@ const upgradeText = [
 	"Increase Imp Punt's launch speed by 22.5%.",
 	"Increase dash duration by 45.4% and dash speed by 14.3%.",
 	"Football Cannon spins up 67% faster.",
-	"Reduce enemy's vision by 7.5% per near miss. Effect decays 50% per second.",
+	"Reduce enemy's vision by 7.5% per near miss. Effect decays by 50% per second.",
 	"Increase knockback for Sprint Tackle and decrease its cooldown to 1.4 seconds upon earning a vanquish with it.",
 	"Enemies within a 10 meter radius are knocked back when deploying Tackle Dummy. Knocking back enemies reduces its cooldown to 2.8 seconds.", // Test cooldown
 	"Decrease weapon heat by 30% upon earning a vanquish.",

@@ -1,7 +1,7 @@
 import { qs, round, clamp, router, navbar, element, text } from './router.js'
 import { stats } from "./stats.js"
 import { OpenMenu, CompareMenuContainer, MenuState } from "./compareMenu.js"
-import { upgrades, addUpgrade } from "./upgrades.js"
+import { upgrades, addUpgrade, parseTempParam, parseUpgParam, getTempParam, getUpgParam } from "./upgrades.js"
 
 const container = <CompareMenuContainer & PageContainer>qs('#compare')
 let openMenu: OpenMenu, menuIndex: number,
@@ -197,7 +197,10 @@ const content = (() => {
 			])
 		]),
 		element('div', { className: 'labels_co' }, labels), 
-		element('div', { className: 'content_co' }, [addCol])
+		element('div', { className: 'content_co', onclick(e) {
+			const target = <HTMLElement>e.target
+			if (target.tagName == 'A') router.goTo((<HTMLAnchorElement>target).href)
+		}}, [addCol])
 	])
 	container.append(contentEl)
 	observer && observer.observe(qs('#observer'))
@@ -242,18 +245,6 @@ const getUpgradedClass = (state: MenuState) => {
 }
 
 const getParamStr = (str: string) => str && '?' + str.slice(1)
-const getUpgParam = (upgs: Set<number>) => {
-	let result = ''
-	for (const id of upgs) result += id.toString(36)
-	return result
-},
-getTempParam = (temp: number[]) => {
-	let result = ''
-	temp.forEach((val, i) => {
-		if (val != null) result += i.toString(36) + val
-	})
-	return result
-}
 
 let zoom: boolean, dist = 0, crit: boolean = false, move: boolean = false
 
@@ -518,12 +509,10 @@ const createColumn = (state: MenuState) => {
 	}
 
 	const nameText = text('')
-	const name = element('a', { className: 'name_co', tabIndex: -1, onclick() {
-		router.goTo(name.href)
-	}}, [
+	const name = element('a', { className: 'name_co', tabIndex: -1 }, [
 		element('span', 0, [nameText])
 	]),
-	icon = element('a', { className: 'icon_co', onclick() { router.goTo(icon.href) }}),
+	icon = element('a', { className: 'icon_co' }),
 	statEls: HTMLDivElement[][] = [], textNodes: Text[][] = [],
 	columnStats: number[][] = new Array(14), categoryData: any[] = []
 	if (isFirstCol) baseStats = columnStats
@@ -575,21 +564,6 @@ const createColumn = (state: MenuState) => {
 			for (let i = 0; i < columns.length; i++) columns[i].updateAllColors()
 		}
 	}
-}
-
-const parseUpgParam = (param: string) => {
-	const set = new Set<number>()
-	if (!param) return set
-	for (let i = 0; i < param.length; i++)
-		set.add(parseInt(param[i], 36))
-	return set
-},
-parseTempParam = (param: string) => {
-	const arr: number[] = []
-	if (!param) return arr
-	for (let i = 0; i < param.length; i+= 2)
-		arr[parseInt(param[i], 36)] = +param[i + 1]
-	return arr
 }
 
 const updateColumns = (fullUpdate?: boolean) => {

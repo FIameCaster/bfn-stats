@@ -44,12 +44,6 @@ const table = (() => {
 		for (let i = 0; i < 10; i++) cells[i] = element('th', { 
 			tabIndex: 0, onclick() {
 				body.sort(i)
-			}, 
-			onkeyup(e) {
-				if (e.code == 'Space' || e.code == 'Enter') this.click()
-			},
-			onkeydown(e) {
-				e.code == 'Space' && e.preventDefault()
 			}
 		}, [
 			element('div', 0, [i ? nodes[i - 1] = text('') : 'Character'])
@@ -57,7 +51,14 @@ const table = (() => {
 
 		return {
 			el: element('thead', 0, [
-				element('tr', 0, cells)
+				element('tr', {
+					onkeyup(e) {
+						if (e.code == 'Space' || e.code == 'Enter') (<HTMLTableCellElement>e.target).click()
+					},
+					onkeydown(e) {
+						e.code == 'Space' && e.preventDefault()
+					}
+				}, cells)
 			]),
 			setHeaders(indexes: number[]) {
 				indexes.forEach((id, i) => nodes[i].data = labels[id])
@@ -112,7 +113,12 @@ const table = (() => {
 	]
 
 	const body = (() => {
-		const el = element('tbody')
+		const el = element('tbody', {
+			onclick(e) {
+				const target = <HTMLElement>e.target
+				if (target.tagName == 'A') router.goTo((<HTMLAnchorElement>target).href)
+			}
+		})
 
 		const getStats: [
 			((char: Character) => number | null)[],
@@ -204,6 +210,8 @@ const table = (() => {
 			update: (char: Character, data: (number | null)[]) => void,
 			updateLink: () => void
 		}[] = new Array(34)
+		const template = element('tr')
+		template.innerHTML = '<td><a></a></td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td>'
 
 		for (let i = 0; i < 34; i++) {
 			// Local state for each row making it faster to update
@@ -214,15 +222,11 @@ const table = (() => {
 			const init = () => {
 				if (initialized == (initialized = true)) return
 
-				for (let i = 0; i < 10; i++)
-					cells[i] = element('td', 0, [nodes[i] = text('')])
-
-				rows[i].el = element('tr', 0, [
-					element('td', 0, [link = element('a', { onclick() {
-						router.goTo(link.href)
-					}})]),
-					...cells
-				])
+				const children = (rows[i].el = <HTMLTableRowElement>template.cloneNode(true)).children
+				link = <HTMLAnchorElement>children[0].firstChild
+				for (let i = 0; i < 10; i++) nodes[i] = <Text>(
+					(cells[i] = <HTMLTableCellElement>children[i + 1]).firstChild
+				)
 			}
 
 			rows[i] = {
@@ -333,7 +337,10 @@ const table = (() => {
 	return {
 		setLastColumnVisibility: (() => {
 			let currentState = true
-			const style = (<CSSStyleRule>(<CSSStyleSheet>[].find.call(document.styleSheets, (sheet: CSSStyleSheet) => sheet.href?.includes('list.css'))).cssRules[0]).style
+			const sheet = document.head.appendChild(element('style')).sheet
+			sheet.insertRule('td:last-child,th:last-child { display: table-cell; }')
+
+			const style = (<CSSStyleRule>sheet.cssRules[0]).style
 
 			return (visibility: boolean) => {
 				if (currentState != (currentState = visibility)) style.display = visibility ? 'table-cell' : 'none'

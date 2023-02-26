@@ -1,7 +1,7 @@
 import { qs, qsa, navbar, element, router, round, clamp, text, width } from './router.js'
 import { stats } from './stats.js'
 import { UpgradeMenuType, UpgradeMenuElement, TempMenuElement, TempUpgMenuType } from './upgradeMenu.js'
-import { upgrades, Upgrade, UpgradeValue, getUpgPoints, addUpgrade } from './upgrades.js'
+import { upgrades, Upgrade, UpgradeValue, getUpgPoints, addUpgrade, getTempParam, getUpgParam, parseTempParam, parseUpgParam } from './upgrades.js'
 
 const container = <PageContainer>qs('#classes'),
 characters = stats.characters,
@@ -32,7 +32,7 @@ const pageHeaders = (() => {
 	hide = (el: HTMLElement) => el.style.display = 'none',
 	hide2 = (el: HTMLElement) => el.style.visibility = 'hidden',
 	updateUpgrades = () => {
-		upgradeMenu?.open(char, upgEl, currentUpgs)
+		upgradeMenu?.open(char, upgEl, currentUpgs, tempState)
 	},
 	updateTemp = () => {
 		tempUpgMenu?.open(char, tempEl, currentUpgs, tempState)
@@ -59,20 +59,20 @@ const pageHeaders = (() => {
 			let i = 0
 			for (const num of currentUpgs) {
 				if (i == 6) break
-				newContent[i] = icons[i] || element('div')
+				icons[i] = newContent[i] = icons[i] || element('div')
 				newContent[i++].style.backgroundPositionX = `${-2 * charUpgrades[num][2]}em`
 			}
 			container.replaceChildren(...newContent)
 		}
 	})(),
 	handleUpgChange = ({ detail: index }) => {
-		if (charUpgrades[index][4] || charUpgrades[index][5]) {
+		if (index == null || charUpgrades[index][4] || charUpgrades[index][5]) {
 			updateTempVisibility()
 			updateChar()
 			updateContent()
 		}
 		selectedUpgrades()
-		url.setParam('u', getUpgParam(), '', false)
+		url.setParam('u', getUpgParam(currentUpgs), '', false)
 	}
 
 	for (const el of [upgEl, tempEl]) {
@@ -102,17 +102,19 @@ const pageHeaders = (() => {
 	upgEl.addEventListener('upgadd', handleUpgChange)
 	upgEl.addEventListener('upgremove', handleUpgChange)
 	tempEl.addEventListener('tempchange', ({ detail: changedIndex }) => {
-		const newState = tempState[changedIndex]
-		if (newState == null) {
-			updateChar()
-			updateContent()
+		if (changedIndex != null) {
+			const newState = tempState[changedIndex]
+			if (newState == null) {
+				updateChar()
+				updateContent()
+			}
+			else {
+				addUpgrade(getOwner(char), charUpgrades[changedIndex][5][newState])
+				classData.resetCache(char.owner || char)
+				updateContent(true)
+			}
 		}
-		else {
-			addUpgrade(getOwner(char), charUpgrades[changedIndex][5][newState])
-			classData.resetCache(char.owner || char)
-			updateContent(true)
-		}
-		url.setParam('t', getTempParam(), '', false)
+		url.setParam('t', getTempParam(tempState), '', false)
 	})
 	for (let i = 0; i < 2; i++) 
 		(i ? vehicleLink : passengerLink).onclick = () => {
@@ -230,7 +232,7 @@ const pageHeaders = (() => {
 	updateLinks = () => {
 		const getParamStr = (str: string) => str && '?' + str.slice(1)
 		settings.updateLinks()
-		const upgParam = getUpgParam(), tempParam = getTempParam()
+		const upgParam = getUpgParam(currentUpgs), tempParam = getTempParam(tempState)
 		const param1 = settings.searchStr + (zoomToggle.checked ? '&z=1' : '')
 		const param2 = getParamStr(param1 + (upgParam && '&u=' + upgParam) + (tempParam && '&t=' + tempParam) + (specialToggle.checked ? '&s=1' : ''))
 		navbar.links[2].href = navbar.links[2].href.split('?')[0] + getParamStr(param1 + `&g=${id.toString(36)}${upgParam && '-' + upgParam}${tempParam && '-' + tempParam}`)
@@ -247,18 +249,6 @@ const pageHeaders = (() => {
 			const link = i ? vehicleLink : passengerLink
 			link.href = `/classes/${char.folderName}/${ability == null ? '' : 'abilities.html'}${param2}`
 		})
-	},
-	getUpgParam = () => {
-		let result = ''
-		for (const id of currentUpgs) result += id.toString(36)
-		return result
-	},
-	getTempParam = () => {
-		let result = ''
-		tempState.forEach((val, i) => {
-			if (val != null) result += i.toString(36) + val
-		})
-		return result
 	}
 
 	const setChar = (newID: number, resetUpgs?: boolean) => {
@@ -273,7 +263,7 @@ const pageHeaders = (() => {
 		const ownerID = char.owner?.id || id
 		if (resetUpgs) {
 			if (currentUpgs.size) {
-				currentUpgs.clear()
+				currentUpgs = new Set()
 				selectedUpgrades()
 				tempState = []
 				updateTempVisibility()
@@ -300,8 +290,8 @@ const pageHeaders = (() => {
 	const nextMap = [,,,,,,,,,,,,,,,,,,,,,,0,8,13,19,8,19,22],
 	prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]
 
-	addEventListener('keyup', e => {
-		if (!container.parentElement || (<HTMLElement>e.target).tagName == 'INPUT') return
+	addEventListener('keydown', e => {
+		if (e.repeat || !container.parentElement || (<HTMLElement>e.target).tagName == 'INPUT') return
 		if (e.keyCode == 37) prev.click()
 		else if (e.keyCode == 39) next.click()
 	})
@@ -409,21 +399,6 @@ const classData = (() => {
 	}
 })()
 
-const parseUpgParam = (param: string) => {
-	const set = new Set<number>()
-	if (!param) return set
-	for (let i = 0; i < param.length; i++)
-		set.add(parseInt(param[i], 36))
-	return set
-},
-parseTempParam = (param: string) => {
-	const arr: number[] = []
-	if (!param) return arr
-	for (let i = 0; i < param.length; i+= 2)
-		arr[parseInt(param[i], 36)] = +param[i + 1]
-	return arr
-}
-
 const getCharID = (() => {
 	let index = 0
 	const cache = new Map<string, number>()
@@ -489,7 +464,7 @@ const updateContent = (smallUpdate?: boolean) => {
 	}
 	else for (let i = 0; i < statCards.length; i++) {
 		statCards[i].update(char, baseChar) && newIDs.add(i)
-	}	
+	}
 	createColumns(true)
 },
 
@@ -546,6 +521,14 @@ createColumns = (forceUpdate?: boolean) => {
 const toggleText = ['1st', '2nd', '3rd']
 const getWeapon = (char: Character) => char[zoom ? 'alt' : 'primary'] || char.primary
 
+const rowTemplate = element('div', {
+	className: 'row_c',
+	innerHTML: '<label> </label><span> </span>'
+}),
+cardTemplate = element('div', {
+	className: 'card_c',
+	innerHTML: '<div class="category_c"> </div><div></div>'
+})
 // Need a second generic type so this function can be used for both characters and abilities
 const createStatCard = <Category, StatSource>(
 	prop: ((char: StatSource) => Category)[],
@@ -568,6 +551,7 @@ const createStatCard = <Category, StatSource>(
 			self.update()
 		}})))
 	}
+
 	const rows: {
 		el?: HTMLDivElement,
 		update(alwaysRemoveColor?: boolean): boolean
@@ -580,12 +564,11 @@ const createStatCard = <Category, StatSource>(
 				const stat = getStats[index][i](currentProp, char)
 				if (stat == null) return false
 				if (currentStat == (currentStat = stat) && !alwaysUpdateColor) return true
-				if (!this.el) this.el = element('div', { className: 'row_c' }, [
-					element('label', { textContent: label }),
-					statEl = element('span', 0, [
-						statText = text('')
-					])
-				])
+				if (!this.el) {
+					const children = (this.el = <HTMLDivElement>rowTemplate.cloneNode(true)).children
+					statText = <Text>(statEl = <HTMLSpanElement>children[1]).firstChild;
+					(<Text>children[0].firstChild).data = label
+				}
 				if (typeof stat == 'string') {
 					statText.data = stat
 					statEl.removeAttribute('style')
@@ -606,12 +589,9 @@ const createStatCard = <Category, StatSource>(
 		}
 	})
 	const init = () => {
-		self.el = element('div', { className: 'card_c' }, [
-			element('div', { className: 'category_c' }, [
-				nameText = text('')
-			]),
-			rowContainer = element('div')
-		])
+		const c1 = (self.el = <HTMLDivElement>cardTemplate.cloneNode(true)).firstChild
+		nameText = <Text>c1.firstChild
+		rowContainer = <HTMLDivElement>c1.nextSibling
 	},
 	self: {
 		el?: HTMLDivElement

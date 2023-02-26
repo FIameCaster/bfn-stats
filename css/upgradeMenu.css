@@ -13,6 +13,7 @@
 	font-size: 1.6rem;
 	font-size: min(4.7vw, 1.6rem);
 	align-items: start;
+	scroll-padding-bottom: 2em;
 }
 
 .perk-info {
@@ -187,11 +188,19 @@
 .perk-list > :last-child {
 	opacity: 1;
 	justify-content: center;
-	display: none;
+	display: grid;
+	grid-template-columns: 6em 6em;
+	gap: 1em;
+	padding: 0.2em;
+	background-color: var(--bg-secondary);
+	position: sticky;
+	bottom: -0.2em;
+	margin: -0.2em;
+	z-index: 1;
 }
 
-.perk-close {
-	width: 8em;
+.perk-list .select > button {
+	padding-block: 0.175em;
 }
 
 @media (max-width: 27em) {
@@ -206,9 +215,7 @@
 		z-index: 999;
 		align-content: start;
 	}
-	.perk-list > :last-child {
-		display: flex;
-	}
+
 	/*Prevents two scrollbars being present while the menu is open
 	Not a big deal if the browser doesn't support :has()*/
 	:root:has(.perk-list) {
@@ -244,4 +251,43 @@
 	width: calc(100% - 1rem);
 	justify-self: flex-end;
 	margin: 0;
+}
+
+.build-list {
+	position: absolute;
+	z-index: 10;
+	bottom: calc(100% + 0.5rem);
+	left: 0;
+	background-color: hsl(210, 48%, 16%);;
+	border-radius: .25em;
+	padding: .4em;
+	border: .1rem solid var(--border-primary);
+	overflow-y: auto;
+	display: grid;
+	gap: 0.6em;
+	width: 13em;
+}
+
+.build-list > li {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 0.3em 0.5em;
+}
+
+.build {
+	background-color: var(--bg-primary);
+	border: 0.1rem solid var(--border-primary);
+  border-radius: 0.25em;
+	height: calc(2em + 0.2rem);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	grid-column: 1 / 3;
+}
+
+.build > div {
+	background-image: url(/images/perk-icons-2x.webp);
+	background-size: 26em;
+	width: 2em;
+	height: 2em;
 }

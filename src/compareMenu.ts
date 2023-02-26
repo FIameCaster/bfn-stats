@@ -35,7 +35,7 @@ upgEl: UpgradeMenuElement = element('div', { id: 'upg', className: 'select', onk
   e.stopPropagation()
 }}, [
   element('button', { textContent: 'Upgrades (0/7)', onclick() {
-    if (upgradeMenu.isClosed()) upgradeMenu.open(char, upgEl, currentState[1])
+    if (upgradeMenu.isClosed()) upgradeMenu.open(char, upgEl, currentState[1], currentState[2])
     else upgradeMenu.close()
   }})
 ]),
@@ -186,7 +186,7 @@ const setChar = (id: number, resetUpgs?: boolean) => {
   roleIcon.style.backgroundPositionX = `${-2.1 * roleMap[char.role]}rem`
 
   if (resetUpgs && currentState[1].size) {
-    currentState[1].clear()
+    currentState[1] = new Set()
     currentState[2] = []
     updateTempVisibility()
     updateUpgPoints(0)

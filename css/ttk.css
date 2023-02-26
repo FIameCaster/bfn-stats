@@ -99,10 +99,11 @@
 	contain: content;
 }
 
-.na {
-	color: var(--text-tertiary);
-}
-
 .ttk {
 	margin: 0 auto 0 .5em;
+}
+
+.ttk:empty::after {
+	content: 'n/a';
+	color: var(--text-tertiary);
 }

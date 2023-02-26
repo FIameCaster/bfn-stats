@@ -9,6 +9,10 @@ const rows: {
 	update: (data: [Character, number, string]) => void,
 	updateLink: () => void
 }[] = new Array(55)
+const template = element('div', { 
+	className: 'row_t', 
+	innerHTML: '<a></a><div class="ttk"> </div> '
+})
 
 for (let i = 0; i < 55; i++) {
 	let oldData: [Character, number, string],
@@ -16,15 +20,11 @@ for (let i = 0; i < 55; i++) {
 	link: HTMLAnchorElement, ttkEl: HTMLDivElement
 
 	const init = () => {
-		if (initialized == (initialized = true)) return
-
-		rows[i].el = element('div', { className: 'row_t' }, [
-			link = element('a', { onclick() {
-				router.goTo(link.href)
-			}}),
-			ttkEl = element('div', { className: 'ttk' }, [ttkNode = text('')]),
-			element('div', { className: 'notes' }, [notesText = text('')])
-		])
+		if (initialized == (initialized = true)) return		
+		[
+			link, ttkEl, notesText
+		] = <any>(rows[i].el = <HTMLDivElement>template.cloneNode(true)).childNodes
+		ttkNode = <Text>ttkEl.firstChild
 	}
 
 	rows[i] = {
@@ -37,8 +37,7 @@ for (let i = 0; i < 55; i++) {
 				link.title = char.fullName
 			}
 			if (oldData?.[1] != ttk) {
-				ttkNode.data = ttk == Infinity ? 'n/a' : round(Math.floor(ttk * 30) / 30, 2) + 's'
-				ttkEl.className = ttk == Infinity ? 'ttk na' : 'ttk'
+				ttkNode.data = ttk == Infinity ? '' : round(Math.floor(ttk * 30) / 30, 2) + 's'
 			}
 			if (oldData?.[2] != notes) notesText.data = notes
 			oldData = data
@@ -63,7 +62,9 @@ const updateRows = () => {
 		if (activeTeam && activeTeam != characters[i].team) continue
 		ttk.push(...calcTTK(characters[i], distance, crit, move, hp, armor2, defOnly))
 	}
+	console.time()
 	ttk.sort((a, b) => a[1] - b[1]).forEach((data, i) => rows[i].update(data))
+	console.timeEnd()
 	if (rowCount != (rowCount = ttk.length)) createColumns()
 	clearTimeout(timeout)
 	timeout = setTimeout(updateLinks, 200)
@@ -108,6 +109,11 @@ team = <HTMLSelectElement>qs('#team'),
 defaultOnly = <HTMLInputElement>qs("#default"),
 health = <HTMLInputElement>qs('#health'),
 armor = <HTMLInputElement>qs("#armor")
+
+cards.onclick = e => {
+	const target = <HTMLElement>e.target
+	if (target.tagName == 'A') router.goTo((<HTMLAnchorElement>target).href)
+}
 
 team.onchange = () => {
 	updateRows()

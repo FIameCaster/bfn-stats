@@ -1,9 +1,3 @@
-/*Used to hide the last column with js*/
-td:last-child,
-th:last-child {
-	display: table-cell;
-}
-
 #list {
 	width: 100%;
 	max-width: 150rem;
