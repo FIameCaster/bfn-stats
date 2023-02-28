@@ -202,8 +202,8 @@ const upgradeMenu = (() => {
 			countText = <Text>el.firstChild.firstChild
 			buildList.remove()
 
-			currentChar = char.owner || char
-			if (selected == (selected = newSelected))
+			const sameOwner = currentChar == (currentChar = char.owner || char)
+			if (selected == (selected = newSelected) && sameOwner)
 				return open()
 
 			temp = newTemp
@@ -419,7 +419,7 @@ const upgradeText = [
 	"Decrease Butter Beacon's cooldown by 12 seconds over 4 seconds by vanquishing a highlighted enemy.",
 	"Decrease reload time by 75%.",
 	"Increase Cob Buster's RoF by 7% for 10 seconds upon vanquishing an enemy. Can stack up to three times.",
-	"Swap Kernel Corn's primary weapon and gives him a shield activated by aiming.",
+	"Swap Kernel Corn's primary weapon and give him a shield activated by aiming.",
 	// Night Cap
 	"Half the revive time of allies within Casting Shadows.",
 	"Increase ammo capacity by 10 for 30 seconds upon damaging multiple enemies with a single shot. Can stack up to 4 times.",
@@ -561,7 +561,7 @@ const upgradeText = [
 	"Electric arcs from Boogle Bolt can jump to an additional enemy.",
 	"Decrease Disco Tornado's cooldown by 2.5 seconds per enemy captured by Funky Bouncer over 1 second.",
 	"Reduce Disco Tornado's cooldown by 7.5 seconds per vanquish with it over 2 seconds.",
-	"Boogie Bolt stuns enemies 58.3% faster.",
+	"Boogie Bolt stuns enemies 58.3% faster. This upgrade is bugged.",
 	"Double the range of Boogie Bolt's electric arcs.",
 	"Deal 10 damage every 0.2 seconds in a 6 meter radius while in Outta Fight and inside a Disco Tornado.",
 	"Start reloading and regenerating HP while in Outta Fight!.",
