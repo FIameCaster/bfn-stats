@@ -294,9 +294,9 @@ const colorData = [
 	[],
 	[,,1,,,1,1],
 	[2,1,1,1,1,1,1,1,1,,1],
-	[1,1,1,1,,1,1,1],
-	[1,1,1,1,1,,,1],
-	[1,1,1]
+	[1,1,1,1,,1,2,1],
+	[1,1,1,3,1,,,1],
+	[3,3,1]
 ]
 
 const unitData = [
@@ -471,14 +471,19 @@ const createColumn = (state: MenuState) => {
 		if (stat != oldStat || !initialized)
 			text.data = stat == null ? '' : round(stat, decimals) + unitText[unit || 0]
 	},
-	updateColor = (baseStat: number, stat: number, cell: HTMLDivElement, color: number) => {
-		const useThreshold = color == 2 // Used for gun sway min angle
-		if (isFirstCol || baseStat == null || stat == null || (useThreshold ? baseStat == stat : Math.abs(baseStat) == Math.abs(stat)))
-			return cell.removeAttribute('style')
-
-		cell.style.backgroundColor = `${
-			(useThreshold ? stat < baseStat : color ^ +(Math.abs(stat) > Math.abs(baseStat))) ? 'rgba(30, 100' : 'rgba(120, 40'
-		}, 0, ${useThreshold && stat * baseStat < 0 ? 1 : Math.min(1, (Math.max(Math.abs(baseStat / stat), Math.abs(stat / baseStat)) - 1) * .9 + .1)})`
+	updateColor = (baseStat: number, stat: number, cell: HTMLDivElement, color = 0) => {
+		if (isFirstCol || baseStat == null || stat == null) return cell.removeAttribute('style')
+		if (color == 3) {
+			baseStat = Math.abs(baseStat)
+			stat = Math.abs(stat)
+			color = 1 // Else the XOR always returns a truthy value
+		}
+		if (baseStat == stat) return cell.removeAttribute('style')
+	
+		// Poor readability due to being overly optimized
+		return cell.style.backgroundColor = `${
+			(color == 2 ? stat < baseStat : color ^ +(stat > baseStat)) ? 'rgba(30, 100' : 'rgba(120, 40'
+		}, 0, ${color == 2 && stat * baseStat <= 0 ? 1 : Math.min(1, (Math.max(baseStat / stat, stat / baseStat) - 1) * .9 + .1)})`
 	},
 	updateAllCategories = (updateCache?: boolean) => {
 		for (let i = 0; i < 14; i++) updateCategory(i, updateCache)
