@@ -22,12 +22,9 @@ const addUpgrade = (char: Character, upgrade: UpgradeValue) => {
 
 		const keys = key.split('_'), l = keys.length - 1
 		for (let i = 0; i < l && object; i++) object = object[keys.shift()]
-		if (!object) return
+		if (!object) continue
 		const finalKey = keys[0]
-		// Returns true if value is a number or null
-		// This won't cause issues since value won't be Infinity
-		// If it's a length 1 array, it will never be a weapon anyway
-		if (value < Infinity) object[finalKey] = value
+		if (typeof value == 'number' || value == null) object[finalKey] = value
 		else if (Array.isArray(value)) {
 			if (finalKey == 'primary' || finalKey == 'alt') object[finalKey] = new stats.Weapon(value, finalKey == 'alt' ? 2 : 0, char.modifiers)
 			else object[finalKey] = value

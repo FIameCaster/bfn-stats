@@ -62,9 +62,7 @@ const updateRows = () => {
 		if (activeTeam && activeTeam != characters[i].team) continue
 		ttk.push(...calcTTK(characters[i], distance, crit, move, hp, armor2, defOnly))
 	}
-	console.time()
 	ttk.sort((a, b) => a[1] - b[1]).forEach((data, i) => rows[i].update(data))
-	console.timeEnd()
 	if (rowCount != (rowCount = ttk.length)) createColumns()
 	clearTimeout(timeout)
 	timeout = setTimeout(updateLinks, 200)

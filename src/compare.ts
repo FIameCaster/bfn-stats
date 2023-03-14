@@ -53,7 +53,6 @@ const setState = () => {
 		columns[i] ? columns[i].update(state) : columns[i] = createColumn(state)
 		columns[i].updateLink()
 	})
-
 }
 
 const openCompareMenu = async (state?: MenuState) => {
@@ -211,7 +210,6 @@ const content = (() => {
 		},
 		set zoom(val: boolean) { zoom = zoomToggle.checked = val }
 	}
-
 })()
 
 const addUpgrades = (baseChar: Character, selected: Set<number>, temp: number[]) => {
@@ -237,7 +235,7 @@ const getUpgradedClass = (state: MenuState) => {
 	for (const upgID of selected) {
 		const upg = upgs[upgID][4] || upgs[upgID][5]?.[temp[upgID]]
 		if (upg) for (const key in upg) {
-			if (key.startsWith('abilities')) break
+			if (key.includes('abilities')) break
 			return state[3] = addUpgrades(baseChar, selected, temp)
 		}
 	}

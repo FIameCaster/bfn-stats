@@ -23,7 +23,7 @@ const roleMap = {
   "Support": 2,
   "Swarm": 3
 }
-let char = characters[1], charUpgrades: Upgrade[],
+let char: Character, charUpgrades: Upgrade[],
 container: CompareMenuContainer,
 currentState: MenuState, selectedID = 0
 

@@ -93,7 +93,6 @@
 .options_c {
 	display: grid;
 	grid-auto-flow: column;
-	align-items: start;
 	gap: 0.5rem 1rem;
 	justify-content: center;
 	width: calc(100% - 2em);
@@ -135,6 +134,7 @@
 	display: grid;
 	grid-auto-flow: row;
 	gap: 0.5rem;
+	align-content: space-between;
 }
 
 .upgrades {

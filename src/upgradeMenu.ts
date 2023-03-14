@@ -171,8 +171,7 @@ const upgradeMenu = (() => {
 
 		let count = 0, cost = 0
 		for (const num of getBuildUpgs(currentChar.id, index)) {
-			if (count == 6) break
-			icons[count++] = element('div', 0, 0, 0, {
+			if (count++ < 6) icons[count - 1] = element('div', 0, 0, 0, {
 				backgroundPositionX: `${-2 * upgs[num][2]}em`
 			})
 			cost += upgs[num][1]

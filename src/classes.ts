@@ -966,7 +966,7 @@ const statCards = [
 		() => 'General',
 		[
 			'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
-			'Sprint exit delay', 'Zoom FOV', 'Priming duration'
+			'Sprint exit delay', 'Zoom FOV', 'Priming duration', 'Health leach (hp/s)'
 		],
 		[[
 			char => char.health,
@@ -975,7 +975,8 @@ const statCards = [
 			char => char.regenDelay,
 			char => char.sprintExit,
 			char => char.zoomFov,
-			char => char.primary.primeTime
+			char => char.primary.primeTime,
+			char => char.id == 13 ? 5 : null
 		]],
 		[],
 		[,,,1,1,1,1],
@@ -1056,4 +1057,4 @@ if (document.readyState != 'loading') {
 }
 else addEventListener('load', prefetchUpgrades)
 
-export { getUpgPoints, classData, dist, move, crit, zoom, createStatCard, getWeaponCards } 
+export { classData, dist, move, crit, zoom, createStatCard, getWeaponCards } 

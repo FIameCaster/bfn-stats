@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=10'
+const cacheParam = '?v=11'
 
 const stats = (() => {
 	const charData = [
@@ -297,7 +297,7 @@ function getClassesHTML(char, linkTargets, abilities) {
 					<input type="checkbox" id="zoom">
 				</div>
 				<div class="input-group"${specialUpgs[ownerID] ? '' : ' style="visibility:hidden"'}>
-					<label for="special">${specialUpgs[ownerID] || ' '}</label>
+					<label for="special">${specialUpgs[ownerID] || 'a'}</label>
 					<input type="checkbox" id="special">
 				</div>
 			</div>
@@ -345,7 +345,7 @@ function getClassesContent() {
 				<input type="checkbox" id="zoom">
 			</div>
 			<div class="input-group">
-				<label for="special"> </label>
+				<label for="special">a</label>
 				<input type="checkbox" id="special">
 			</div>
 		</div>
