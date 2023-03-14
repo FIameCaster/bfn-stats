@@ -148,7 +148,7 @@ const pageHeaders = (() => {
 			"modifiers_6": 1.25
 		}],,,,,,,
 		['Jinxed', {
-			"modifiers_6": 1.3
+			"modifiers_7": 1.3
 		}],,,,,
 		['Tagged', {
 			"abilities_2_weapon": {
@@ -825,7 +825,7 @@ const statCards = [
 			'Damage', 'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
 		],
 		[[
-			trap => trap[0],
+			(_, char) => getWeapon(char).getSpray(dist, crit),
 			trap => trap[1],
 			trap => trap[2],
 			trap => trap[3] * 2,
@@ -1057,4 +1057,4 @@ if (document.readyState != 'loading') {
 }
 else addEventListener('load', prefetchUpgrades)
 
-export { classData, dist, move, crit, zoom, createStatCard, getWeaponCards } 
+export { classData, dist, move, crit, zoom, createStatCard, getWeaponCards }

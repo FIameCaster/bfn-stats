@@ -291,6 +291,7 @@ type Weapon = {
 	get overheatTime(): number | null
 	get cooldown(): number | null
 	getSplash(index: number): number
+	getSpray(distance: number, crit: boolean): number
 	getDamage(distance: number, index: number, crit: boolean, move: boolean): number
 	getCloud(distance: number, index: number, move: boolean): number
 	getSideArrows(distance: number, index: number): number

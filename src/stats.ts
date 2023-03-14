@@ -337,18 +337,23 @@ export const stats = (() => {
 		}
 
 		getSplash(index: number) {
-			return this.projectiles[index] && this.projectiles[index].splashDmg * this.shotsPerShell * this.multipliers[6]
+			return this.projectiles[index] && this.projectiles[index].splashDmg * this.shotsPerShell * this.multipliers[6] * this.multipliers[7]
+		}
+
+		getSpray(distance: number, crit: boolean) {
+			if (!this.trapezoid) return null
+			return this.sprayRange >= distance ? this.trapezoid[0] * (crit ? this.multipliers[8] : 1) * this.multipliers[6] * this.multipliers[7] : 0
 		}
 
 		getDamage(distance: number, index: number, crit: boolean, move: boolean): number {
 			const bullet = this.projectiles[index], 
-			trapezoid = index ? null : this.trapezoid,
+			trapezoid = !index && this.trapezoid,
 			critMultiplier = crit && bullet?.critMultiplier || 1
 			
 			return !trapezoid && !bullet ? null : ((this.getMaxRange(index) >= distance ? 
 				((bullet?.splashDmg || 0) + (bullet ? bullet.impactDmg * critMultiplier : 0)) * this.shotsPerShell : 0)
-				+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[7] : 1) : 0)
-				+ this.getCloud(distance, index, move) + this.getSideArrows(distance, index) * critMultiplier) * this.multipliers[6]
+				+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[8] : 1) : 0)
+				+ this.getCloud(distance, index, move) + this.getSideArrows(distance, index) * critMultiplier) * this.multipliers[6] * this.multipliers[7]
 		}
 
 		getCloud(distance: number, index: number, move: boolean): number {
@@ -358,8 +363,8 @@ export const stats = (() => {
 
 		getSideArrows(distance: number, index: number): number {
 			if (!this.sideArrows?.[index]) return 0
-			const [min, dist, dmg] = this.sideArrows[index]
-			return Math.min(min, Math.floor(dist / distance)) * dmg
+			const [max, dist, dmg] = this.sideArrows[index]
+			return Math.min(max, Math.floor(dist / distance)) * dmg
 		}
 
 		getDmgPerClip(distance: number, crit: boolean, move: boolean): number | null {
@@ -501,8 +506,8 @@ export const stats = (() => {
 			[this.regenRate, this.regenDelay] = id == 24 ? [0, null] : [20, 8]
 			this.team = id > 10 && id != 23 && id != 26 ? "Zombie" : "Plant"
 			this.role = roles[data[2] || 0]
-			// [Charge, Charge, Movement, Movement, Movement, Ammo, Damage, Special]
-			this.primary = new Weapon(weaponData[data[3] - 1], data[4] ? 1 : 0, this.modifiers = [1,1,1,1,1,1,1,1])
+			// [Charge, Charge, Movement, Movement, Movement, Ammo, Damage, Damage, Special]
+			this.primary = new Weapon(weaponData[data[3] - 1], data[4] ? 1 : 0, this.modifiers = [1,1,1,1,1,1,1,1,1])
 			this.alt = data[4] ? new Weapon(weaponData[data[4] - 1], 2, this.modifiers) : null
 			this.movement = data[6]?.slice() || null
 			this.shield = data[9]?.slice() || null

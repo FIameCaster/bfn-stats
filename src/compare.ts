@@ -349,7 +349,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(bullet: Bullet) => bullet.height
 	],
 	[
-		(trap: number[]) => trap[0],
+		(_, char) => getWeapon(char).getSpray(dist, crit),
 		(trap: number[]) => trap[1],
 		(trap: number[]) => trap[2],
 		(trap: number[]) => trap[3] * 2,
@@ -480,8 +480,7 @@ const createColumn = (state: MenuState) => {
 		}
 		if (baseStat == stat) return cell.removeAttribute('style')
 	
-		// Poor readability due to being overly optimized
-		return cell.style.backgroundColor = `${
+		cell.style.backgroundColor = `${
 			(color == 2 ? stat < baseStat : color ^ +(stat > baseStat)) ? 'rgba(30, 100' : 'rgba(120, 40'
 		}, 0, ${color == 2 && stat * baseStat <= 0 ? 1 : Math.min(1, (Math.max(baseStat / stat, stat / baseStat) - 1) * .9 + .1)})`
 	},

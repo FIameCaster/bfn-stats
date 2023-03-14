@@ -135,7 +135,7 @@ const table = (() => {
 				(char: Character) => char.primary.projectiles[0]?.startSpeed,//Launch velocity 4
 				(char: Character) => char.primary.getSplash(0),//Splash damage 5
 				(char: Character) => char.primary.projectiles[0]?.blastRadius || null,//Splash radius 6
-				(char: Character) => char.primary.trapezoid?.[0],//Spray damage 7
+				(char: Character) => char.primary.getSpray(distance, crit),//Spray damage 7
 				(char: Character) => char.primary.sprayRange || null,//Spray range 8
 				(char: Character) => (<Bullet>char.primary.projectiles[0])?.dragStart || null,//Drag start 9
 				(char: Character) => (<Bullet>char.primary.projectiles[0])?.dragEnd || null,//Drag end 10

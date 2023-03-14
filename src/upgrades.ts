@@ -160,7 +160,7 @@ const upgrades: Upgrade[][] = [
 	// Chomper
 	[
 		[31, 1, 4, 4, {
-			"modifiers_7": 1.29593
+			"modifiers_8": 1.29593
 		}],
 		commonUpgrades[0],
 		commonUpgrades[1],
