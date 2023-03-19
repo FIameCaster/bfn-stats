@@ -587,20 +587,20 @@ const upgrades: Upgrade[][] = [
 		offensiveUpgrades[3],
 		[146, 2, 3, 8],
 		offensiveUpgrades[4],
-		[147, 2, 4, 7, {
-			"abilities_2_weapon_rof": 1750
-		}],
-		[148, 2, 1, 5, {
+		[147, 2, 1, 5, {
 			"abilities_0_object_3_0": 5.75
 		}],
-		[149, 3, 6, 4, {
+		[148, 3, 6, 4, {
 			"primary_recoil": {
 				0: [5.25, 0.75, 0.116, -0.3, 0.3, 12],
 				1: [3.563, 0.75, 0.135, -0.15, 0.15, 12]
 			}
 		}],
 		commonUpgrades[3],
-		[150, 3, 5, 10],
+		[149, 3, 5, 10],
+		[150, 3, 4, 7, {
+			"abilities_2_weapon_rof": 1750
+		}],
 		commonUpgrades[4],
 		offensiveUpgrades[5],
 		[151, 4, 9, 7, {

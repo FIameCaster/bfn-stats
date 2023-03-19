@@ -182,6 +182,11 @@ const upgradeMenu = (() => {
 
 	els[21] = element('li', 0, [
 		buildContainer,
+		element('button', { className: 'btn perk-close', onclick() {
+			selected.clear()			
+			updateState()
+			container.dispatchEvent(new CustomEvent('upgadd'))
+		}, textContent: 'Clear' }),
 		element('button', { className: 'btn perk-close', onclick: close, textContent: 'Close' })
 	])
 
@@ -325,8 +330,8 @@ const upgradeNames = [
 	"Ammo Thing-A-Ma-Bob", "Liftoff", "Propellant", "Ranger", "Rocket Leap", 
 	"Shockwave", "Smelling Salts", "Bottomless", "Sticky!", "Rapid Fire", 
 	// Imp 143
-	"Butt Booster Booster", "Pod Powered", "Aftershock", "Multiplying Madness", "Ripcord", 
-	"Supermassive", "Arm Day", "Energize", "Centripetal Force", "Mech Hunter", 
+	"Butt Booster Booster", "Pod Powered", "Aftershock", "Multiplying Madness", 
+	"Supermassive", "Arm Day", "Energize",  "Ripcord", "Centripetal Force", "Mech Hunter", 
 	// Super Brainz 153
 	"Extra Special", "Reach", "Stick and Move", "Typhoon", "Fallback Plan", "Recuperate", 
 	"Scorched", "Ultra Combo", "Hero's Moment", "Speed Bag", "Brainium Basher", 
@@ -448,7 +453,7 @@ const upgradeText = [
 	"Display health bar of enemy for 4 seconds by damaging them with Needle Shot.",
 	"Potato Mines display the health bar of enemies within 4 meters.",
 	"Spawns a Potato Mine at Petal Propeller's takeoff location lasting for 30 seconds.",
-	"Replenish ammo based on the penultimate shot fired in the last 4 seconds upon earning a critical vanquish; 8 ammo for Spike Strike and 5, 8, 12 or 18 for Spike Shot depending on charge level.",
+	"Replenish ammo based on the penultimate shot fired in the last 4 seconds upon earning a critical vanquish – 8 ammo for Spike Strike and 5, 8, 12 or 18 ammo for Spike Shot depending on charge level.",
 	"Decrease charge time by 15.75 percentage points each time Spike Shot deals damage until a max decrease of 90%. Resets upon reloading.",
 	"75% chance to spawn a Potato Mine near an enemy vanquished by a max charge.",
 	"Increase Garlic Drone's duration by 5 seconds for each vanquish.",
@@ -524,10 +529,10 @@ const upgradeText = [
 	"Increase movement speed by 25% for 5 seconds after using Explosive Escape.",
 	"Enemies hit by Bionic Bash are knocked back.",
 	"Missile Madness cooldown speeds up 4x for 2 seconds per vanquish with the ability.",
-	"Increase Impkata's RoF by 25%.",
 	"Increase Gravity Grenade's radius by 43.75%.",
 	"Reduce Imp Blaster's recoil amplitude by 25%.",
 	"Increase Z-Mech's duration by 12.5 seconds and HP by 25 per enemy damaged with Bionic Bash.",
+	"Increase Impkata's RoF by 25%.",
 	"Double movement speed and allow jumping during impkata .",
 	"Decrease Z-Mech cooldown by 5.5 seconds over 2 seconds by dealing damage.", // Test frequency
 	// Super Brainz

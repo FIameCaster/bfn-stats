@@ -7,8 +7,8 @@
 	border-radius: .25em;
 	width: 22.5em;
 	display: grid;
-	gap: .2em;
-	padding: .2em;
+	gap: 0.25em;
+	padding: 0.25em;
 	overflow-y: scroll;
 	font-size: 1.6rem;
 	font-size: min(4.7vw, 1.6rem);
@@ -189,13 +189,13 @@
 	opacity: 1;
 	justify-content: center;
 	display: grid;
-	grid-template-columns: 6em 6em;
-	gap: 1em;
+	grid-template-columns: 5em 3.8em 3.8em;
+	gap: 0.5em;
 	padding: 0.2em;
 	background-color: var(--bg-secondary);
 	position: sticky;
-	bottom: -0.2em;
-	margin: -0.2em;
+	bottom: -0.25em;
+	margin: -0.15em;
 	z-index: 1;
 }
 
@@ -265,7 +265,7 @@
 	overflow-y: auto;
 	display: grid;
 	gap: 0.6em;
-	width: 13em;
+	width: 13.6em;
 }
 
 .build-list > li {
@@ -277,7 +277,7 @@
 .build {
 	background-color: var(--bg-primary);
 	border: 0.1rem solid var(--border-primary);
-  border-radius: 0.25em;
+  border-radius: .25em;
 	height: calc(2em + 0.2rem);
 	display: flex;
 	justify-content: center;
