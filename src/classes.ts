@@ -291,7 +291,7 @@ const pageHeaders = (() => {
 	prevMap = [22,,,,,,,,,,,,,,,,,,,,,,,6,11,17,6,17,20]
 
 	addEventListener('keydown', e => {
-		if (e.repeat || !container.parentElement || (<HTMLElement>e.target).tagName == 'INPUT') return
+		if (e.repeat || !container.parentElement || (<HTMLElement>e.target).tagName == 'INPUT' || e.shiftKey || e.altKey || e.metaKey) return
 		if (e.keyCode == 37) prev.click()
 		else if (e.keyCode == 39) next.click()
 	})
