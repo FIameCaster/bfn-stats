@@ -921,6 +921,24 @@ const statCards = [
 		[,,2,,1,1,1,1,1,4]
 	),
 	createStatCard<boolean, Character>(
+		[char => char.id == 15],
+		() => "Stun",
+		[
+			"Charge/shot", "Decay/sec", "Shots to stun", "Time to stun", "Duration", "Cooldown"
+		],
+		[[
+			() => 31.58,
+			() => 33.33,
+			() => 5,
+			() => 24 / 19,
+			() => 2 / 3,
+			() => 5 / 3
+		]],
+		[],
+		[],
+		[7,7,,2,2,2]
+	),
+	createStatCard<boolean, Character>(
 		[char => char.role == 'Swarm'],
 		() => 'Meele',
 		[

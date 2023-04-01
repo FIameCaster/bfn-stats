@@ -315,7 +315,7 @@ export const stats = (() => {
 			if (this.ammo) return this.cache[7] = this.ammo / this.ammoPerShot / effectiveTime(this.timeToFireClip + this.reload + 1 / 30)
 			if (!this.overheat) return this.cache[7] = this.effectiveRof
 			const shots = this.shotsToOverheat - 1, heat = this.overheat
-			return this.cache[7] = shots / Math.ceil(2 + shots * 1800 / this.rof + 30 * (heat[3] + (heat[0] ? heat[0] * shots : (shots - 1) * 60 / this.rof * heat[1] / heat[2]))) * 30
+			return this.cache[7] = shots / Math.ceil(2 + shots * 1800 / this.rof + 30 * (heat[3] + (heat[0] ? heat[0] * shots : (shots - 1) * 60 / this.rof * heat[1]) / heat[2])) * 30
 		}
 
 		get shotsToOverheat(): number {

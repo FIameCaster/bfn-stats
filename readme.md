@@ -14,4 +14,8 @@ And run the build script:
 
 	npm run build
 
-Lastly, run the site with any server.
+Lastly, start the dev server
+
+	npm run dev
+
+Alternatively, you can use any http server you'd like

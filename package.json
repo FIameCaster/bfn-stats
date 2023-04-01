@@ -1,11 +1,13 @@
 {
 	"name": "bfn-stats",
 	"scripts": {
-		"build": "tsc -w false && node scripts/build.mjs"
+		"build": "tsc -w false && node scripts/build.mjs",
+		"dev": "live-server"
 	},
 	"devDependencies": {
 		"cssnano": "^5.1.14",
 		"csstype": "^3.1.1",
+		"live-server": "^1.2.2",
 		"postcss": "^8.4.21",
 		"terser": "^5.16.3",
 		"typescript": "^4.9.5"

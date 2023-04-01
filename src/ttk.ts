@@ -293,7 +293,6 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 					tempShots2 = tempShots.slice(),
 					[chargeTime, ,ammoPerShot1] = weapon.charges[k - 1] || [0, weapon.ammoPerShot]
 
-
 					for (let i = 0;;i++) {
 						tempTime = ammo && tempAmmo2 <= 0 ? roundUp(tempTime + weapon.reload + 1 / 30) : tempTime + delay
 						if (k) tempTime = roundUp(tempTime + chargeTime)
