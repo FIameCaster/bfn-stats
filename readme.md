@@ -17,5 +17,3 @@ And run the dev command which both runs the build script and starts the dev serv
 Next time you can run the start command which doesn't run the build script
 
 	npm run start
-
-Alternatively, you can use any http server you'd like
