@@ -10,12 +10,12 @@ If you wish to run it locally, install dependencies:
 
 	npm install
 
-And run the build script:
-
-	npm run build
-
-Lastly, start the dev server
+And run the dev command which both runs the build script and starts the dev server:
 
 	npm run dev
+
+Next time you can run the start command which doesn't run the build script
+
+	npm run start
 
 Alternatively, you can use any http server you'd like

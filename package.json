@@ -2,7 +2,8 @@
 	"name": "bfn-stats",
 	"scripts": {
 		"build": "tsc -w false && node scripts/build.mjs",
-		"dev": "live-server"
+		"dev": "npm run build && node node_modules/live-server/live-server.js",
+		"start": "live-server"
 	},
 	"devDependencies": {
 		"cssnano": "^5.1.14",
