@@ -251,6 +251,7 @@ export const abilityCards = [
 	weaponCards[5],
 	weaponCards[6],
 	weaponCards[7],
+	weaponCards[8],
 	createBuffCard(ability => ability.buff, [,,,,,,,1,1], 'Buff'),
 	createBuffCard(ability => ability.buff2, [,,,,,,,1,1], 'Buff'),
 	createBuffCard(ability => ability.debuff, [], 'Debuff'),
@@ -420,7 +421,7 @@ export const abilityCards = [
 		[],
 		[,2]
 	),
-	weaponCards[8]
+	weaponCards[9]
 ]
 
 for (let i = 0; i < 29; i++) {

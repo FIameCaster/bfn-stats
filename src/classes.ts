@@ -149,7 +149,10 @@ const pageHeaders = (() => {
 		}],,,,,,,
 		['Jinxed', {
 			"modifiers_7": 1.3
-		}],,,,,
+		}],,,
+		['Facing target', {
+			"abilities_2_weapon_trapezoid": [1,14,0,.5,1,1]
+		}],,
 		['Tagged', {
 			"abilities_2_weapon": {
 				rof: 324.3,
@@ -701,6 +704,25 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[,,,,,,,1,,1],
 		[3,3,1,1,3,6,3,2,1,6,1,1,1]
 	),
+	createStatCard<number[], StatSource>(
+		[char => getWeapon(char).trapezoid],
+		() => 'Trapezoid',
+		[
+			'Damage', 'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
+		],
+		[[
+			(_, char) => getWeapon(char).getSpray(dist, crit),
+			trap => trap[1],
+			trap => trap[2],
+			trap => trap[3] * 2,
+			trap => trap[4],
+			trap => trap[5],
+			trap => (trap[4] + trap[5]) * 0.5 * trap[1],
+		]],
+		[],
+		[],
+		[,1,1,1,1,1,4]
+	),
 	createStatCard<number, StatSource>(
 		[char => getWeapon(char)?.ammoCapacity],
 		() => 'Ammo & Reload',
@@ -818,25 +840,7 @@ const weaponCards = getWeaponCards<Character>(getWeapon)
 const statCards = [
 	weaponCards[0],
 	weaponCards[1],
-	createStatCard<number[], Character>(
-		[char => getWeapon(char).trapezoid],
-		() => 'Trapezoid',
-		[
-			'Damage', 'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
-		],
-		[[
-			(_, char) => getWeapon(char).getSpray(dist, crit),
-			trap => trap[1],
-			trap => trap[2],
-			trap => trap[3] * 2,
-			trap => trap[4],
-			trap => trap[5],
-			trap => (trap[4] + trap[5]) * 0.5 * trap[1],
-		]],
-		[],
-		[],
-		[,1,1,1,1,1,4]
-	),
+	weaponCards[2],
 	createStatCard<number[], Character>(
 		[0,1,2].map(i => (char: Character) => getWeapon(char).charges?.[i]),
 		() => 'Charge',
@@ -958,8 +962,8 @@ const statCards = [
 		[],
 		[,2,1,1,1,1,1,4]
 	),
-	weaponCards[2],
 	weaponCards[3],
+	weaponCards[4],
 	createStatCard<number[], Character>(
 		[char => char.moveData],
 		() => 'Mobility',
@@ -976,9 +980,9 @@ const statCards = [
 		[],
 		[3,3,3,3,3,7,2,1,1,2,3,3,3,3]
 	),
-	weaponCards[4],
 	weaponCards[5],
 	weaponCards[6],
+	weaponCards[7],
 	createStatCard<Character, Character>(
 		[char => char],
 		() => 'General',
@@ -1000,7 +1004,7 @@ const statCards = [
 		[,,,1,1,1,1],
 		[,7,,2,2,5,2]
 	),
-	weaponCards[7],
+	weaponCards[8],
 	createStatCard<number[], Character>(
 		[char => char.shield],
 		() => 'Shield',
@@ -1018,7 +1022,7 @@ const statCards = [
 		[],
 		[,,2,3,3]
 	),
-	weaponCards[8],
+	weaponCards[9],
 	createStatCard<number[], Character>(
 		[char => getWeapon(char).dot],
 		() => 'Fire DoT',

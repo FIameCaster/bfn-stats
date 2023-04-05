@@ -195,7 +195,7 @@
 	background-color: var(--bg-secondary);
 	position: sticky;
 	bottom: -0.25em;
-	margin: -0.15em;
+	margin: -0.15em -0.2em -0.25em;
 	z-index: 1;
 }
 
