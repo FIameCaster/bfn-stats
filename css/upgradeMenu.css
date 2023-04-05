@@ -258,7 +258,7 @@
 	z-index: 10;
 	bottom: calc(100% + 0.5rem);
 	left: 0;
-	background-color: hsl(210, 48%, 16%);;
+	background-color: hsl(210, 48%, 16%);
 	border-radius: .25em;
 	padding: .4em;
 	border: .1rem solid var(--border-primary);
@@ -277,7 +277,7 @@
 .build {
 	background-color: var(--bg-primary);
 	border: 0.1rem solid var(--border-primary);
-  border-radius: .25em;
+	border-radius: .25em;
 	height: calc(2em + 0.2rem);
 	display: flex;
 	justify-content: center;

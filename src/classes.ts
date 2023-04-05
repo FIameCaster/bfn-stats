@@ -705,7 +705,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[3,3,1,1,3,6,3,2,1,6,1,1,1]
 	),
 	createStatCard<number[], StatSource>(
-		[char => getWeapon(char).trapezoid],
+		[char => getWeapon(char)?.trapezoid],
 		() => 'Trapezoid',
 		[
 			'Damage', 'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
