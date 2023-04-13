@@ -604,7 +604,7 @@ const upgradeText = [
 	"Double homing range while aiming.",
 	// Scientist
 	"Double healing rate when the ally is at low health.",
-	"Spawn with max overhealth after respawning or getting revived. Decays after 20 seconds.",
+	"Spawn with max overhealth after respawning. Overhealth decays after 20 seconds.",
 	"Recover 50% of a full magazine upon using Warp.",
 	"Allies healed by Sticky Healy Thingy are revived twice as fast for 10 seconds.",
 	"Increase heal rate by 42%, range by 66.7% and width by 25% when aiming Healing Hose.",

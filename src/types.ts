@@ -232,9 +232,9 @@ type Character = {
 	zoomFov?: number
 	shield: number[] | null
 	sprintExit?: number
-	vehicle?: Character
-	owner?: Character
-	passenger?: Character
+	vehicle?: Omit<Character, "vehicle">
+	owner?: Omit<Character, "owner">
+	passenger?: Omit<Character, "passenger">
 	moveCache?: [number?, number?, number?, number?, number?, number?, number?, number?, number?, number?, number?] | null
 	modifiers: number[]
 	armor?: number
