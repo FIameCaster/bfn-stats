@@ -18,7 +18,7 @@ const abilityData = [
 	() => ["Swoop Slam",17,0,0,,,,[,,,7,3.5],,,,,[33,2,,,,100,4.75,50,11,2,7.5]],
 	() => ["Blue Blazes",14.25,1.07,.35,,[,,,,,,[[65,1,[35,2.35],10,6,0,3.8,20]],,,,,,,[0,.1,10,75,1,.35]]],
 	() => ["Blazing Trail",18,.4,.5,5,,[12,0],,,,,[1.72,,,,,5,.23]],
-	() => ["Potato Mine",30,0,0,,,[,,10,,1.85,1],,,,,,,3,,,,[175,2.75]],
+	() => ["Potato Mine",30,0,0,,,[,,10,,1.85,1,,,,,6],,,,,,,4,,,,[175,2.75]],
 	() => ["Garlic Drone",25,.1,0,60,[312,,,,,1/60,[[10,1.2,1.5,450,,,10]],[[8.5,8.5,.043,-.042,.043,15.3],[8.5,8.5,.043,-.042,.043,15.3],.1,2.5,0,0,0,100],[.5,.75,,.75,1,,.1,.1,,15],[.25,.5,,.5,.75,,.1,.1,,15],,,[,.18,.4,.4,1,.05]],,,,,,,,,,,,,[5,8.75,8.75,8.75,1.6,4,,[200,7,,,,,[[20,1,10,50,,[25,3.25]]]],1.25,2,18]],
 	() => ["Petal Propeller",10,.45,0,,,,[,,,,7.5],,,,,,,4,1,3],
 	() => ["E.M.Peach",20,.8,.15,,[,,,,.5,,[[,,,3,35,2.25,45,90]]],,,["Stun",1.4,.33],7.5],
@@ -102,9 +102,7 @@ class Ability {
 	backDelay?: number
 	duration?: number
 	weapon?: Weapon
-	object?: [
-		number?, number?, number?, number?, number?, number?, number?, number?, number?
-	]
+	object?: number[]
 	buff?: Buff
 	debuff?: Buff
 	spreadRad?: number
@@ -275,8 +273,8 @@ export const abilityCards = [
 		[ability => ability.vehicle],
 		() => 'Drone',
 		[
-			'Health', 'Movement speed', '… strafing', '… backwards', 
-			'… ascending', '… descending', 'Jump height', 
+			'Health', 'Movement speed', '… strafing', '… backwards',
+			'… ascending', '… descending', 'Jump height',
 		],
 		[
 			[0,1,2,3,4,5,6].map(i => vehicle => <number>vehicle[i])
@@ -289,8 +287,8 @@ export const abilityCards = [
 		[ability => ability.vehicle?.[7]],
 		() => 'Airstrike firing',
 		[
-			'Damage/shot', 'Rate of fire', 'DPS', 'Ammo capacity', 'Total damage', 'Splash damage', 
-			'Blast radius', 'Launch speed', 'Travel time'
+			'Damage/shot', 'Rate of fire', 'DPS', 'Ammo capacity', 'Total damage',
+			'Splash damage', 'Blast radius', 'Launch speed', 'Travel time'
 		],
 		[[
 			weapon => weapon.getDamage(dist, 0, crit, move),
@@ -337,11 +335,11 @@ export const abilityCards = [
 		[ability => ability.object],
 		() => 'Object',
 		[
-			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 
-			'Trigger radius', 'Shield HP', 'Max time to live', 'Swarm size', 'Shield radius'
+			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius', 
+			'Shield HP', 'Max time to live', 'Swarm size', 'Shield radius', 'Max count'
 		],
 		[
-			[0,1,2,3,4,5,6,7,8,9].map(i => obj => obj[i])
+			[0,1,2,3,4,5,6,7,8,9,10].map(i => obj => obj[i])
 		],
 		[],
 		[],

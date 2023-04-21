@@ -212,7 +212,6 @@ type HTMLAttributes<T> = {
 	onpaste?: (this: T, ev: ClipboardEvent) => any
 }
 
-
 // Class types
 
 type Character = {
@@ -367,9 +366,7 @@ type AbilityType = {
 	backDelay?: number
 	duration?: number
 	weapon?: Weapon
-	object?: [
-		number?, number?, number?, number?, number?, number?, number?, number?, number?
-	]
+	object?: number[]
 	buff?: Buff
 	debuff?: Buff
 	spreadRad?: number
