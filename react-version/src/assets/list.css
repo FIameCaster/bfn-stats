@@ -1,0 +1,152 @@
+/*Used to hide the last column with js*/
+td:last-child,
+th:last-child {
+	display: table-cell;
+}
+
+#list {
+	width: 100%;
+	max-width: 150rem;
+	min-width: min-content;
+	display: grid;
+	gap: 1em;
+	padding: 1em;
+}
+
+#list > * {
+	background-color: var(--bg-primary);
+	border-radius: .4em;
+}
+
+.options {
+	padding: .6em;
+	position: -webkit-sticky;
+	position: sticky;
+	left: 1em;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	justify-content: center;
+	align-items: center;
+	gap: .5em;
+}
+
+#list .select:nth-child(2) {
+	margin-right: .5em;
+}
+
+@media (max-width: 27em) {
+	.options {
+		grid-template-columns: auto auto;
+		grid-template-rows: 1fr 1fr;
+	}
+	#list .select:nth-child(2) {
+		margin: 0;
+	}
+}
+
+table {
+	width: 100%;
+	border-spacing: 0;
+	text-align: left;
+	min-width: min-content;
+}
+
+.table {
+	padding: .6rem;
+}
+
+td {
+	padding: .3em .5em
+}
+
+tr {
+	background-color: var(--bg-primary);
+}
+
+table a {
+	width: 3rem;
+	height: 3rem;
+	background-size: 78rem;
+	display: block;
+	background-image: -webkit-image-set(
+		url('/images/all-icons.webp') 2.5x,
+		url('/images/all-icons-large.webp') 5x
+	);
+	background-image: image-set(
+		url('/images/all-icons.webp') 2.5x,
+		url('/images/all-icons-large.webp') 5x
+	);
+}
+
+td:first-child {
+	padding-right: .3em;
+	width: 3rem;
+	position: -webkit-sticky;
+	position: sticky;
+	left: -.2em;
+	background-color: inherit;
+}
+
+td:nth-child(2),th:nth-child(1) {
+	padding-left: 0;
+	white-space: nowrap;
+}
+
+th,
+thead tr::before {
+	content: '';
+	display: table-cell;
+	border-bottom: .2rem solid var(--bg-secondary);
+	padding: .4em .5em;
+	font-weight: 500;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 4.59rem;
+	z-index: 1;
+	-webkit-user-select: none;
+	user-select: none;
+	background-color: inherit;
+}
+
+th {
+	cursor: pointer;
+}
+
+tbody tr:nth-child(2n + 1) {
+	background-color: var(--bg-secondary);
+}
+
+th > div {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	justify-content: start;
+	align-items: center;
+}
+
+th > div::after {
+	content: '';
+	display: inline-block;
+	height: 1em;
+	width: .6em;
+	background-color: currentColor;
+	margin-left: .3rem;
+	clip-path: polygon(50% 8.5%,0% 34.29%,14.12% 44.14%,14.12% 55.86%,0% 65.71%,50% 91.5%,100% 65.71%,85.88% 55.86%,50% 74.36%,14.12% 55.86%,14.12% 44.14%,50% 25.64%,85.88% 44.14%,100% 34.29%)
+}
+
+[aria-sort="ascending"] > div::after {
+	clip-path: polygon(50% 32%, 0% 57.79%, 14.12% 67.64%, 50% 49.14%, 85.88% 67.64%, 100% 57.79%);
+}
+
+[aria-sort="descending"] > div::after {
+	clip-path: polygon(14.12% 32.36%, 0% 42.21%, 50% 68%, 100% 42.21%, 85.88% 32.36%, 50% 50.86%);
+}
+
+table :focus-visible {
+	border-radius: .2em;
+	z-index: 2;
+}
+
+td:empty::after {
+	content: 'n/a';
+	color: #d0d0d0;
+}
