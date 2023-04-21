@@ -1,0 +1,45 @@
+#about main {
+	max-width: 75ch;
+	padding: 1em;
+	margin: 1em auto;
+	background-color: var(--bg-primary);
+	border-radius: 0.4em;
+}
+
+#about main * {
+	margin: 0;
+}
+
+#about li+li {
+	margin-top:.5em
+}
+
+#about li {
+	list-style-type: disc;
+}
+
+#about ul {
+	padding-left: 1.5em;
+}
+
+#about main > * + * {
+	margin-top: 1em;
+}
+
+#about a {
+	color:hsl(210, 85%, 65%);
+	text-decoration:none
+}
+#about a:hover:not(:active) {
+	color:hsl(210, 90%, 75%);
+	text-decoration:underline
+}
+
+@media (max-width: 45em) {
+	#about main {
+		max-width: auto;
+		padding: 1em;
+		margin: 0;
+		border-radius: 0;
+	}
+}
