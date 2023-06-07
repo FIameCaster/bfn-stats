@@ -84,7 +84,7 @@ export const upgradeText = [
 	"After dying thrice in a row, spawn with max overhealth upon respawning or being revived.",
 	"Increase XP earned by 10% excluding the XP Machine in Giddy Park.",
 	"Decrease ability cooldown by 5.5 seconds over 2 seconds upon earning a critical vanquish.",
-	"Increase walking speed from 6.2 to 7 m/s.",
+	"Increase walking speed from 6.2 to 7 m/s. Does not affect vehicles.",
 	// Offensive
 	"Decrease ability cooldown by 10 seconds over 2 seconds upon earning a multivanquish.",
 	"Regenerate 10 HP per second when near one-four enemies within a 10 meter radius. Can grant overhealth.",
@@ -194,7 +194,7 @@ export const upgradeText = [
 	"Decrease cooldown of both Sap Traps by 8.5 seconds over 2 seconds if they deal no damage.",
 	"Recover 10 ammo or lose 25% heat for every 60 damage dealt with Acorn or 3 ammo for every 100 damage with Oak with their primaries.",
 	// Sunflower
-	"Move 32.9% faster during Quick Egress. Doesn't stack with Hard Target.",
+	"Move 32.9% faster during Sunny Side Up. Doesn't stack with Hard Target.",
 	"Recover 15 ammo by earning a vanquish with Sun Beam.",
 	"Enemies within a 7.5 meter radius are knocked back when activating Sunny Side Up.",
 	"Roughly doubled heal rate when target is at low health.", // Testing required
@@ -221,7 +221,7 @@ export const upgradeText = [
 	"Armor per ally Wildflower, pot or minion increased from 20, 35, 45, 55, 60 to 30, 50, 60.",
 	"Movement speed of Dandelion is increased by 50% and is normalized in all directions.",
 	"Enemies damaged by Dandelion are spotted for 4 seconds.",
-	"Increase Wild Life pot's health from 30 HP to 125 HP.",
+	"Increase Wild Life pot's health from 30 to 125 HP.",
 	"Explode when vanquished dealing 40 damage in a 4.75 meter radius.",
 	"Decrease cooldown of Bloom Boom over 3 seconds by 6 seconds per vanquish with it. Disabled due to exploit.",
 	"Melee weapons stuns enemies for 0.25 seconds decreasing movement speed by 67%.",
@@ -263,7 +263,7 @@ export const upgradeText = [
 	"Swap primary weapon for a charge up dash attack and the shield for an uppercut.",
 	// 80s Action Hero
 	"Tags on enemies remain after getting vanquished.",
-	"Increase Dynamice Dodge's dash speed by 64.7%.",
+	"Increase Dynamite Dodge's dash speed by 64.7%.",
 	"Earn three tags on enemies when dealing critical damage.",
 	"Vanquishing enemies with Rocket Ride extends its duration by 3 seconds.",
 	"Earn 3 tags on an enemy and decrease Can't Miss‑ile's cooldown by 12 seconds over 4 seconds by dealing damage with it.", // Test this
@@ -353,7 +353,7 @@ export const upgradeText = [
 	// TV Head
 	"Reveal the enemy who destroys your Commercial Break bucket for 5 seconds.",
 	"Explode when vanquished dealing 40 damage in a 4.75 meter radius.",
-	"Increase Commercial Break bucket's health from 30 HP to 125 HP.",
+	"Increase Commercial Break bucket's health from 30 to 125 HP.",
 	"Enemies damaged by Yeti Imp are spotted for 6 seconds.",
 	"Armor per ally TV Head, bot or minion increased from 20, 35, 45, 55, 60 to 30, 50, 60.",
 	"Movement speed of Yeti Imp is increased by 50% and is normalized in all directions.",
