@@ -163,7 +163,7 @@ export const upgradeText = [
 	// Cactus
 	"Decrease charge time by 67% for 2 seconds after exiting Petal Propeller.",
 	"Decrease tunnel vision effect while zooming by 50%.",
-	"75% change for enemies critically vanquished to explode dealing 40 damage in a 4.75 meter radius.",
+	"75% chance for enemies critically vanquished to explode dealing 40 damage in a 4.75 meter radius.",
 	"Display health bar of enemy for 4 seconds by damaging them with Needle Shot.",
 	"Potato Mines display the health bar of enemies within 4 meters.",
 	"Spawns a Potato Mine at Petal Propeller's takeoff location lasting for 30 seconds.",
