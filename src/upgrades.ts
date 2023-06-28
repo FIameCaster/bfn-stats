@@ -206,7 +206,7 @@ const upgrades: Upgrade[][] = [
 		commonUpgrades[0],
 		commonUpgrades[1],
 		[42, 2, 1, 5, {
-			"abilities_0_object_2_0": 30
+			"abilities_0_buffZone_0": 30
 		}],
 		[43, 2, 9, 4, {
 			"zoomSpeed": 1
@@ -588,7 +588,7 @@ const upgrades: Upgrade[][] = [
 		[146, 2, 3, 8],
 		offensiveUpgrades[4],
 		[147, 2, 1, 5, {
-			"abilities_0_object_3_0": 5.75
+			"abilities_0_buffZone_0": 5.75
 		}],
 		[148, 3, 6, 4, {
 			"primary_recoil": {
@@ -701,7 +701,7 @@ const upgrades: Upgrade[][] = [
 		commonUpgrades[0],
 		commonUpgrades[1],
 		[174, 2, 1, 5, {
-			"abilities_0_object_3_0": 6
+			"abilities_0_buffZone_0": 6
 		}],
 		offensiveUpgrades[0],
 		offensiveUpgrades[2],

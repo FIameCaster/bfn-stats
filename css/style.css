@@ -272,7 +272,7 @@ nav > ul {
 	display: inline-block;
 	height: 1em;
 	width: 0.6em;
-	background-color: currentcolor;
+	background-color: currentColor;
 	margin-left: 0.3rem;
 	clip-path: polygon(14.12% 32.36%, 0% 42.21%, 50% 68%, 100% 42.21%, 85.88% 32.36%, 50% 50.86%);
 }
@@ -377,7 +377,7 @@ nav + div {
 	}
 	@media (hover: hover) {
 		.dropdown-list .nav-link:hover {
-			background-color: hsl(210, 52%, 23%);;
+			background-color: hsl(210, 52%, 23%);
 		}
 	}
 }

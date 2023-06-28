@@ -1,7 +1,7 @@
 {
 	"name": "bfn-stats",
 	"scripts": {
-		"build": "tsc -w false && node scripts/build.mjs",
+		"build": "tsc && node scripts/build.mjs",
 		"dev": "npm run build && node node_modules/live-server/live-server.js",
 		"start": "live-server"
 	},

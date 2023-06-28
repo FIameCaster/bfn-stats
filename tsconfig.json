@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"target": "ES2020",
-		"watch": true,
 		"strictNullChecks": false,
 		"module": "ES2020",
 		"outDir": "dest"
