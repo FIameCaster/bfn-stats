@@ -155,7 +155,8 @@ const options = {
 				'folderName','upgrades','armor','dashes','upgradeMenu','tempUpgMenu','abilityCards','isClosed','setAbilities','abilities',
 				'classes','upgraded','resetStats','deployTime','backDelay','buff','debuff','spreadRad','buff2','stamina','decayRate',
 				'decayRateM','explosion','explosionDelay','beam','healSpray','warpDist','healRate','healRad','linkUpRange','spottingRange',
-				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon','sprintExit','getSplash','getSpray'
+				'allyArmor','ignoreGrav','weapon','cloud','zoomSpray','dash','openMenu','updateIcon','sprintExit','getSplash','getSpray',
+				'buffZone'
 			]
 		}
 	},
