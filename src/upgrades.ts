@@ -855,7 +855,7 @@ const upgrades: Upgrade[][] = [
 		[216, 2, 0, 6],
 		[217, 2, 10, 5],
 		[218, 2, 6, 7, {
-			"abilities_2_zoomSpray": [29.6, 20.75, 0.625, 4.375]
+			"abilities_2_zoomSpray": [20.85, 20.75, 0.625, 4.375]
 		}],
 		supportUpgrades[1],
 		supportUpgrades[2],

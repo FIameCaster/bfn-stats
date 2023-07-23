@@ -459,7 +459,7 @@ const upgradeText = [
 	"Increase Garlic Drone's duration by 5 seconds for each vanquish.",
 	// Citron
 	"Move 41.9% faster for 3.65 seconds after exiting Spin Dash.",
-	"Sprint 30% faster for 5 seconds after earning a vanquish.",
+	"Sprint 30% faster for 5 seconds after earning a hero vanquish.",
 	"Recover 200 HP for Peel Shield by stunning enemies with E.M.Peach.",
 	"Recover 8 ammo by blocking damage with Peel Shield.", // Test frequency
 	"Navel Laser always deals critical damage and its bullets have a 0.15 meter radius.",
@@ -474,7 +474,7 @@ const upgradeText = [
 	"Enemies within 5 meters of both Sap Traps move 60% slower.",
 	"Enemies hit by Roll for Damage are knocked back.",
 	"Greatly increase knockback of both Sap Traps.",
-	"Adds 25 HP to Acorn and 75 HP to Oak.",
+	"Add 25 HP to Acorn and 75 HP to Oak.",
 	"Heals Acorn for an additional 16.67 HP every 0.1 seconds for 0.8 seconds and Oak for 40 HP per 0.1 seconds for 0.5 seconds after activating Lumbar Support. Armor duration is increased to 7 seconds for both.",
 	"Recover 22 ammo when using Acorn Dash.",
 	"Decrease cooldown of both Sap Traps by 8.5 seconds over 2 seconds if they deal no damage.",
@@ -607,7 +607,7 @@ const upgradeText = [
 	"Spawn with max overhealth after respawning. Overhealth decays after 20 seconds.",
 	"Recover 50% of a full magazine upon using Warp.",
 	"Allies healed by Sticky Healy Thingy are revived twice as fast for 10 seconds.",
-	"Increase heal rate by 42%, range by 66.7% and width by 25% when aiming Healing Hose.",
+	"Increase heal range by 66.7% and width by 25% when aiming Healing Hose. Should increase heal rate by 42%, but doesn't due to a bug.",
 	"Increse distance traveled with Warp by 80%.",
 	"Double healing radius of Sticky Healy Thingy when stucky to an ally or enemy.",
 	"Decrease dispersion of Goo Blaster by roughly 58.7% while aiming.",
