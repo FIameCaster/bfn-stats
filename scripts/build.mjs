@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=21'
+const cacheParam = '?v=22'
 
 const stats = (() => {
 	const charData = [
