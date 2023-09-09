@@ -531,7 +531,7 @@ const upgradeText = [
 	"Missile Madness cooldown speeds up 4x for 2 seconds per vanquish with the ability.",
 	"Increase Gravity Grenade's radius by 43.75%.",
 	"Reduce Imp Blaster's recoil amplitude by 25%.",
-	"Increase Z-Mech's duration by 12.5 seconds and HP by 25 per enemy damaged with Bionic Bash.",
+	"Increase Z-Mech's duration by 25 seconds and heal 50 HP per enemy damaged with Bionic Bash.",
 	"Increase Impkata's RoF by 25%.",
 	"Double movement speed and allow jumping during impkata .",
 	"Decrease Z-Mech cooldown by 5.5 seconds over 2 seconds by dealing damage.", // Test frequency
