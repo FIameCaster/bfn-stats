@@ -1,4 +1,4 @@
-import { stats } from "./stats.js"
+import { Character, Weapon, stats } from "./stats.js"
 
 type Upgrade = [
 	number, number, number, number, UpgradeValue?, UpgradeValue[]?
@@ -26,7 +26,7 @@ const addUpgrade = (char: Character, upgrade: UpgradeValue) => {
 		const finalKey = keys[0]
 		if (typeof value == 'number' || value == null) object[finalKey] = value
 		else if (Array.isArray(value)) {
-			if (finalKey == 'primary' || finalKey == 'alt') object[finalKey] = new stats.Weapon(value, finalKey == 'alt' ? 2 : 0, char.modifiers)
+			if (finalKey == 'primary' || finalKey == 'alt') object[finalKey] = new Weapon(value, finalKey == 'alt' ? 2 : 0, char.modifiers)
 			else object[finalKey] = value
 		}
 		else Object.assign(object[finalKey], value)
@@ -150,7 +150,8 @@ const upgrades: Upgrade[][] = [
 		offensiveUpgrades[5],
 		[28, 4, 5, 7],
 		[29, 4, 6, 4, {
-			"primary_homing": [0.75, 1/3, 0.45, 43, 1]
+			"primary_homing": [0.75, 1/3, 0.45, 43, 1],
+			"primary_projectiles_0_startSpeed": 50
 		}],
 		[30, 5, 4, 4, , [{
 			"modifiers_2": 1.08387,

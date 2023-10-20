@@ -5,7 +5,7 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=22'
+const cacheParam = '?v=23'
 
 const stats = (() => {
 	const charData = [
@@ -208,7 +208,7 @@ async function copyDir(src, dest) {
 }
 
 function getBuild(html) {
-	return html.replace(/(?<=\.(css|js))(?=[^\w])/g, cacheParam).replace(/\t|\n|\r/g, '')
+	return html.replace(/\.(?:css|js)\b/g, `$&${cacheParam}`).replace(/\t|\n|\r/g, '')
 }
 
 function getClassesHTML(char, linkTargets, abilities) {

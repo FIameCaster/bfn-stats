@@ -1,4 +1,5 @@
 import { element, qs, text, router } from "./router.js"
+import { Character } from "./stats.js"
 import { upgrades, Upgrade, getUpgPoints, parseUpgParam, parseTempParam, getUpgParam, getTempParam } from "./upgrades.js"
 
 type UpgradeMenuType = typeof upgradeMenu
@@ -399,7 +400,7 @@ const upgradeText = [
 	"Enemies vanquished by Pea Gatling or this upgrade explode dealing 40 damage in a 4.75 meter radius.",
 	"Decrease ability cooldown by 12 seconds over 3 seconds after a critical vanquish while in Pea Suped.",
 	"Increase Pea Suped's duration by 4.25 seconds after every four hits.",
-	"Pea Cannon's peas home towards the target.",
+	"Pea Cannon's peas home towards the target. They also move slower which is a bug.",
 	"Move 8.39% faster and deal 20% more damage for 15 seconds upon earning a vanquish streak of 3.",
 	// Chomper
 	"Deal 12 more damage when biting an enemy's face.",

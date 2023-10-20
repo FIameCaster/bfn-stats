@@ -1,6 +1,6 @@
 import { upgradeMenu, tempUpgMenu, UpgradeMenuElement, TempMenuElement } from "./upgradeMenu.js"
 import { element, router, text } from './router.js'
-import { stats } from "./stats.js"
+import { Character, stats } from "./stats.js"
 import { getUpgPoints, Upgrade, upgrades } from "./upgrades.js"
 
 type MenuState = [

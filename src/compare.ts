@@ -1,5 +1,5 @@
-import { qs, round, clamp, router, navbar, element, text } from './router.js'
-import { stats } from "./stats.js"
+import { qs, round, clamp, router, navbar, element, text, PageContainer } from './router.js'
+import { Bullet, Character, Missile, Weapon, stats } from "./stats.js"
 import { OpenMenu, CompareMenuContainer, MenuState } from "./compareMenu.js"
 import { upgrades, addUpgrade, parseTempParam, parseUpgParam, getTempParam, getUpgParam } from "./upgrades.js"
 
@@ -161,7 +161,7 @@ const content = (() => {
 	
 	for (let i = 0; i < 14; i++) {
 		const category = categories[i]
-		const l = category.length - 1, els: HTMLDivElement[] = new Array(l)
+		const l = category.length - 1, els: HTMLDivElement[] = Array(l)
 
 		for (let i = 0; i < l;) {
 			els[i] = element('div', { textContent: category[++i] })
@@ -516,7 +516,7 @@ const createColumn = (state: MenuState) => {
 	]),
 	icon = element('a', { className: 'icon_co' }),
 	statEls: HTMLDivElement[][] = [], textNodes: Text[][] = [],
-	columnStats: number[][] = new Array(14), categoryData: any[] = []
+	columnStats: number[][] = Array(14), categoryData: any[] = []
 	if (isFirstCol) baseStats = columnStats
 
 	const children: HTMLElement[] = [
@@ -533,9 +533,9 @@ const createColumn = (state: MenuState) => {
 
 	for (let i = 0; i < 14; i++) {
 		const l = categorySizes[i]
-		const els: HTMLDivElement[] = statEls[i] = new Array(l)
-		const nodes: Text[] = textNodes[i] = new Array(l)
-		columnStats[i] = new Array(l)
+		const els: HTMLDivElement[] = statEls[i] =  Array(l)
+		const nodes: Text[] = textNodes[i] = Array(l)
+		columnStats[i] = Array(l)
 
 		for (let i = 0; i < l;)
 			els[i] = element('div', 0, [nodes[i++] = text('')])

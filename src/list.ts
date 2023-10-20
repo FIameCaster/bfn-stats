@@ -1,5 +1,5 @@
-import { qs, qsa, navbar, element, router, round, clamp, text, width } from './router.js'
-import { stats, getCompareLink } from './stats.js'
+import { qs, qsa, navbar, element, router, round, clamp, text, width, PageContainer } from './router.js'
+import { stats, getCompareLink, Character, Bullet, Missile } from './stats.js'
 
 const container = <PageContainer>qs('#list'),
 characters = stats.compareChars,
@@ -70,20 +70,22 @@ const table = (() => {
 					reversedOrder = !!forcedOrder
 				}
 				cells[sortID = newID].setAttribute('aria-sort', reversedOrder ? 'ascending' : 'descending')
+				url.setParam('s', newID + '', '1')
+				url.setParam('o', +reversedOrder + '', '0', forcedOrder == null ? false : null)
 			}
 		}
 
 	})()
 
 	const decimals: number[] = [
-		...new Array(76).fill(2), ...new Array(54).fill(3)
+		...Array(76).fill(2), ...Array(54).fill(3)
 	]
 	
 	const units: number[] = [
 		0,0,0,0,3,0,1,0,1,1,1,3,6,3,2,1,6,0,2,0,0,2,0,0,2,0,0,0,2,2,2,0, // ends at Damage/overheat 31
 		2,2,0,0,0,0,3,1,2,2,2,0,0,0,0,3,1,2,2,2,0,0,0,0,3,1,2,0,2,0,7,0, // ends at Shield HP 63
 		0,2,2,3,3,3,3,3,3,7,2,1,1,5,5,5,5,5,0,0,0,5,5,5,5,5,0,0,0,5,5,2, // ends at Recoil angle 95
-		7,...new Array(34).fill(5)
+		7,...Array(34).fill(5)
 	]
 	const unitText = [
 		'', 'm', 's', 'm/s', 'm²', '°', 'm/s²', '%'
@@ -209,7 +211,7 @@ const table = (() => {
 			el?: HTMLTableRowElement,
 			update: (char: Character, data: (number | null)[]) => void,
 			updateLink: () => void
-		}[] = new Array(34)
+		}[] = Array(34)
 		const template = element('tr')
 		template.innerHTML = '<td><a></a></td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td>'
 
@@ -272,10 +274,9 @@ const table = (() => {
 		return {
 			el,
 			updateStats() {
-				let l = currentCategory.length
-				currentStats = new Array(34)
-				for (let i = 0; i < 34; i++) {
-					currentStats[i] = new Array(l)
+				currentStats = Array(34)
+				for (let i = 0, l = currentCategory.length; i < 34; i++) {
+					currentStats[i] = Array(l)
 					for (let j = 0; j < l; j++) {
 						currentStats[i][j] = getStats[0][currentCategory[j]](characters[i])
 					}
@@ -285,8 +286,6 @@ const table = (() => {
 			sort(columnIndex?: number) {
 				if (columnIndex != null) {
 					head.setSortID(columnIndex)
-					url.setParam('s', columnIndex+'', '1')
-					url.setParam('o', +reversedOrder+'', '0', false)
 				}
 				currentOrder = []
 				const defaultValue = reversedOrder ? Infinity : -Infinity
@@ -351,8 +350,6 @@ const table = (() => {
 			
 			if (sortID) {
 				head.setSortID(1, false)
-				url.setParam('s', '1', '1')
-				url.setParam('o', '0', '0')
 			}
 			body.updateStats()
 			url.setParam('g', index+'', '0', false)

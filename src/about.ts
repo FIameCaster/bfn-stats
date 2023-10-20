@@ -1,4 +1,4 @@
-import { qs, router, navbar, clamp } from "./router.js";
+import { qs, router, navbar, clamp, PageContainer } from "./router.js";
 
 const container = <PageContainer>qs('#about'),
 setState = () => {

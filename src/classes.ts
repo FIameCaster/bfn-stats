@@ -1,5 +1,6 @@
-import { qs, qsa, navbar, element, router, round, clamp, text, width } from './router.js'
-import { stats } from './stats.js'
+import { Ability } from './abilities.js'
+import { qs, qsa, navbar, element, router, round, clamp, text, width, PageContainer } from './router.js'
+import { Bullet, Character, Missile, Weapon, stats } from './stats.js'
 import { UpgradeMenuType, UpgradeMenuElement, TempMenuElement, TempUpgMenuType } from './upgradeMenu.js'
 import { upgrades, Upgrade, UpgradeValue, getUpgPoints, addUpgrade, getTempParam, getUpgParam, parseTempParam, parseUpgParam } from './upgrades.js'
 
@@ -419,7 +420,7 @@ const getCharID = (() => {
 
 })()
 
-let abilityCards: ReturnType<typeof createStatCard<unknown, AbilityType>>[]
+let abilityCards: ReturnType<typeof createStatCard<unknown, Ability>>[]
 
 const columns = Array.from({ length: 5 }, () => element('div'))
 

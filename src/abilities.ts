@@ -1,6 +1,10 @@
-import { stats } from './stats.js'
+import { Weapon, stats } from './stats.js'
 import { classData, dist, move, crit, zoom, createStatCard, getWeaponCards } from './classes.js'
 import { knockback } from './upgrades.js'
+
+type Buff = [
+	string?, ...number[]
+]
 
 const abilityData = [
 	() => ["Chilli Bean Bomb",15,.275,0,,,[9.25,2.25,,3],,,,,,,,,,,[125,8]],
@@ -95,7 +99,7 @@ for (let i = 0; i < 78; ) {
 
 abilityIDs.push([21,70,78],[79,76,80],[63,64,81])
 
-class Ability {
+export class Ability {
 	name: string
 	cooldown?: number
 	deployTime?: number
@@ -161,9 +165,9 @@ class Ability {
 			this.allyArmor
 		] = data
 		this.modifiers = modifiers
-		if (data[5]) this.weapon = new stats.Weapon(data[5], 0, modifiers)
+		if (data[5]) this.weapon = new Weapon(data[5], 0, modifiers)
 		if (id == 71) this.weapon.ignoreGrav = true
-		if (data[18]?.[7]) this.vehicle[7] = new stats.Weapon(data[18][7], 0, modifiers)
+		if (data[18]?.[7]) this.vehicle[7] = new Weapon(data[18][7], 0, modifiers)
   }
 }
 
@@ -429,4 +433,3 @@ for (let i = 0; i < 29; i++) {
 	if (upgradedClasses.delete(i)) classData.reset(char)
 	else [char, char.vehicle, char.passenger].forEach(char => char?.addAbility())
 }
-

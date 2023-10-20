@@ -1,5 +1,5 @@
-import { qs, qsa, navbar, element, round, clamp, text, router, width } from './router.js'
-import { stats, getCompareLink } from './stats.js'
+import { qs, qsa, navbar, element, round, clamp, text, router, width, PageContainer } from './router.js'
+import { stats, getCompareLink, Character } from './stats.js'
 
 let rowCount = 0, timeout: number, prevRowCount = 0
 const characters = stats.compareChars,
@@ -8,7 +8,7 @@ const rows: {
 	el?: HTMLDivElement,
 	update: (data: [Character, number, string]) => void,
 	updateLink: () => void
-}[] = new Array(55)
+}[] = Array(55)
 const template = element('div', { 
 	className: 'row_t', 
 	innerHTML: '<a></a><div class="ttk"> </div> '
@@ -154,14 +154,15 @@ container.addEventListener('navigated', setState)
 const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean, health: number, armor: number, defOnly: boolean) => {
 	const weapon = char.primary, burstSize = weapon.burstSize,
 	ammo = weapon.ammo || 0, overheat = weapon.overheat,
-	result: [Character, number, string][] = [], range = weapon.getMaxRange(0)
+	result: [Character, number, string][] = [], range = weapon.getMaxRange(0),
+	ammoPerShot = weapon.ammoPerShot, charges = weapon.charges
 
-	health /= armor
-	const periodLength = ammo ? ammo / weapon.ammoPerShot : overheat ? weapon.shotsToOverheat - 1 : 0,
+	const periodLength = ammo ? ammo / ammoPerShot : overheat ? weapon.shotsToOverheat - 1 : 0,
 	firingPeriodTime = periodLength / weapon.sustainableRof,
 	dmg = weapon.getDamage(distance, 0, crit, move),
 	splash = weapon.projectiles[0]?.splashDmg,
 	rof = weapon.rof
+	health /= armor
 
 	const getTime = (shots: number) => burstSize ? burstTime(shots) : (shots - 1) * 60 / rof
 	const burstTime = (shots: number) => {
@@ -187,16 +188,20 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 			])
 			else {
 				const targetDmg = health - 15 / armor
-				const getDot = (time: number) => Math.floor(time / .75) * 9
-				let shots = Math.ceil(targetDmg / dmg), 
-				totalDmg = dmg * shots + getDot(totalTime(shots))
-				shots -= Math.ceil((totalDmg - targetDmg) / dmg)
-				totalDmg = 0
-				while (totalDmg < targetDmg) {
-					totalDmg = dmg * ++shots + getDot(totalTime(shots))
+				const getDmg = (shots: number) => dmg * shots + Math.floor(totalTime(shots) / .75) * 9
+				let upper = Math.ceil(targetDmg / dmg),
+				lower = upper - Math.ceil((getDmg(upper) - targetDmg) / dmg)
+				while (upper > lower) {
+					console.log(upper, lower)
+					let mid = Math.floor((upper + lower) / 2)
+					if (getDmg(mid) < targetDmg) {
+						lower = mid + 1
+					}
+					else upper = mid
 				}
+				let totalDmg = getDmg(upper)
 				result.push([
-					char, totalTime(shots + (totalDmg - dmg >= targetDmg ? Math.ceil(15 / armor / dmg) - 1 : Math.max(0, Math.ceil((health - totalDmg) / dmg)))), ''
+					char, totalTime(upper + (totalDmg - dmg >= targetDmg ? Math.ceil(15 / armor / dmg) - 1 : Math.max(0, Math.ceil((health - totalDmg) / dmg)))), ''
 				])
 			}
 		}
@@ -249,14 +254,14 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 	if (char.role == 'Swarm') result.push([char, distance > 5 ? Infinity : health > 50 ? totalTime(Math.ceil((health - 50) / dmg)) + 1 / 30 : 0, 'Melee finish'])
 
 	// Charge TTK
-	if (weapon.charges && rof != 165) {
-		const damages = [burstSize ? 0 : dmg], l = weapon.charges.length, levels = ['1st', '2nd', '3rd']
-		const roundUp = (num: number) => Math.ceil(Math.round(num * 1e6) / 1e6 * 30) / 30
+	if (charges && rof != 165) {
+		const damages = [burstSize ? 0 : dmg], l = charges.length, levels = ['1st', '2nd', '3rd']
+		const reload = weapon.reload * 30
 		for (let i = 1; i <= l; i++) damages[i] = weapon.getDamage(distance, i, crit, move)
 		for (let i = 0; i < l; i++) {
-			const [, recovery, ammoPerShot] = weapon.charges[i],
+			const [, recovery, ammoPerShot] = charges[i],
 			chargeDmg = damages[i + 1], 
-			shots: number[] = new Array(l + 1).fill(0)
+			shots: number[] = Array(l + 1).fill(0)
 
 			shots[i + 1]++
 			if (chargeDmg >= health) {
@@ -270,14 +275,15 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 				let tempHP = health - chargeDmg, 
 				time = 0, 
 				tempShots = shots.slice(),
-				delay = recovery || j ? recovery + 1 / 30 : 60 / rof,
+				delay = recovery || j ? 30 * recovery + 1 : 1800 / rof,
 				tempShotCount = Math.ceil(tempHP / currentDmg) - 1, 
 				tempAmmo = ammo - ammoPerShot,
-				[chargeTime, ,ammoPerShot1] = weapon.charges[j - 1] || [0, weapon.ammoPerShot]
+				[chargeTime, ,ammoPerShot1] = charges[j - 1] || [0, ammoPerShot]
+				chargeTime *= 30
 				
 				for (let i = 0; i < tempShotCount; i++) {
-					time = ammo && tempAmmo <= 0 ? roundUp(time + weapon.reload + 1 / 30) : time + delay
-					if (j) time = roundUp(time + chargeTime)
+					time = ammo && tempAmmo <= 0 ? Math.ceil(time + reload + 1) : time + delay
+					if (j) time = Math.ceil(time + chargeTime)
 					tempHP -= currentDmg
 					tempShots[j]++
 					tempAmmo -= ammoPerShot1
@@ -289,13 +295,14 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 					let tempHP2 = tempHP, 
 					tempAmmo2 = tempAmmo, 
 					tempTime = time,
-					delay = recovery || k ? recovery + 1 / 30 : 60 / rof, 
+					delay = recovery || k ? 30 * recovery + 1 : 1800 / rof, 
 					tempShots2 = tempShots.slice(),
-					[chargeTime, ,ammoPerShot1] = weapon.charges[k - 1] || [0, weapon.ammoPerShot]
+					[chargeTime, ,ammoPerShot1] = charges[k - 1] || [0, ammoPerShot]
+					chargeTime *= 30
 
 					for (let i = 0;;i++) {
-						tempTime = ammo && tempAmmo2 <= 0 ? roundUp(tempTime + weapon.reload + 1 / 30) : tempTime + delay
-						if (k) tempTime = roundUp(tempTime + chargeTime)
+						tempTime = ammo && tempAmmo2 <= 0 ? Math.ceil(tempTime + reload + 1) : tempTime + delay
+						if (k) tempTime = Math.ceil(tempTime + chargeTime)
 						tempShots2[k]++
 						if ((tempHP2 -= currentDmg) <= 0) {
 							if (tempTime < minTime) minTime = tempTime, bestCombo = tempShots2
@@ -305,7 +312,7 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 					}
 				}
 			}
-			result.push([char, minTime, `${levels[i]} charge${bestCombo ? ` (${bestCombo?.reverse()})` : ''}`])
+			result.push([char, minTime / 30, `${levels[i]} charge${bestCombo ? ` (${bestCombo?.reverse()})` : ''}`])
 		}
 	}
 	return result
