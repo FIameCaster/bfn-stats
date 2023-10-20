@@ -1,7 +1,6 @@
 import { Accessor, createSignal, Setter } from "solid-js"
-import { stats } from "../../data/stats"
+import { stats, Character } from "../../data/stats"
 import { addUpgrade, upgrades } from "../../data/upgrades"
-import { Character } from "../../types"
 import { getTempParam, getUpgParam, parseTempParam, parseUpgParam } from "../../utils/params"
 
 export type MenuState = [

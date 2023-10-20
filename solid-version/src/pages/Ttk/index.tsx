@@ -4,8 +4,7 @@ import { getNavbarSettings } from "../../components/Navbar"
 import { createParamSignal } from "../../hooks/createParamSignal"
 import { useWidth } from "../../hooks/useWidth"
 import { updateTitle } from "../../utils/updateTitle"
-import { Character } from '../../types'
-import { stats } from '../../data/stats'
+import { stats, Character } from '../../data/stats'
 import { clamp, round } from '../../utils'
 import { calcTTK } from './calcTTK'
 import { A } from '@solidjs/router'

@@ -1,7 +1,7 @@
 import { createEffect, createMemo, useContext } from "solid-js"
 import { createWeaponCards, zoom, dist, crit, move, createStatCard, Context, syncNavbarState, Cards, syncZoom, zoomSignal } from ".."
 import { getNavbarSettings } from "../../../components/Navbar"
-import { Bullet, Character, Missile } from "../../../types"
+import { Bullet, Character, Missile } from "../../../data/stats"
 import { updateTitle } from "../../../utils/updateTitle"
 
 export function Stats() {

@@ -1,9 +1,9 @@
 import { A, useSearchParams } from '@solidjs/router'
-import { createMemo, createRenderEffect, createSignal, For, Index, lazy, onCleanup, onMount, Show, Signal } from 'solid-js'
+import { createMemo, createSignal, For, Index, lazy, onCleanup, onMount, Show, Signal } from 'solid-js'
 import '../../assets/compare.css'
 import { getNavbarSettings } from '../../components/Navbar'
 import { createParamSignal } from '../../hooks/createParamSignal'
-import { Bullet, Character, Missile, Weapon } from '../../types'
+import { Bullet, Character, Missile, Weapon } from '../../data/stats'
 import { getBaseParam, getParamStr, round } from '../../utils'
 import { getTempParam, getUpgParam } from '../../utils/params'
 import { updateTitle } from '../../utils/updateTitle'
@@ -25,28 +25,28 @@ export function Compare() {
 	let obsEl: HTMLDivElement, 
 	content: HTMLDivElement,
 	addBtn: HTMLButtonElement
-	
+
+	onMount(() => {
+		observer.observe(obsEl)
+		setTimeout(() => import('./menu'), 500)
+	})
+	onCleanup(() => style.remove())
+
 	const observer = new IntersectionObserver(entries => {
 		content.classList.toggle('show-names', !entries[0].isIntersecting)
 	}, {
 		rootMargin: '0px 0px 0px 99999px',
 		threshold: 1
 	})
-	onMount(() => {
-		observer.observe(obsEl)
-		setTimeout(() => import('./menu'), 500)
-	})
-	
+
 	const style = document.createElement('style')
 	const sheet = document.head.appendChild(style).sheet
 	for (let i = 14; i;) sheet.insertRule(`.group_co${--i} { display:grid; }`)
 	const rules = [].map.call(sheet.cssRules, (rule: CSSStyleRule) => rule.style) as CSSStyleDeclaration[]
-	
-	onCleanup(() => style.remove())
-	
+
 	// Live collection used to focus the buttons after closing the menu
 	const btns = document.getElementsByClassName('change_co') as HTMLCollectionOf<HTMLButtonElement>
-	
+
 	const close = (charID?: number, upgs?: Set<number>, temp?: number[]) => {
 		setOpen(false)
 		if (!upgs) return

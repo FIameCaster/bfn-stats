@@ -5,7 +5,7 @@ import { Signal1 } from ".";
 import { getUpgPoints, Upgrade, upgrades } from "../../data/upgrades";
 import { createStorageSignal } from "../../hooks/createStorageSignal";
 import { useDropdownState } from "../../hooks/useDropdownState";
-import { Character } from "../../types";
+import { Character } from "../../data/stats";
 import { getTempParam, getUpgParam, parseTempParam, parseUpgParam } from "../../utils/params";
 import { upgradeNames, upgradeText } from "./constants";
 import '../../assets/upgradeMenu.css'

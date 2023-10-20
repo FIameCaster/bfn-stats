@@ -2,7 +2,7 @@ import { Accessor, Signal, Show, createMemo, lazy, onMount } from "solid-js";
 import { getUpgPoints, upgrades } from "../../data/upgrades";
 import { createParamSignal } from "../../hooks/createParamSignal";
 import { useDropdownState } from "../../hooks/useDropdownState";
-import { Character } from "../../types";
+import { Character } from "../../data/stats";
 
 const PerkList = lazy(() => import('./lists').then(module => ({ default: module.PerkList })))
 const TempList = lazy(() => import('./lists').then(module => ({ default: module.TempList })))

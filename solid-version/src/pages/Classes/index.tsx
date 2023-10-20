@@ -1,10 +1,9 @@
 import '../../assets/classes.css'
 import { A, Outlet, useLocation, useParams, useSearchParams } from "@solidjs/router"
-import { Accessor, batch, createContext, createEffect, createMemo, createReaction, createRenderEffect, createSignal, For, Index, onCleanup, Show } from "solid-js"
-import { stats } from "../../data/stats"
+import { Accessor, createContext, createMemo, createRenderEffect, createSignal, For, Index, onCleanup, Show } from "solid-js"
+import { stats, Bullet, Character, Missile, Weapon } from "../../data/stats"
 import { addUpgrade, upgrades, UpgradeValue } from "../../data/upgrades"
 import { createParamSignal } from "../../hooks/createParamSignal"
-import { Bullet, Character, Missile, Weapon } from "../../types"
 import { clamp, getBaseParam, getParamStr, round } from "../../utils"
 import { getTempParam, getUpgParam, parseTempParam, parseUpgParam } from "../../utils/params"
 import { UpgradeContainer } from '../../components/UpgradeMenu'

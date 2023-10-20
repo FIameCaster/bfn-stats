@@ -1,10 +1,13 @@
 import { createEffect, createMemo, useContext } from "solid-js"
 import { classData, createStatCard, createWeaponCards, crit, dist, move, zoom, zoomSignal, syncNavbarState, syncZoom, Context, Cards } from ".."
 import { getNavbarSettings } from "../../../components/Navbar"
-import { stats } from "../../../data/stats"
+import { stats, Weapon } from "../../../data/stats"
 import { knockback } from "../../../data/upgrades"
-import { Buff, Weapon } from "../../../types"
 import { updateTitle } from "../../../utils/updateTitle"
+
+type Buff = [
+	string?, ...number[]
+]
 
 export function Abilities() {
 	const { char, baseChar, ability } = useContext(Context)
@@ -188,9 +191,9 @@ class Ability {
 			this.allyArmor
 		] = data
 		this.modifiers = modifiers
-		if (data[5]) this.weapon = new stats.Weapon(data[5], 0, modifiers)
+		if (data[5]) this.weapon = new Weapon(data[5], 0, modifiers)
 		if (id == 71) this.weapon.ignoreGrav = true
-		if (data[18]?.[7]) this.vehicle[7] = new stats.Weapon(data[18][7], 0, modifiers)
+		if (data[18]?.[7]) this.vehicle[7] = new Weapon(data[18][7], 0, modifiers)
   }
 }
 
@@ -457,3 +460,5 @@ for (let i = 0; i < 29; i++) {
 	if (upgradedClasses.delete(i)) classData.reset(char)
 	else [char, char.vehicle, char.passenger].forEach(char => char?.addAbility())
 }
+
+export { Ability }
