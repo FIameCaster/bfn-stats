@@ -1,13 +1,11 @@
 import '../../assets/ttk.css'
-import { stats } from "../../data/stats"
-import { Character } from "../.."
+import { stats, Character } from "../../data/stats"
 import { useUrlState } from "../../hooks/useUrlState"
 import { calcTTK } from "./calcTTK"
 import { round, clamp, getSettingsParam } from "../../utils"
 import { useStore } from "../../components/Navbar/settingStore"
 import { useMemo, useRef } from "react"
 import { getCompareLink } from "../../utils/getCompareLink"
-import { useWidth } from '../../hooks/useWidth'
 import { updateTitle } from '../../utils/updateTitle'
 import { Link } from 'react-router-dom'
 import { useColumnLayout } from '../../hooks/useColumnLayout'

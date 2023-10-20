@@ -1,11 +1,10 @@
 import { useUrlState } from "../../../hooks/useUrlState"
-import { Card, classData, createCards, getCharID, getColCount, getMaxColCount, getSpecialUpg } from ".."
+import { Card, classData, createCards, getMaxColCount, getSpecialUpg } from ".."
 import { useOutletContext } from "react-router-dom"
 import { Options } from "../Options"
 import { clamp, getSettingsParam } from "../../../utils"
 import { useStore } from "../../../components/Navbar/settingStore"
-import { stats } from "../../../data/stats"
-import { Buff, Bullet, Missile, Weapon } from "../../.."
+import { stats, Bullet, Missile, Weapon } from "../../../data/stats"
 import { knockback } from "../../../data/upgrades"
 import { useMemo } from "react"
 import { Cards } from "../Cards"
@@ -14,6 +13,10 @@ import { useColumnLayout } from "../../../hooks/useColumnLayout"
 
 let dist: number, crit: boolean, move: boolean, zoom: boolean
 let initialized: boolean
+
+type Buff = [
+	string?, ...number[]
+]
 
 const classes = classData.classes, upgradedClasses = classData.upgraded
 
@@ -231,9 +234,9 @@ class Ability {
 			this.allyArmor
 		] = data
 		this.modifiers = modifiers
-		if (data[5]) this.weapon = new stats.Weapon(data[5], 0, modifiers)
+		if (data[5]) this.weapon = new Weapon(data[5], 0, modifiers)
 		if (id == 71) this.weapon.ignoreGrav = true
-		if (data[18]?.[7]) this.vehicle[7] = new stats.Weapon(data[18][7], 0, modifiers)
+		if (data[18]?.[7]) this.vehicle[7] = new Weapon(data[18][7], 0, modifiers)
   }
 }
 
@@ -648,3 +651,5 @@ allCards = [
 	objectCard, dashCard, zoneCard, sprayCard, 
 	beamCard, sundropCard, recoilAngleCard
 ]
+
+export { Ability }

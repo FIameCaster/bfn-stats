@@ -1,6 +1,5 @@
 import { getParamStr } from "."
-import type { Character } from ".."
-import { stats } from "../data/stats"
+import { stats, Character } from "../data/stats"
 
 export const getCompareLink = (char: Character, baseParam: string) => {
 	const baseChar = stats.characters[char.id],

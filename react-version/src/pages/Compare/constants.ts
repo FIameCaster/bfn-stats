@@ -1,6 +1,5 @@
 import { upgrades, addUpgrade } from "../../data/upgrades"
-import { Character } from "../.."
-import { stats } from "../../data/stats"
+import { stats, Character } from "../../data/stats"
 import { getTempParam, getUpgParam, parseTempParam, parseUpgParam } from "../../utils/params"
 
 export type MenuState = [

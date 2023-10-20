@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import '../../assets/compareMenu.css'
 import { stats } from '../../data/stats'
-import { upgrades, Upgrade, getUpgPoints } from "../../data/upgrades"
 import { MenuState } from "./constants"
 import { UpgradeContainer } from '../../components/UpgradeMenu'
 

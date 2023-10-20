@@ -1,5 +1,5 @@
 import { upgrades, getUpgPoints } from '../../data/upgrades'
-import { Character } from '../..'
+import { Character } from '../../data/stats'
 import { useDropdownState } from '../../hooks/useDropdownState'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 

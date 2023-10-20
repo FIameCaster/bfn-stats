@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Character } from "../.."
+import { Character } from "../../data/stats"
 import '../../assets/upgradeMenu.css'
 import { upgrades, Upgrade } from "../../data/upgrades"
 import { useDropdownState } from "../../hooks/useDropdownState"

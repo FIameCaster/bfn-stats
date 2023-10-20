@@ -1,7 +1,6 @@
 import { Outlet, useParams } from 'react-router-dom'
-import { stats } from '../../data/stats'
+import { stats, Character } from '../../data/stats'
 import '../../assets/classes.css'
-import { Character } from '../..'
 import { addUpgrade, upgrades, UpgradeValue } from '../../data/upgrades'
 import { getTempParam, getUpgParam, parseTempParam, parseUpgParam } from '../../utils/params'
 import { useUrlState } from '../../hooks/useUrlState'
