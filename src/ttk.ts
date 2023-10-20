@@ -192,7 +192,6 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 				let upper = Math.ceil(targetDmg / dmg),
 				lower = upper - Math.ceil((getDmg(upper) - targetDmg) / dmg)
 				while (upper > lower) {
-					console.log(upper, lower)
 					let mid = Math.floor((upper + lower) / 2)
 					if (getDmg(mid) < targetDmg) {
 						lower = mid + 1
