@@ -1,11 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { minify } from "terser"
-import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=23'
+const cacheParam = '?v=24'
 
 const stats = (() => {
 	const charData = [

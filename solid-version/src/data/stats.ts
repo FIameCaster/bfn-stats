@@ -13,7 +13,7 @@ const getStats = (id: number) => new Character(id)
 const weaponData = [
 	[100,10,1.5,,,,[[20,1,[14,3.25],1.5,170,0,170,170]],[[1.25,2.5,.375,-.25,-.125,3.75],[1.25,2.5,.375,-.25,-.125,3.75],1,1,3.25,-.25,.275,100]],
 	[100,,,,,,,[,,0,0,5,-.05,.05,100],,,,,,,[40.55,4.5,.5,2.25,5,3.4]],
-	[72,,,,.02,,[[34,1,[14,3.25],1.5,170,0,170,170]],[,,0,0,0,-.417,.3,50],,,[0,1,1,.85,.5,.125,.125,1]],
+	[72,,,,.02,,[[34,1.2,2.2,400,,,34,,250,20,35]],[,,0,0,0,-.417,.3,50],,,[0,1,1,.85,.5,.125,.125,1]],
 	[650,52,1.1,,,2/75,[[5.2,1.2,2,500,,,10,,350,30,60]],[[4.2,7,.046,-.154,.154,12.6],[4.5,7.5,.049,-.112,.112,13.5],.1,2.5,3.5,0,.0055,50],[.24,.24,1.2,.6,.6,1.2,.012,.012,0,9],[0,0,.6,.24,.24,.6,.006,.006,0,4.5],[0,0,0,7,3,0,0,.25]],
 	[200,20,1.5,,.65,,[[18,1,3,300,,,10,1.3,75,15,20,.5,.1]],[,,1,1,.1,0,.1,100],,,[0,4.5,2.8,10,1,1,.5,1]],
 	[525,,,,.5,.1,[[6.5,1,.5,75,.55,,,,32,12,19]],[[1.25,2.5,.55,-.188,.188,3.75],,1,1,0,0,0,100],,,,,[.018,0,.3,.5,.75,.05]],
@@ -44,7 +44,7 @@ const weaponData = [
 	[280,25,1.5,,.1,.01,[[11,1.2,5,350,,,15,,180,20,50]],[[12,10,.25,-.18,.18,20],[12,10,.225,-.165,.165,20],.1,1.15,1.5,.05,.002,60],[.038,.12,.25,.25,.3,.75,.008,.01,.038,3.75],[0,.023,.12,.075,.083,.3,.002,.002,.015,2.25],[0,10,4.07,20,3.5,1.25,0,.75]],
 	[800,,,,,,[[5,1.2,2.2,500,,,9.8]],,,,[0,1.85,.975,15,0,0,0,.25],,[.0115,0,2/3,2/3,.75,.05]]
 ]
-	
+
 const charData: [string, string | undefined, number | undefined, number, number | undefined, number, number[] | undefined, number, number | undefined, number[]?][] = [
 	["Peashooter",,,1,,125,defaultMovement,.5,35],
 	["Chomper",,,2,3,175,defaultMovement,.5,35],
@@ -194,7 +194,7 @@ class Missile {
 	maxSpeed: number
 	gravity?: number
 	radius?: number
-	
+
 	constructor(data: number[]) {
 		[
 			this.impactDmg,
@@ -209,12 +209,12 @@ class Missile {
 		addExplosion(this, data[2])
 		this.radius = data[0] == 50 ? .5 : data[0] == 100 ? .525 : 0
 	}
-	
+
 	travelTime(distance: number): number {
 		const ss = this.startSpeed, 
 		se = this.maxSpeed, 
 		a = this.engineAccel
-		
+
 		if (distance <= 0) return 0
 		if (!a) return distance / ss
 		const accelDist = (se + ss) * (se - ss) / (2 * a)
@@ -225,12 +225,11 @@ class Missile {
 		const ss = this.startSpeed, 
 		se = this.maxSpeed, 
 		a = this.engineAccel
-		
+
 		if (!a) return ss * time
 		if (time > (se - ss) / a) return (se + ss) * (se - ss) / (2 * a) + se * (time + (ss - se) / a)
 		return time * (ss + time * a * .5)
 	}
-	
 }
 
 const weaponPropData: [string, number?][] = [
@@ -298,7 +297,7 @@ class Weapon {
 		this.cloud = data[0] == 165 ? [1,5,1/12,1.4,[25,20]] : data[0] == 58 ? [0,10,.25,1.4,[72,20]] : null
 		this.multipliers = modifiers
 		if (data[0] == 190) this.arcs = [14,6,2]
-		
+
 		// 0 for normal weapon, 1 for no-zoom only, 2 for zoom only
 		this.type = type
 		this.projectiles = data[6] ? data[6].map((arr: number[]) => new (arr.length == 8 ? Missile : Bullet)(arr)) : []
@@ -381,7 +380,7 @@ class Weapon {
 		const bullet = this.projectiles[index], 
 		trapezoid = !index && this.trapezoid,
 		critMultiplier = crit && bullet?.critMultiplier || 1
-		
+
 		return !trapezoid && !bullet ? null : ((this.getMaxRange(index) >= distance ? 
 			((bullet?.splashDmg || 0) + (bullet ? bullet.impactDmg * critMultiplier : 0)) * this.shotsPerShell : 0)
 			+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[8] : 1) : 0)
@@ -488,7 +487,6 @@ class Weapon {
 
 		return this.cache[index] = zoom ? result.map(num => num && num * zoomScale) : result
 	}
-
 }
 
 class Character {
