@@ -70,7 +70,8 @@ export function useUrlState<T>(initialState: T, param: string, serialize: (value
 			setState(newState)
 			if (!updateURL) return
 			const [search, setSearch] = searchStore.get()
-			search[newParamVal == defaltVal ? 'delete' : 'set'](param, newParamVal)
+			if (newParamVal == defaltVal) search.delete(param)
+			else search.set(param, newParamVal)
 			setSearch(search, options)
 		}
 	] as const
