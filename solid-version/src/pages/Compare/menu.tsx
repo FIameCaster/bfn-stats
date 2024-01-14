@@ -107,7 +107,7 @@ export function Menu(props: { close: (id?: number, upgs?: Set<number>, temp?: nu
 	>
 		<div class="options_co">
 			<div class="icon_co">
-				<img 
+				<img
 					src="/images/all-icons-large.webp"
 					title={char().fullName}
 					style={{
@@ -125,7 +125,7 @@ export function Menu(props: { close: (id?: number, upgs?: Set<number>, temp?: nu
 					</p>
 				</div>
 			</div>
-			<UpgradeContainer 
+			<UpgradeContainer
 				upgs={[upgs, setUpgs]} temp={[temp, setTemp]}
 				owner={owner} class="upgs_co"
 			/>
@@ -149,7 +149,7 @@ export function Menu(props: { close: (id?: number, upgs?: Set<number>, temp?: nu
 		</div>
 		<div class="classes_co">
 			<Index each={characters.slice(0, 23)}>{
-				(char, i) => <button 
+				(char, i) => <button
 					class={i == selectedID() ? "selected" : ""}
 					title={char().name}
 					onClick={() => {

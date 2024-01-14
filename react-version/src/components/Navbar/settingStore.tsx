@@ -16,7 +16,7 @@ const paramData: {
 	crit: Param<boolean>,
 	move: Param<boolean>
 } = {
-	distance: ['d', (value: number) => value+'', (str: string) => +str],
+	distance: ['d', (value: number) => value + '', (str: string) => +str],
 	crit: ['c', (value: boolean) => value ? '1' : '', (str: string) => !!str],
 	move: ['m', (value: boolean) => value ? '1' : '', (str: string) => !!str],
 },
@@ -40,7 +40,7 @@ function useStoreData() {
 		const defaltVal = serialize(initialState[key])
 		const currentValue = searchRef.current[0].get(param) ?? defaltVal
 		const serializedState = serialize(store.current[key])
-		
+
 		// If multiple params change at once, the setState will be called multiple times for each subscriber
 		// with different object references each time which is not ideal, but should be good enough
 		useEffect(() => {
@@ -51,7 +51,7 @@ function useStoreData() {
 
 	return useMemo(() => {
 		return {
-			get() { return store.current },
+			get: () => store.current,
 			set(value: Partial<typeof initialState>, updateParam?: boolean) {
 				const [search, setSearch] = searchRef.current
 				const newStore = { ...store.current }

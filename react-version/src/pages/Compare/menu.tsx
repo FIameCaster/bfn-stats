@@ -35,7 +35,7 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 	oldState = tempState
 
 	const btns: JSX.Element[] = []
-	for (let i = 0; i < 23; i++) btns[i] = <button 
+	for (let i = 0; i < 23; i++) btns[i] = <button
 		key={i}
 		className={i == selectedID ? 'selected' : ''}
 		title={characters[i].name}
@@ -46,7 +46,7 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 			backgroundPosition: -5.34 * i + .33 + 'rem .33rem'
 		}}
 	/>
-	
+
 	const updateTemp = (newTemp: number[]) => {
 		tempState[2] = newTemp
 	}
@@ -65,7 +65,7 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 	let shouldClose = false
 
 	return <div
-		ref={container} 
+		ref={container}
 		tabIndex={0} className="menu-container"
 		onKeyDown={e => {
 			const el = e.currentTarget
@@ -125,7 +125,7 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 	>
 		<div className="options_co">
 			<div className="icon_co">
-				<img 
+				<img
 					src="/images/all-icons-large.webp"
 					title={char.fullName}
 					style={{
@@ -142,13 +142,13 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 					</p>
 				</div>
 			</div>
-			<UpgradeContainer 
-				className='upgs_co' upgs={tempState[1]} owner={owner} 
-				temp={tempState[2]} updateTemp={updateTemp} 
+			<UpgradeContainer
+				className='upgs_co' upgs={tempState[1]} owner={owner}
+				temp={tempState[2]} updateTemp={updateTemp}
 			/>
 			<div className="links_co">
 				{linkTargets.map((char, i) => (
-					<button 
+					<button
 						className="btn" key={i}
 						style={
 							char ? {} : { visibility: 'hidden' }
@@ -160,7 +160,7 @@ export function Menu({ state, closeMenu }: { state?: MenuState, closeMenu: (stat
 						{char ? char.type || getLinkText(char.name) : 'Text'}
 					</button>
 				))}
-				<button 
+				<button
 					className="btn"
 					onClick={() => {
 						closeMenu(copyState(tempState))

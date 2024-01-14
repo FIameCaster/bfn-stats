@@ -17,8 +17,8 @@ getArmorValue = (num: number) => Math.abs(num) || 1
 
 export function Ttk() {
 	const [{ distance, crit, move }] = useStore()
-	const [armor, setArmor] = useUrlState(1, 'a', n => n+'', s => +s, { replace: true })
-	const [health, setHealth] = useUrlState(125, 'h', n => n+'', s => +s, { replace: true })
+	const [armor, setArmor] = useUrlState(1, 'a', n => n + '', s => +s, { replace: true })
+	const [health, setHealth] = useUrlState(125, 'h', n => n + '', s => +s, { replace: true })
 	const [defOnly, setDefOnly] = useUrlState(false, 'e', b => b ? '1' : '', s => !!s, { replace: true })
 	const [team, setTeam] = useUrlState('0', 't', str => str, str => str, { replace: true })
 
@@ -47,7 +47,7 @@ export function Ttk() {
 			</div>
 		})
 	}, [distance, crit, move, health2, team, armor2, defOnly])
-	
+
 	const rowCount = rows.length
 	const colCount = useColumnLayout(300, 16, Math.min(Math.floor(rowCount ** .77 / 4.2), 4))
 
@@ -69,7 +69,7 @@ export function Ttk() {
 		const target = e.target as HTMLInputElement
 		setArmor(updateURL ? getArmorValue(+target.value) : +target.value, updateURL)
 	}
-	
+
 	return (
 		<div id="ttk">
 			<div className="options_t" style={{
@@ -91,7 +91,7 @@ export function Ttk() {
 				</div>
 				<div className="health_t">
 					<label htmlFor="health">Target Health</label>
-					<input 
+					<input
 						type="number" id="health" min="0" max="999" value={health} placeholder="125" step="5"
 						onChange={e => updateHealth(e, false)}
 						onKeyUp={e => {
@@ -100,7 +100,7 @@ export function Ttk() {
 						onBlur={e => updateHealth(e)}
 					/>
 					<label htmlFor="armor">Armor Multiplier</label>
-					<input 
+					<input
 						type="number" id="armor" min="0" value={armor} placeholder="1" step="0.05"
 						onChange={e => updateArmor(e, false)}
 						onKeyUp={e => {

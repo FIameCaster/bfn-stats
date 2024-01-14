@@ -33,7 +33,7 @@ export const Ttk = () => {
 			if (activeTeam && activeTeam != characters[i].team) continue
 			ttk.push(...calcTTK(characters[i], distance, crit, move, health2, armor2, defOnly()))
 		}
-		
+
 		return ttk.sort((a, b) => a[1] - b[1]).map((ttk, i) => {
 			const [[, char], [, time], [, notes]] = signals[i]
 			char(ttk[0])
@@ -42,9 +42,9 @@ export const Ttk = () => {
 
 			return signals[i]
 		})
-		
+
 		// <For each={
-			
+
 		// }>{
 		// 	ttk => {
 		// 		const [[char], [time], [notes]] = ttk
@@ -97,7 +97,7 @@ export const Ttk = () => {
 			</div>
 			<div class="health_t">
 				<label for="health">Target Health</label>
-				<input 
+				<input
 					type="number" id="health" min="0" max="999" value={health()} placeholder="125" step="5"
 					onInput={e => setHealth(e.currentTarget.value, false)}
 					onKeyUp={e => {
@@ -106,7 +106,7 @@ export const Ttk = () => {
 					onBlur={e => setHealth(e.currentTarget.value)}
 				/>
 				<label for="armor">Armor Multiplier</label>
-				<input 
+				<input
 					type="number" id="armor" min="0" value={armor()} placeholder="1" step="0.05"
 					onInput={e => setArmor(e.currentTarget.value, false)}
 					onKeyUp={e => {
@@ -124,7 +124,7 @@ export const Ttk = () => {
 					<For each={rowData()}>{
 						ttk => {
 							const [[char], [time], [notes]] = ttk
-			
+
 							return <div class="row_t">
 								<A href={getCompareLink(char(), settingsParam())} title={char().fullName} style={{
 									"background-position-x": -3 * char().iconId + 'rem'

@@ -1,26 +1,26 @@
 export const upgradeNames = [
 	// Common
-	"Refreshing Revive", "Rough Patch", "Leveling Up", "Critical Blow", "Speedy", 
+	"Refreshing Revive", "Rough Patch", "Leveling Up", "Critical Blow", "Speedy",
 	// Offensive 5
-	"Combo", "Fearless", "Fearless", "Low Life", "Ready Up", "Vampiric", 
+	"Combo", "Fearless", "Fearless", "Low Life", "Ready Up", "Vampiric",
 	// Defensive 11
-	"Health Regeneration", "Health Regen Delay", "Adrenaline Rush", "Best Defense", "Fallback", 
+	"Health Regeneration", "Health Regen Delay", "Adrenaline Rush", "Best Defense", "Fallback",
 	// Support 16
-	"Super Savior", "Revive Reward", "Rollout", "Hard Target", "Combat Aura", 
+	"Super Savior", "Revive Reward", "Rollout", "Hard Target", "Combat Aura",
 	// Peashooter 21
 	"Pro Spitter", "Last Ditch", "Reload Gatling", "Bean Party", "Escape Roots",
 	"Explosive Gatling", "Feed the Beast", "Combat Adrenaline", "Homing Pea", "Party Time",
 	// Chomper 31
-	"Face Bite", "Vampire Spikeweed", "Hotrod", "Symbiosis", "Upset Stomach", 
+	"Face Bite", "Vampire Spikeweed", "Hotrod", "Symbiosis", "Upset Stomach",
 	"Chomp Thing", "Dirt Bath", "Halitosis", "Well Fed", "Mastication",
 	// Kernel Corn 41
 	"Reaping Leap", "20/10", "Buttered Branches", "Happy Feet", "Mob Cobs",
 	"Cornucopia", "Hopscotch", "Re-Corn-naissance", "Rapid Recob", "Super Spin", "Shogun Guard",
 	// Night Cap 52
 	"Incubate", "Piercing Power", "Clear Coating", "Corrode", "Fleet Footed",
-	"Parkour", "Shadow Tribute", "Spore-ratic", "Uppercut", "Shadow Sling", 
+	"Parkour", "Shadow Tribute", "Spore-ratic", "Uppercut", "Shadow Sling",
 	// Snap Dragon 62
-	"Coolant", "Engulf", "Excellent Accelerant", "Heat Seeking", "Quake", 
+	"Coolant", "Engulf", "Excellent Accelerant", "Heat Seeking", "Quake",
 	"Radiate", "Backdraft", "Campfire", "Ventilation", "Incendiary",
 	// Cactus 72
 	"Alacrity", "Mirage", "Pressure Point", "Spotlight", "Spud Spotting",
@@ -32,29 +32,29 @@ export const upgradeNames = [
 	"Little Friend", "Log Jam", "Molasses", "Natural 20", "Slap Back",
 	"Hardened", "Party Supplies", "Quickdraw", "Rewind", "Nutty Feedback",
 	// Sunflower 102
-	"Quick Egress", "Recharge", "Shove", "Sunslinger", "Cocoon", "Full Bloom", 
+	"Quick Egress", "Recharge", "Shove", "Sunslinger", "Cocoon", "Full Bloom",
 	"Pocket Protection", "Vampire Flower", "Stuffy Sundrop", "Blossom",
 	// Rose 112
-	"Carpool", "Pollination", "S-Cape", "Goatality", "Locked and Loaded", "Photosynthesis", 
+	"Carpool", "Pollination", "S-Cape", "Goatality", "Locked and Loaded", "Photosynthesis",
 	"Psychodelic Goatify", "Time Snare", "Epiphany", "Thistle Missile", "Thorn Apart",
 	// Wildflower 123
 	"Wild-Eyed", "Deep Roots", "Flight of the Dandelion", "Hay-Over-There-Fever", "Pottery Power",
 	"Soiling Yourself", "Flower Food", "Petal Powered Punch", "Head Pot-ection", "Seed Dispersal",
 	// Foot Soldier 133
-	"Ammo Thing-A-Ma-Bob", "Liftoff", "Propellant", "Ranger", "Rocket Leap", 
-	"Shockwave", "Smelling Salts", "Bottomless", "Sticky!", "Rapid Fire", 
+	"Ammo Thing-A-Ma-Bob", "Liftoff", "Propellant", "Ranger", "Rocket Leap",
+	"Shockwave", "Smelling Salts", "Bottomless", "Sticky!", "Rapid Fire",
 	// Imp 143
-	"Butt Booster Booster", "Pod Powered", "Aftershock", "Multiplying Madness", 
-	"Supermassive", "Arm Day", "Energize",  "Ripcord", "Centripetal Force", "Mech Hunter", 
+	"Butt Booster Booster", "Pod Powered", "Aftershock", "Multiplying Madness",
+	"Supermassive", "Arm Day", "Energize",  "Ripcord", "Centripetal Force", "Mech Hunter",
 	// Super Brainz 153
-	"Extra Special", "Reach", "Stick and Move", "Typhoon", "Fallback Plan", "Recuperate", 
-	"Scorched", "Ultra Combo", "Hero's Moment", "Speed Bag", "Brainium Basher", 
+	"Extra Special", "Reach", "Stick and Move", "Typhoon", "Fallback Plan", "Recuperate",
+	"Scorched", "Ultra Combo", "Hero's Moment", "Speed Bag", "Brainium Basher",
 	// 80s Action Hero 164
-	"Targeting Arrows", "Leg Day", "Critical Tag", "Free Ride", "Improved Tracking", 
-	"Remarkable Rockets", "Track Star", "Bow Master", "Super Payload", "The Huntsman", 
+	"Targeting Arrows", "Leg Day", "Critical Tag", "Free Ride", "Improved Tracking",
+	"Remarkable Rockets", "Track Star", "Bow Master", "Super Payload", "The Huntsman",
 	// Electric Slide 174
-	"Amplification", "Malfunction", "Turbulence", "Chain Lightning", "Conduction", 
-	"Cooling Sparks", "Jazz Hands", "Jumper Cables", "Maelstorm", "Defibrillated", 
+	"Amplification", "Malfunction", "Turbulence", "Chain Lightning", "Conduction",
+	"Cooling Sparks", "Jazz Hands", "Jumper Cables", "Maelstorm", "Defibrillated",
 	// Captain Deadbeard 184
 	"Powder Keg", "Aye Spy", "Heavy Metal", "Scuttle Shot", "Shore Leave",
 	"Freebie", "Incoming Keg", "Long Barrel", "Plunder", "Wind Chilled",
@@ -62,7 +62,7 @@ export const upgradeNames = [
 	"Injury Time", "Long Bomb", "Shoot The Gap", "Spin Class", "Applying Pressure",
 	"Follow Through", "Star Struck", "Supercharged Coolant", "Tennis Skills", "Huge Fuse",
 	// Space Cadet 204
-	"Afterburners", "Ammo Eater", "Bullseye", "Feedback Loop", "Rocket Fueled", 
+	"Afterburners", "Ammo Eater", "Bullseye", "Feedback Loop", "Rocket Fueled",
 	"Target Aquired", "Titanium Plating", "Assimilation", "Efficiency", "Longshot",
 	// Scientist 214
 	"CPR", "Evolution", "Materialize", "Reanimate", "Power Wash", "Wormhole",
@@ -210,7 +210,7 @@ export const upgradeText = [
 	"Increase backwards speed by 150% and strafe speed by 48.1% in the air normalizing the air speed in all directions.",
 	"Goat form lasts for 12 seconds.",
 	"Double homing range while aiming.",
-	"Recover 25 HP when an enemy jinxed by your jinx is vanquished. Can heal overhealth.", 
+	"Recover 25 HP when an enemy jinxed by your jinx is vanquished. Can heal overhealth.",
 	"Enemies have less control when goatified.",
 	"Magic Thistles charge a debuff by 34% per hit that decays by 33.3% per second. Debuff decreases movement speed by 43.5%, aim speed by 67%, prevents sprinting and doubles gravity.", // Test application
 	"Start regenerating HP in Arcane Enigma.",
@@ -290,10 +290,10 @@ export const upgradeText = [
 	"Enemies hit by the muzzle flash (spray) are knocked back with force 5 vertically and 15 horizontally.",
 	"Movement speed is increased by 30% for 5 seconds after using Anchor's Away.",
 	"Recover 7 ammo after earning a fully charged vanquish.",
-	"Move 75% faster while in Barrel Blast.", 
+	"Move 75% faster while in Barrel Blast.",
 	"Decrease average dispersion of Scatter Shot by roughly 65.9%.",
 	"Every 4 critical hits with Parrot Pal increases Eggsplosion cooldown rate by 2x for 2 seconds.",
-	"Parrot Pal loses an extra 4% heat per second at all times.", 
+	"Parrot Pal loses an extra 4% heat per second at all times.",
 	// All-Star
 	"Half revive time of allies inside the Tackle Dummy shield.",
 	"Increase Imp Punt's launch speed by 22.5%.",
@@ -336,7 +336,7 @@ export const upgradeText = [
 	"Enemies within a 6 by 5.5 meter rectangle (offset 2 meter back) in front of Engineer are knocked back while sprinting.",
 	"Increase duration of speed boost by 40%. Allies with the speed boost have the same knockback spreader as Jackhammer with the Seismic upgrade.",
 	"Increase launch speed forwards of Concrete Launcher by 62.5%.",
-	"Bullhorns spread 50% further from the initial blast.", 
+	"Bullhorns spread 50% further from the initial blast.",
 	"Enemies hit by Heavy Helper have their health bar revealed to Engineer for 6 seconds.",
 	"Increase range of the combat buff by 20%.",
 	// Wizard

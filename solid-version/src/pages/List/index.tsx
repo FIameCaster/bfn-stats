@@ -22,7 +22,7 @@ export function List() {
 	const [, setSearch] = useSearchParams()
 
 	updateTitle('BFN Stats')
-	
+
 	const width = useWidth()
 	const cLabels = createMemo(() => {
 		const categoryVal = categories[+category()],
@@ -162,7 +162,7 @@ const TableBody = ({ category, sort, ascending, team }: { category: Accessor<str
 			const index = orderValue[i][1], char = characters[index]
 			if (teamStr && char.team != teamStr) continue
 			const [charSignal, textSignal] = newData[j] = tableData[j++]
-			
+
 			charSignal[1](char)
 			textSignal[1](stats[index])
 		}
@@ -233,7 +233,7 @@ const funcs = [
 	...[0,1,2,3,4].map(i => (char: Character) => char.primary.overheat?.[i]), // Overheating 25 - 29
 	(char: Character) => char.primary.cooldown,//Cooldown duration 30
 	(char: Character) => char.primary.getDmgPerOverheat(distance, crit, move),//Damage/overheat 31
-	...[0,1,2].map(i => [ 
+	...[0,1,2].map(i => [
 		(char: Character) => char.primary.charges?.[i]?.[0],//Charge time 32
 		(char: Character) => char.primary.charges?.[i]?.[1],//Recovery time 33
 		(char: Character) => char.primary.getChargeDPS(distance, i, crit, move),//Charge DPS 34
@@ -243,7 +243,7 @@ const funcs = [
 		(char: Character) => char.primary.projectiles[i + 1]?.startSpeed,//Launch velocity 38
 		(char: Character) => char.primary.getMaxRange(i + 1) || null,//Max range 39
 		(char: Character) => char.primary.travelTime(distance, i + 1),//Travel time 40
-	]).flat(), 
+	]).flat(),
 	(char: Character) => char.health,//Max HP 59
 	(char: Character) => char.regenDelay,//Regen delay 60
 	(char: Character) => char.regenRate,//Regen rate 61

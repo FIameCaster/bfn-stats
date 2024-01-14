@@ -5,7 +5,7 @@ import { upgrades, addUpgrade, parseTempParam, parseUpgParam, getTempParam, getU
 
 const container = <CompareMenuContainer & PageContainer>qs('#compare')
 let openMenu: OpenMenu, menuIndex: number,
-clickedBtn: HTMLButtonElement, 
+clickedBtn: HTMLButtonElement,
 visibilityStyles: CSSStyleDeclaration[]
 const columnState: MenuState[] = [],
 settings = navbar.settings,
@@ -35,8 +35,8 @@ const setState = () => {
 	let [distance, newCrit, newMove, char, zoom] = url.getParams('d','c','m','g','z')
 
 	settings.state = [
-		dist = clamp(0, +distance, 100) || 0, 
-		crit = !!newCrit, 
+		dist = clamp(0, +distance, 100) || 0,
+		crit = !!newCrit,
 		move = !!newMove
 	]
 	settings.updateCallbacks = updateCallbacks
@@ -78,7 +78,7 @@ const content = (() => {
 		updateColumns(true)
 		url.setParam('z', zoom ? '1' : '', '', false)
 	}})
-	
+
 	const labels: HTMLDivElement[] = []
 
 	const visibilityBtns: HTMLElement[] = [
@@ -91,7 +91,7 @@ const content = (() => {
 
 	const categories = [
 		[
-			'Damage output', 'DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst', 
+			'Damage output', 'DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst',
 			'Burst interval', 'Shots/shell', 'Base RoF', 'Splash damage', 'Splash radius'
 		],
 		[
@@ -109,21 +109,21 @@ const content = (() => {
 			'Recoil amp scale Y', 'Recoil amp scale X', 'Speed penalty'
 		],
 		[
-			'Ammo & Reload', 'Ammo capacity', 'Ammo/shot', 'Reload time', 
+			'Ammo & Reload', 'Ammo capacity', 'Ammo/shot', 'Reload time',
 			'Damage/clip', 'Sustainable RoF', 'Sustainable DPS'
 		],
 		[
-			'Overheating', 'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 
-			'Heat-drop delay', 'Penalty time', 'Overheat threshold', 'Cooldown time', 
+			'Overheating', 'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec',
+			'Heat-drop delay', 'Penalty time', 'Overheat threshold', 'Cooldown time',
 			'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 		],
 		[
 			'Mobility', 'Movement speed', '… strafing', '… backwards', '… sprinting', '… aiming',
-			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height', 
+			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height',
 			'Jump hover time', 'Hover strafe speed', 'Priming speed', '… strafing', '… backwards'
 		],
 		[
-			'General', 'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
+			'General', 'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay',
 			'Sprint exit delay', 'Zoom FOV', 'Priming duration'
 		],
 		[
@@ -134,7 +134,7 @@ const content = (() => {
 			'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 		],
 		[
-			'Gunsway', 'Min angle', '… moving', '… jumping', 'Max angle', '… moving', 
+			'Gunsway', 'Min angle', '… moving', '… jumping', 'Max angle', '… moving',
 			'… jumping', 'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 		],
 		[
@@ -142,8 +142,8 @@ const content = (() => {
 			'Decrease/sec', 'Jump dispersion', 'Move dispersion', 'Avg shell dispersion'
 		],
 		[
-			'Recoil amplitude', 'Max amplitude Y', 'Max amplitude X', 'Increase/shot Y', 
-			'Average inc/shot X','Max deviation/shot X', 'Decrease factor', '… shooting', 
+			'Recoil amplitude', 'Max amplitude Y', 'Max amplitude X', 'Increase/shot Y',
+			'Average inc/shot X','Max deviation/shot X', 'Decrease factor', '… shooting',
 			'First shot inc scale'
 		],
 		[
@@ -158,7 +158,7 @@ const content = (() => {
 		rootMargin: `0px 0px 0px 99999px`,
 		threshold: 1
 	}) : null
-	
+
 	for (let i = 0; i < 14; i++) {
 		const category = categories[i]
 		const l = category.length - 1, els: HTMLDivElement[] = Array(l)
@@ -195,7 +195,7 @@ const content = (() => {
 				zoomToggle
 			])
 		]),
-		element('div', { className: 'labels_co' }, labels), 
+		element('div', { className: 'labels_co' }, labels),
 		element('div', { className: 'content_co', onclick(e) {
 			const target = <HTMLElement>e.target
 			if (target.tagName == 'A') router.goTo((<HTMLAnchorElement>target).href)
@@ -375,7 +375,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(charge: number[][], char, i) => (getWeapon(char).projectiles[i + 1])?.radius,
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 3 : 5],
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 4 : 6],
-		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0 
+		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0
 	],
 	[
 		(weapon: Weapon) => weapon.ammo,
@@ -451,10 +451,10 @@ const createColumn = (state: MenuState) => {
 			nameText.data = icon.title = newChar.fullName
 			icon.style.backgroundPositionX = `${-8.2 * newChar.iconId}rem`
 		}
-		
+
 		const newTemp = tempParam != (tempParam = getTempParam(state[2])),
 		newUpg = upgParam != (upgParam = getUpgParam(state[1]))
-		
+
 		if (char != (char = newChar) || newUpg || newTemp) {
 			updateAllCategories(true)
 			if (isFirstCol) for (let i = 1; i < columns.length; i++) columns[i].updateAllColors()
@@ -479,7 +479,7 @@ const createColumn = (state: MenuState) => {
 			color = 1 // Else the XOR always returns a truthy value
 		}
 		if (baseStat == stat) return cell.removeAttribute('style')
-	
+
 		cell.style.backgroundColor = `${
 			(color == 2 ? stat < baseStat : color ^ +(stat > baseStat)) ? 'rgba(30, 100' : 'rgba(120, 40'
 		}, 0, ${color == 2 && stat * baseStat <= 0 ? 1 : Math.min(1, (Math.max(baseStat / stat, stat / baseStat) - 1) * .9 + .1)})`
@@ -502,10 +502,10 @@ const createColumn = (state: MenuState) => {
 	},
 	updateAllColors = () => {
 		for (let i = 0; i < 14; i++) {
-			const l = categorySizes[i], 
+			const l = categorySizes[i],
 			stats = columnStats[i], base = baseStats[i],
 			colors = colorData[i], els = statEls[i]
-	
+
 			for (let j = 0; j < l; j++) updateColor(base[j], stats[j], els[j], colors[j])
 		}
 	}
@@ -521,7 +521,7 @@ const createColumn = (state: MenuState) => {
 
 	const children: HTMLElement[] = [
 		name, element('div', { className: 'header_co' }, [
-			icon, 
+			icon,
 			element('button', { className: 'remove_co', onclick: remove}, 0, { 'aria-label': 'Remove column' }),
 			element('button', { className: 'btn change_co', textContent: 'Change', onclick() {
 				menuIndex = columnState.indexOf(state)
@@ -553,7 +553,7 @@ const createColumn = (state: MenuState) => {
 	content.addColumn(el)
 
 	return {
-		el, update, updateLink, updateAllColors, 
+		el, update, updateLink, updateAllColors,
 		updateAllCategories, updateCategory,
 		toString() {
 			// String representing the state of the column

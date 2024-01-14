@@ -57,14 +57,14 @@ export const classData = (() => {
 			if (classes[id]) return classes[id]
 			const ownerID = characters[id].owner?.id ?? id,
 			{ passenger, vehicle } = characters[ownerID]
-			
+
 			addCharacter(ownerID)
 			if (passenger || vehicle) {
 				passenger && addCharacter(passenger.id)
 				vehicle && addCharacter(vehicle.id)
 				linkClasses(ownerID)
 			}
-			
+
 			return classes[id]
 		},
 		resetCache(char: Character) {
@@ -167,8 +167,8 @@ export const getSpecialUpg = (special: boolean, id: number) => {
 const btnText = ['1st', '2nd', '3rd']
 
 export function createCards<T>(
-	cards: Card<unknown, T>[], source: T, baseSource: T, btnIndex: number, 
-	setIndex: (val: number) => void, upgs: Set<number>, temp: number[], dist: number, 
+	cards: Card<unknown, T>[], source: T, baseSource: T, btnIndex: number,
+	setIndex: (val: number) => void, upgs: Set<number>, temp: number[], dist: number,
 	crit: boolean, move: boolean, zoom: boolean, noSpecial: boolean, keyPrefix = ''
 ) {
 	return useMemo(() => {
@@ -178,27 +178,27 @@ export function createCards<T>(
 				prop, getName, labels,
 				getStats, decimals, colors, units
 			] = card
-	
+
 			let index = 0
-	
+
 			const btn = !prop[1]?.(source) || (() => {
 				const maxIndex = prop[2]?.(source) ? 2 : 1
 				index = Math.min(btnIndex, maxIndex)
-	
-				return <button 
+
+				return <button
 					className="btn card-toggle"
 					onClick={() => setIndex(index == maxIndex ? 0 : index + 1)}
 				>
 					{btnText[index]}
 				</button>
 			})()
-	
+
 			// Typecasting here won't cause issues since the cards are typed properly
 			const currentProp = prop[index](source) as never
 			if (!currentProp) return
 			heights[i] = 45
 			const baseProp = prop[index](baseSource) as never
-	
+
 			return <div className="card_c" key={keyPrefix + i}>
 				<div className="category_c">{btn}{getName(currentProp)}</div>
 				<div>{
@@ -207,18 +207,18 @@ export function createCards<T>(
 						const stat = statFunc(currentProp, source)
 						if (stat == null) return
 						heights[i] += 28
-	
+
 						const baseStat = baseProp ? statFunc(baseProp, baseSource) : null
 						const noColor = baseStat == null || baseStat == stat || typeof baseStat == 'string' || typeof stat == 'string'
-	
+
 						const color: React.CSSProperties = noColor ? {} : {
 							backgroundColor: (
 								colors[j] ^ +(Math.abs(stat) > Math.abs(baseStat)) ? 'rgba(30, 100, 0, ' : 'rgba(120, 40, 0, '
 							) + Math.min(1, (Math.max(Math.abs(baseStat / stat), Math.abs(stat / baseStat)) - 1) * .9 + .1) + ')'
 						}
-	
+
 						const statText = typeof stat == 'string' ? stat : round(stat, decimals[j]) + unitText[units[j] || 0]
-	
+
 						return <div className="row_c" key={j}>
 							<label>{label}</label>
 							<span style={color}>{statText}</span>

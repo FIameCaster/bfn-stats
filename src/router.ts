@@ -219,7 +219,7 @@ type HTMLAttributes<T> = {
 interface PageContainerEventMap {
 	"navigated": CustomEvent<unknown>
 }
-interface PageContainer extends HTMLDivElement { 
+interface PageContainer extends HTMLDivElement {
   addEventListener<K extends keyof PageContainerEventMap>(type: K, listener: (this: PageContainer, ev: PageContainerEventMap[K]) => void): void
   addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: PageContainer, ev: HTMLElementEventMap[K]) => void): void
 	dispatchEvent<K extends keyof PageContainerEventMap>(ev: PageContainerEventMap[K]): boolean
@@ -254,14 +254,14 @@ const navbar = (() => {
 	links = qsa('a', nav),
 	settings = (() => {
 		const labels = ['Distance', 'Crit damage', 'Moving target']
-		let distanceCallback: (newVal: number) => any, 
-		critCallback: (newVal: boolean) => any, 
+		let distanceCallback: (newVal: number) => any,
+		critCallback: (newVal: boolean) => any,
 		moveCallback: (newVal: boolean) => any,
 		searchStr = ''
 
 		const el = qs('.settings', nav),
 		updateDistance = () => {
-			const val = clamp(0, +distance.value, 100)+''
+			const val = clamp(0, +distance.value, 100) + ''
 			distance.value = val
 			router.url.setParam('d', val, '0', false)
 			updateLinks()
@@ -270,7 +270,7 @@ const navbar = (() => {
 			type: 'number', id: 'dist', min: 0, max: 100, step: 1, value: 0,
 			onkeyup(e) {
 				if (e.keyCode > 36 && e.keyCode < 41) updateDistance()
-			}, 
+			},
 			onblur: updateDistance,
 			oninput() {
 				distanceCallback?.(+distance.value)
@@ -280,7 +280,7 @@ const navbar = (() => {
 			type: 'checkbox', id: 'crit',
 			onchange() {
 				critCallback?.(crit.checked)
-				router.url.setParam('c', +crit.checked+'', '0', false)
+				router.url.setParam('c', +crit.checked + '', '0', false)
 				updateLinks()
 			}
 		}),
@@ -288,7 +288,7 @@ const navbar = (() => {
 			type: 'checkbox', id: 'move',
 			onchange() {
 				moveCallback?.(move.checked)
-				router.url.setParam('m', +move.checked+'', '0', false)
+				router.url.setParam('m', +move.checked + '', '0', false)
 				updateLinks()
 			}
 		}),
@@ -308,8 +308,7 @@ const navbar = (() => {
 			if ((<HTMLElement>e.target).tagName != 'A' || (<HTMLAnchorElement>e.target).target) return
 			if (e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) e.stopPropagation()
 			else e.preventDefault()
-
-		}, { capture: true })
+		}, true)
 
 		el.append(
 			element('ul', 0, [distance, crit, move].map((input, i) => (
@@ -321,16 +320,16 @@ const navbar = (() => {
 				])
 			)))
 		)
-		
+
 		links.forEach(link => link.onclick = e => {
 			router.goTo(link.href)
 		})
 
 		return {
 			el, updateLinks,
-			get searchStr() { return searchStr }, 
+			get searchStr() { return searchStr },
 			get state(): [number, boolean, boolean] { return [+distance.value, crit.checked, move.checked] },
-			set state(newState: [unknown, boolean, boolean]) { 
+			set state(newState: [unknown, boolean, boolean]) {
 				[distance.value, crit.checked, move.checked] = <[string, boolean, boolean]>newState
 			},
 			set updateCallbacks(callbacks: [(newVal: number) => any, (newVal: boolean) => any, (newVal: boolean) => any]) {
@@ -357,18 +356,21 @@ const router = (() => {
 		[key: string]: HTMLLinkElement
 	} = {},
 
-	prefetchStylesheets = (names: string[]) => names.map(name => {
+	prefetchStylesheets = (names: string[]) => document.head.append(...names.map(name => {
 		return prefetchedStylesheets[name] = element('link', { rel: 'prefetch', href: `/css/${name}.css`, as: 'style' })
-	}),
+	})),
 
-	prefetchScripts = (names: string[]) => names.map(name => {
+	prefetchScripts = (names: string[]) => document.head.append(...names.map(name => {
 		return element('link', { rel: 'prefetch', href: `/dest/${name}.js`, as: 'script' })
-	}),
+	})),
 
 	prefetch = (names: string[]) => {
-		if (!prefetchedStylesheets[names[0]]) document.head.append(...prefetchStylesheets(names), ...prefetchScripts(names))
+		if (!prefetchedStylesheets[names[0]]) {
+			prefetchStylesheets(names)
+			prefetchScripts(names)
+		}
 	}
-	
+
 	// Keeping html extensions so it still works with them
 	const scriptNames = {
 		'': 'list',
@@ -413,9 +415,9 @@ const router = (() => {
 			element('link', { rel: 'prefetch', href: `/fonts/Roboto-${text}.woff2`, as: 'font', type: 'font/woff2', crossOrigin: '' })
 		))
 		prefetch(names)
-		if (!pathname.includes('abilities')) document.head.append(prefetchScripts(['abilities'])[0])
-		if (prevKey[0] != 'c') document.head.append(prefetchScripts(['upgrades'])[0])
-		if (prevKey.startsWith('about'))document.head.append(prefetchScripts(['stats'])[0])
+		if (!pathname.includes('abilities')) prefetchScripts(['abilities'])
+		if (prevKey[0] != 'c') prefetchScripts(['upgrades'])
+		if (prevKey.slice(0, 5) == 'about') prefetchScripts(['stats'])
 	})
 
 	addEventListener('popstate', () => {
@@ -427,13 +429,12 @@ const router = (() => {
 
 	return {
 		goTo(url: string, dontScroll?: boolean): void {
-			const path = getPath(url), key = getKey(path), search = url.split('?')[1]
-			if (url != location.href) {
-				history.pushState({}, '', url)
-				pathname = path
-				params = new URLSearchParams(location.search)
-			}
-			if (search) params = new URLSearchParams(search)
+			pathname = getPath(url)
+			const key = getKey(pathname), search = url.split('?')[1]
+			const newURL = url != location.href
+
+			if (newURL) history.pushState({}, '', url)
+			if (search || newURL) params = new URLSearchParams(search)
 			if (prevKey != key && prevKey == 'classes') router.updateIcon('Peashooter')
 			if (prevKey == (prevKey = key)) return fireEvent(<PageContainer>navbar.nav.nextElementSibling)
 			const currentCache = cache[key]
@@ -443,7 +444,7 @@ const router = (() => {
 				if (!dontScroll) scrollTo(0, 0)
 				return fireEvent(currentCache[0])
 			}
-		
+
 			const html = documents[key]
 			if (!html) return void setTimeout(router.goTo, 500, url, dontScroll)
 			const content = <HTMLDivElement>document.createRange().createContextualFragment(html.slice(html.indexOf('<div id='), html.lastIndexOf('</div>') + 6)).firstChild,
@@ -472,16 +473,12 @@ const router = (() => {
 		prefetch,
 		prefetchedStylesheets,
 		url: {
-			getParam(name: string) {
-				return params.get(name)
-			},
-			getParams(...names: string[]) {
-				return names.map(name => params.get(name))
-			},
+			getParam: (name: string) => params.get(name),
+			getParams: (...names: string[]) => names.map(name => params.get(name)),
 			setParam(name: string, value: string, defaultValue: string, pushState?: boolean) {
 				if (value == defaultValue) params.delete(name)
 				else params.set(name, value)
-				if (pushState != null) history[pushState ? 'pushState' : 'replaceState']({}, '', pathname + (params+'' && `?${params}`))
+				if (pushState != null) history[pushState ? 'pushState' : 'replaceState']({}, '', pathname + (params + '' && `?${params}`))
 			},
 			goTo(href: string) {
 				// Only used on classes pages since they have their own router

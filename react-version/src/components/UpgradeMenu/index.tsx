@@ -43,8 +43,8 @@ function UpgradeMenu({ upgs, owner, cost, setCost, temp, updateTemp }: { upgs: S
 		<button>Upgrades ({cost}/7)</button>
 		{
 			open && <Suspense fallback={<ul className='perk-list'></ul>}>
-				<PerkList 
-					cost={cost} setCost={setCost} upgs={upgs} owner={owner} 
+				<PerkList
+					cost={cost} setCost={setCost} upgs={upgs} owner={owner}
 					setOpen={setOpen} temp={temp} updateTemp={updateTemp} maxHeight={
 						Math.min(innerHeight - elRef.current.getBoundingClientRect().top - 40, 532)
 				}/>
@@ -60,8 +60,8 @@ function TempMenu({ upgs, owner, temp, updateTemp }: { upgs: Set<number>, owner:
 		isHidden = false
 		break
 	}
-	
-	return <div 
+
+	return <div
 		className="select" id="temp"
 		onKeyDown={e => {
 			e.code == 'Escape' && setOpen(false)

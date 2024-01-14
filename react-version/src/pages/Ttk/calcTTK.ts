@@ -23,7 +23,7 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 		remaining = shots % periodLength || periodLength
 		if (time) {
 			let remainingTime = getTime(remaining)
-			return time + remainingTime - (!overheat ? 0 : 
+			return time + remainingTime - (!overheat ? 0 :
 				Math.floor(30 * (1 - (overheat[0] * remaining || overheat[1] * remainingTime)) / overheat[2]) / 30)
 		}
 		return getTime(shots)
@@ -64,7 +64,7 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 			cloud: number[][] = [], l = move ? 2 : 6
 			for (let i = 0; i < l; i++) cloud[i] = [.3 + .25 * i, 10]
 			if (!move) cloud.push([1.65, 6], [1.9, 6])
-	
+
 			const dmgArr: number[][] = []
 			for (let i = 0; i < periodLength; i++) {
 				const time = i * 60 / 58
@@ -72,7 +72,7 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 					[time, 12], ...cloud.map(arr => [arr[0] + time, arr[1]])
 				)
 			}
-	
+
 			let hp = health - (mags * ammo * dmg), totalDmg = 0, i = -1
 			while (totalDmg < hp) totalDmg += dmgArr[++i][1]
 			result.push([
@@ -108,7 +108,7 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 		for (let i = 1; i <= l; i++) damages[i] = weapon.getDamage(distance, i, crit, move)
 		for (let i = 0; i < l; i++) {
 			const [, recovery, ammoPerShot] = charges[i],
-			chargeDmg = damages[i + 1], 
+			chargeDmg = damages[i + 1],
 			shots: number[] = Array(l + 1).fill(0)
 
 			shots[i + 1]++
@@ -120,15 +120,15 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 			for (let j = 0; j <= l; j++) {
 				const currentDmg = damages[j]
 				if (!currentDmg) continue
-				let tempHP = health - chargeDmg, 
-				time = 0, 
+				let tempHP = health - chargeDmg,
+				time = 0,
 				tempShots = shots.slice(),
 				delay = recovery || j ? 30 * recovery + 1 : 1800 / rof,
-				tempShotCount = Math.ceil(tempHP / currentDmg) - 1, 
+				tempShotCount = Math.ceil(tempHP / currentDmg) - 1,
 				tempAmmo = ammo - ammoPerShot,
 				[chargeTime, ,ammoPerShot1] = charges[j - 1] || [0, ammoPerShot]
 				chargeTime *= 30
-				
+
 				for (let i = 0; i < tempShotCount; i++) {
 					time = ammo && tempAmmo <= 0 ? Math.ceil(time + reload + 1) : time + delay
 					if (j) time = Math.ceil(time + chargeTime)
@@ -140,10 +140,10 @@ export const calcTTK = (char: Character, distance: number, crit: boolean, move: 
 				for (let k = 0; k <= l; k++) {
 					const currentDmg = damages[k]
 					if (!currentDmg) continue
-					let tempHP2 = tempHP, 
-					tempAmmo2 = tempAmmo, 
+					let tempHP2 = tempHP,
+					tempAmmo2 = tempAmmo,
 					tempTime = time,
-					delay = recovery || k ? 30 * recovery + 1 : 1800 / rof, 
+					delay = recovery || k ? 30 * recovery + 1 : 1800 / rof,
 					tempShots2 = tempShots.slice(),
 					[chargeTime, ,ammoPerShot1] = charges[k - 1] || [0, ammoPerShot]
 					chargeTime *= 30

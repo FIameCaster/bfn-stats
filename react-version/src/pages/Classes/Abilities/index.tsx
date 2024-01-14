@@ -22,8 +22,8 @@ const classes = classData.classes, upgradedClasses = classData.upgraded
 
 export function Abilities() {
 	[{ distance: dist, crit, move }] = useStore()
-	
-	const [ability] = useUrlState(0, 'a', n => n+'', s => +s, { replace: true })
+
+	const [ability] = useUrlState(0, 'a', n => n + '', s => +s, { replace: true })
 	const param = getSettingsParam(dist, crit, move)
 
 	const [
@@ -50,7 +50,7 @@ export function Abilities() {
 		}
 	}
 
-	
+
 	const char = classData.getClass(charID),
 	baseAbility = stats.characters[charID].abilities[ability]
 	// Using this memo for its sideaffects when dependencies change
@@ -62,7 +62,7 @@ export function Abilities() {
 	zoom = newZoom
 
 	const [heights, cards] = createCards(
-		allCards, char.abilities[ability], baseAbility, btnIndex, setIndex, 
+		allCards, char.abilities[ability], baseAbility, btnIndex, setIndex,
 		upgs, temp, dist, crit, move, zoom, noSpecial, 'a'
 	)
 
@@ -188,7 +188,7 @@ class Ability {
 	decayRateM?: number
 	explosion?: [number, number, number?]
 	vehicle?: [
-		number, number, number, number, number?, number?, number?, Weapon?, 
+		number, number, number, number, number?, number?, number?, Weapon?,
 		number?, number?, number?, number?, number?, number?, number?, number?
 	]
 	explosionDelay?: number
@@ -266,7 +266,7 @@ const abilityCard: Card<Ability, Ability> = [
 	[
 		'Cooldown', 'Charges', 'Deploy time', 'Switch back delay', 'Duration',
 		'Buffspread radius', 'Stamina', 'Decay rate (/sec)', '… moving', 'Explosion delay',
-		'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range', 
+		'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range',
 		'Spotting range', 'Ally armor'
 	],
 	[[
@@ -313,7 +313,7 @@ bulletCard: Card<Bullet | Missile, Ability> = [
 	[ability => ability.weapon?.projectiles[0]],
 	() => 'Bullet speed',
 	[
-		'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity', 
+		'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity',
 		'Acceleration', 'Max velocity', 'Travel time', 'Max range', 'Gravity', 'Bullet radius',
 		'Bullet height', 'Bullet width'
 	],
@@ -396,7 +396,7 @@ overheatCard: Card<number[], Ability> = [
 	[ability => ability.weapon?.overheat],
 	() => 'Overheating',
 	[
-		'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time', 
+		'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time',
 		'Overheat threshold', 'Cooldown time', 'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 	],
 	[[
@@ -420,7 +420,7 @@ gunSwayCard: Card<number[], Ability> = [
 	[ability => ability.weapon?.[zoom ? 'gunSwayZoom' : 'gunSway'] || ability.weapon?.gunSway],
 	() => 'Gunsway',
 	[
-		'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping', 
+		'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping',
 		'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 	],
 	[[
@@ -459,7 +459,7 @@ homingCard: Card<number[], Ability> = [
 	[ability => ability.weapon?.homing],
 	() => 'Homing',
 	[
-		'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time', 
+		'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time',
 		'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 	],
 	[[
@@ -547,7 +547,7 @@ objectCard: Card<Ability['object'], Ability> = [
 	[ability => ability.object],
 	() => 'Object',
 	[
-		'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius', 
+		'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius',
 		'Shield HP', 'Max time to live', 'Swarm size', 'Shield radius', 'Max count'
 	],
 	[
@@ -575,7 +575,7 @@ zoneCard: Card<number[], Ability> = [
 	[ability => ability.buffZone],
 	() => 'Buff Zone',
 	[
-		'Zone radius', 'Armor multiplier', 'Speed penalty', 
+		'Zone radius', 'Armor multiplier', 'Speed penalty',
 		'Debuff charge (/sec)', 'Debuff decay (/sec)', 'DoT', 'Period'
 	],
 	[
@@ -605,7 +605,7 @@ beamCard: Card<number[], Ability> = [
 	[ability => ability.beam],
 	() => 'Healbeam',
 	[
-		'Heal rate (hp/s)', 'Application range', 'Max range', 
+		'Heal rate (hp/s)', 'Application range', 'Max range',
 	],
 	[[
 		beam => beam[2],
@@ -643,12 +643,12 @@ recoilAngleCard: Card<number[], Ability> = [
 
 allCards = [
 	abilityCard, fungFuCard, bulletCard,
-	damageCard, trapezoidCard, reloadCard, 
-	overheatCard, gunSwayCard, recoilAmpCard, 
-	dispersionCard, homingCard, buffCard, 
-	buffCard2, debuffCard, explosionCard, 
-	droneCard, airFireCard, airstrikCard, 
-	objectCard, dashCard, zoneCard, sprayCard, 
+	damageCard, trapezoidCard, reloadCard,
+	overheatCard, gunSwayCard, recoilAmpCard,
+	dispersionCard, homingCard, buffCard,
+	buffCard2, debuffCard, explosionCard,
+	droneCard, airFireCard, airstrikCard,
+	objectCard, dashCard, zoneCard, sprayCard,
 	beamCard, sundropCard, recoilAngleCard
 ]
 

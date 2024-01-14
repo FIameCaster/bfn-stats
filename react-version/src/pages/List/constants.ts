@@ -17,7 +17,7 @@ const labels = [
 	'Gravity','Ammo capacity','Reload time','Damage/clip','Shots/burst','Burst interval','Ammo/shot','Sustain­able RoF',
 	'Overheat time','Heat/bullet','Heat-gain/sec','Heat-drop/sec','Heat‑drop delay','Penalty time','Cooldown time',
 	'Damage/overheat',...chargeLabels,...chargeLabels,...chargeLabels,'Max HP','Regen delay','Regen rate','Armor',
-	'Shield HP','Shield regen','Shield regen delay','Priming time','Priming speed','Movement speed','Strafe speed', 
+	'Shield HP','Shield regen','Shield regen delay','Priming time','Priming speed','Movement speed','Strafe speed',
 	'Backwards speed', 'Sprint speed' ,'Speed (aiming)','Hover gravity','Max hover time','Jump height','In‑air jump height',
 	...recoilLabels, ...recoilLabels,'Max recoil angle Y','Max recoil angle X','Recovery time','Zoom scale',
 	...dispersionLabels, ...dispersionLabels, ...gunSwayLabels, 'Aim time', ...gunSwayLabels

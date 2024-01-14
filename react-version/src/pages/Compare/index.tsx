@@ -27,7 +27,7 @@ export function Compare() {
 	([{ distance: dist, crit, move}] = useStore())
 
 	zoom = zoomState
-	
+
 	const closeMenu = (state?: MenuState) => {
 		if (state) {
 			const newState = chars.slice()
@@ -44,13 +44,13 @@ export function Compare() {
 	}
 
 	updateTitle('Compare')
-	
+
 	const ruleRef = useRef<CSSStyleDeclaration[]>(null)
 	const observerRef = useRef<HTMLDivElement>(null)
 	const contentRef = useRef<HTMLDivElement>(null)
 	const addRef = useRef<HTMLButtonElement>(null)
 
-	// Ensures different columns get different keys even if 
+	// Ensures different columns get different keys even if
 	// getStateStr returns the same string for multiple columns
 	const keyMap: {[key: string]: number} = {}
 	const getColumnKey = (state: MenuState) => {
@@ -68,7 +68,7 @@ export function Compare() {
 		const sheet = document.head.appendChild(style).sheet
 		for (let i = 14; i;) sheet.insertRule(`.group_co${--i} { display:grid; }`)
 		ruleRef.current = [].map.call(sheet.cssRules, (rule: CSSStyleRule) => rule.style)
-		
+
 		const timeout = setTimeout(() => import('./menu'), 500)
 
 		return () => {
@@ -149,7 +149,7 @@ export function Compare() {
 		const char = getUpgradedClass(state)
 		const stats: number[][] = new Array(14)
 		for (let i = 0; i < 14; i++) {
-			const l = categorySizes[i], funcs = statFuncs[i], 
+			const l = categorySizes[i], funcs = statFuncs[i],
 			category = categoryFuncs[i](char), btnIndex = categoryIndexes[i],
 			nums: number[] = stats[i] = new Array(l)
 
@@ -210,7 +210,7 @@ export function Compare() {
 									<Link to={href} className="icon_co" style={{
 										backgroundPositionX: -8.2 * char.iconId + 'rem'
 									}}/>
-									<button 
+									<button
 										className="remove_co"
 										onClick={() => {
 											const newState = chars.slice()
@@ -218,7 +218,7 @@ export function Compare() {
 											setChars(newState)
 										}}
 									/>
-									<button 
+									<button
 										className="btn change_co"
 										onClick={() => {
 											menuIndex = i
@@ -234,7 +234,7 @@ export function Compare() {
 					<div>{visibilityBtns}</div>
 				</div>
 			</div>
-			{ 
+			{
 				menuOpen && <Suspense fallback={<div className='menu-container'></div>}>
 					<Menu closeMenu={closeMenu} state={menuState} />
 				</Suspense>
@@ -339,7 +339,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(charge: number[][], char, i) => (getWeapon(char).projectiles[i + 1])?.radius,
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 3 : 5],
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 4 : 6],
-		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0 
+		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0
 	],
 	[
 		(weapon: Weapon) => weapon.ammo,

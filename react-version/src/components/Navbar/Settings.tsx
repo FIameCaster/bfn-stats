@@ -20,7 +20,7 @@ function List() {
 
 	const updateDistance = (e: React.FormEvent, updateParam?: boolean) => {
 		const value = clamp(0, +(e.target as HTMLInputElement).value, 100)
-		if (updateParam) (e.target as HTMLInputElement).value = value+''
+		if (updateParam) (e.target as HTMLInputElement).value = value + ''
 		setStore({
 			distance: value
 		}, updateParam)

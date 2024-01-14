@@ -60,10 +60,10 @@ export function useUrlState<T>(initialState: T, param: string, serialize: (value
 	}, [serializedState])
 
 	return [
-		// Providing the ability to not update the url allowing frequent 
+		// Providing the ability to not update the url allowing frequent
 		// updates to debouce (or something similar) updating the url
 		state, (newState: T | ((state: T) => T), updateURL = true) => {
-			
+
 			const newParamVal = serialize(
 				typeof newState == 'function' ? (newState as Function)(state) : newState
 			)

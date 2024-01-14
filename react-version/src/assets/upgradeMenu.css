@@ -101,9 +101,9 @@
 }
 
 .perk-toggle {
-	height: 2em;			
+	height: 2em;
 	width: 2em;
-	display: flex;				
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: .2em;

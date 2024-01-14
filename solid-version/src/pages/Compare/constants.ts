@@ -9,7 +9,7 @@ export type MenuState = [
 
 const categories = [
 	[
-		'Damage output', 'DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst', 
+		'Damage output', 'DPS', 'Damage/shot', 'Rate of fire', 'Shots/burst',
 		'Burst interval', 'Shots/shell', 'Base RoF', 'Splash damage', 'Splash radius'
 	],
 	[
@@ -27,21 +27,21 @@ const categories = [
 		'Recoil amp scale Y', 'Recoil amp scale X', 'Speed penalty'
 	],
 	[
-		'Ammo & Reload', 'Ammo capacity', 'Ammo/shot', 'Reload time', 
+		'Ammo & Reload', 'Ammo capacity', 'Ammo/shot', 'Reload time',
 		'Damage/clip', 'Sustainable RoF', 'Sustainable DPS'
 	],
 	[
-		'Overheating', 'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 
-		'Heat-drop delay', 'Penalty time', 'Overheat threshold', 'Cooldown time', 
+		'Overheating', 'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec',
+		'Heat-drop delay', 'Penalty time', 'Overheat threshold', 'Cooldown time',
 		'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 	],
 	[
 		'Mobility', 'Movement speed', '… strafing', '… backwards', '… sprinting', '… aiming',
-		'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height', 
+		'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height',
 		'Jump hover time', 'Hover strafe speed', 'Priming speed', '… strafing', '… backwards'
 	],
 	[
-		'General', 'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
+		'General', 'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay',
 		'Sprint exit delay', 'Zoom FOV', 'Priming duration'
 	],
 	[
@@ -52,7 +52,7 @@ const categories = [
 		'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 	],
 	[
-		'Gunsway', 'Min angle', '… moving', '… jumping', 'Max angle', '… moving', 
+		'Gunsway', 'Min angle', '… moving', '… jumping', 'Max angle', '… moving',
 		'… jumping', 'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 	],
 	[
@@ -60,8 +60,8 @@ const categories = [
 		'Decrease/sec', 'Jump dispersion', 'Move dispersion', 'Avg shell dispersion'
 	],
 	[
-		'Recoil amplitude', 'Max amplitude Y', 'Max amplitude X', 'Increase/shot Y', 
-		'Average inc/shot X','Max deviation/shot X', 'Decrease factor', '… shooting', 
+		'Recoil amplitude', 'Max amplitude Y', 'Max amplitude X', 'Increase/shot Y',
+		'Average inc/shot X','Max deviation/shot X', 'Decrease factor', '… shooting',
 		'First shot inc scale'
 	],
 	[

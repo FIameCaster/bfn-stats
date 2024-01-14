@@ -16,11 +16,11 @@ const pageHeaders = (() => {
 	let upgradeMenu: UpgradeMenuType, tempUpgMenu: TempUpgMenuType,
 	currentUpgs: Set<number>, tempState: number[] = [],
 	charUpgrades: Upgrade[], ability: number
-	
+
 	const options = <HTMLDivElement>qs('.options_c', container),
 	upgEl = <UpgradeMenuElement>qs('#upg'),
 	tempEl = <TempMenuElement>qs('#temp'),
-	abilities = qs('.abilities'), 
+	abilities = qs('.abilities'),
 	abilityIcons: HTMLAnchorElement[] = [].slice.call(abilities.children),
 	zoomToggle = <HTMLInputElement>qs('#zoom'),
 	specialToggle = <HTMLInputElement>qs('#special'),
@@ -56,7 +56,7 @@ const pageHeaders = (() => {
 		return () => {
 			if (!currentUpgs.size) return container.textContent = 'No upgrades selected'
 			const newContent: HTMLDivElement[] = []
-			
+
 			let i = 0
 			for (const num of currentUpgs) {
 				if (i == 6) break
@@ -117,12 +117,12 @@ const pageHeaders = (() => {
 		}
 		url.setParam('t', getTempParam(tempState), '', false)
 	})
-	for (let i = 0; i < 2; i++) 
+	for (let i = 0; i < 2; i++)
 		(i ? vehicleLink : passengerLink).onclick = () => {
 			setChar(getLinkTargets(char)[i].id)
 			updatePath()
 		}
-	
+
 	zoomToggle.oninput = () => {
 		updateContent()
 		url.setParam('z', zoomToggle.checked ? '1' : '', '', false)
@@ -132,7 +132,7 @@ const pageHeaders = (() => {
 		updateContent()
 		url.setParam('s', specialToggle.checked ? '1' : '', '', false)
 	}
-	tempEl.onkeydown = e => { 
+	tempEl.onkeydown = e => {
 		e.code == 'Escape' && tempUpgMenu?.close()
 	}
 	upgEl.onkeydown = e => {
@@ -230,8 +230,8 @@ const pageHeaders = (() => {
 		param[ability ? 'set' : 'delete']('a', ''+ability);
 		updateContent()
 		updateTitle()
-		
-		url.goTo(`/classes/${char.folderName}/${ability == null ? '' : `abilities.html`}${param+'' && '?' + param}`)
+
+		url.goTo(`/classes/${char.folderName}/${ability == null ? '' : `abilities.html`}${param + '' && '?' + param}`)
 	},
 	updateLinks = () => {
 		const getParamStr = (str: string) => str && '?' + str.slice(1)
@@ -279,7 +279,7 @@ const pageHeaders = (() => {
 			updateSpecial(ownerID)
 		}
 		charUpgrades = upgrades[ownerID]
-		
+
 		const linkTargets = getLinkTargets(char)
 		for (let i = 0; i < 2; i++) {
 			const link = i ? vehicleLink : passengerLink
@@ -309,7 +309,7 @@ const pageHeaders = (() => {
 		updatePath(true)
 	}
 
-	return { 
+	return {
 		get id() { return id },
 		get zoom() { return zoomToggle.checked },
 		get ability() { return ability },
@@ -329,14 +329,14 @@ const pageHeaders = (() => {
 			}
 			zoomToggle.checked = zoom
 			specialToggle.checked = special
-			
+
 			classData.addUpgrades(
-				charID, 
-				currentUpgs = parseUpgParam(upg), 
+				charID,
+				currentUpgs = parseUpgParam(upg),
 				tempState = parseTempParam(temp),
 				getSpecialUpg()
 			)
-			
+
 			updateTempVisibility()
 			selectedUpgrades()
 			updateUpgPoints()
@@ -363,14 +363,14 @@ const classData = (() => {
 			if (classes[id]) return classes[id]
 			const ownerID = characters[id].owner?.id ?? id,
 			{ passenger, vehicle } = characters[ownerID]
-			
+
 			addCharacter(ownerID)
 			if (passenger || vehicle) {
 				passenger && addCharacter(passenger.id)
 				vehicle && addCharacter(vehicle.id)
 				linkClasses(ownerID)
 			}
-			
+
 			return classes[id]
 		},
 		resetCache(char: Character) {
@@ -430,10 +430,10 @@ const setState = async () => {
 	const path = location.pathname.split('/')
 
 	settings.state = [clamp(0, +distance, 100) || 0, !!crit, !!move]
-	
+
 	if (path[3] && !abilityCards) ({ abilityCards } = await import('./abilities.js'))
 	settings.updateCallbacks = [() => updateContent(true), () => updateContent(true), () => updateContent(true)]
-	
+
 	pageHeaders.setState(upg, temp, getCharID(path[2]), !!zoom, path[3] ? +ability || 0 : null, !!special)
 	onresize = () => createColumns()
 	settings.updateLinks()
@@ -449,16 +449,16 @@ const updateContent = (smallUpdate?: boolean) => {
 	[dist, crit, move] = settings.state
 	zoom = pageHeaders.zoom
 	const ability = pageHeaders.ability
-	
+
 	if (smallUpdate) {
 		const cards = ability == null ? statCards : abilityCards
 		for (const id of prevIDs) cards[id].update()
 		return
 	}
-	
+
 	const baseChar = characters[char.id]
 	newIDs = new Set<number>()
-	
+
 	if (ability != null) {
 		const baseProp = baseChar.abilities[ability]
 		const prop = char.abilities[ability]
@@ -544,7 +544,7 @@ const createStatCard = <Category, StatSource>(
 	units: number[]
 ) => {
 	let index = 0, indexState = 0, maxIndex = 0, nameText: Text,
-	currentProp: Category, char: StatSource, baseProp: Category, baseChar: StatSource, 
+	currentProp: Category, char: StatSource, baseProp: Category, baseChar: StatSource,
 	btn: HTMLButtonElement, rowContainer: HTMLDivElement, prevRowIDs: Set<number>
 
 	const getToggle = () => {
@@ -581,13 +581,13 @@ const createStatCard = <Category, StatSource>(
 				statText.data = round(stat, decimals[i]) + unitText[units[i] || 0]
 				const baseStat = baseProp ? getStats[index][i](baseProp, baseChar) : null
 				// console.log(stat, baseStat)
-				if (baseStat == null || baseStat == stat || typeof baseStat == 'string') 
+				if (baseStat == null || baseStat == stat || typeof baseStat == 'string')
 					statEl.removeAttribute('style')
-				else 
+				else
 					statEl.style.backgroundColor = (
 						colors[i] ^ +(Math.abs(stat) > Math.abs(baseStat)) ? 'rgba(30, 100, 0, ' : 'rgba(120, 40, 0, '
 					) + Math.min(1, (Math.max(Math.abs(baseStat / stat), Math.abs(stat / baseStat)) - 1) * .9 + .1) + ')'
-				
+
 				return true
 			}
 		}
@@ -682,7 +682,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[char => getWeapon(char)?.projectiles[0]],
 		() => 'Bullet speed',
 		[
-			'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity', 
+			'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity',
 			'Acceleration', 'Max velocity', 'Travel time', 'Max range', 'Gravity', 'Bullet radius',
 			'Bullet height', 'Bullet width'
 		],
@@ -746,7 +746,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[char => getWeapon(char)?.overheat],
 		() => 'Overheating',
 		[
-			'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time', 
+			'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time',
 			'Overheat threshold', 'Cooldown time', 'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 		],
 		[[
@@ -770,7 +770,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[char => getWeapon(char)?.[zoom ? 'gunSwayZoom' : 'gunSway'] || getWeapon(char)?.gunSway],
 		() => 'Gunsway',
 		[
-			'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping', 
+			'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping',
 			'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 		],
 		[[
@@ -809,7 +809,7 @@ const getWeaponCards = <StatSource>(getWeapon: (char: StatSource) => Weapon) => 
 		[char => getWeapon(char)?.homing],
 		() => 'Homing',
 		[
-			'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time', 
+			'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time',
 			'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 		],
 		[[
@@ -847,7 +847,7 @@ const statCards = [
 		() => 'Charge',
 		[
 			'Charge time', 'Recovery time', 'Charge DPS', 'Damage/shot', 'Ammo/shot', 'Splash damage',
-			'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration', 
+			'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration',
 			'Max velocity', 'Travel time', 'Max range', 'Bullet radius', 'Recoil amp scale Y',
 			'Recoil amp scale X', 'Speed penalty'
 		],
@@ -869,7 +869,7 @@ const statCards = [
 			(charge, char) => (getWeapon(char).projectiles[i + 1])?.radius,
 			(charge, char) => charge[zoom ? 3 : 5],
 			(charge, char) => charge[zoom ? 4 : 6],
-			(charge, char) => charge[7] * 100 || 0 
+			(charge, char) => charge[7] * 100 || 0
 		]),
 		[,,,,,,,,,,,,3,1,,,,1],
 		[1,1,,,1,,,,,,,,1],
@@ -906,7 +906,7 @@ const statCards = [
 		[char => !!char.dashes],
 		() => 'Uppercut',
 		[
-			'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage', 
+			'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage',
 			'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
 		],
 		[[
@@ -970,7 +970,7 @@ const statCards = [
 		() => 'Mobility',
 		[
 			'Movement speed', '… strafing', '… backwards', '… sprinting', '… aiming',
-			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height', 
+			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height',
 			'Jump hover time', 'Hover strafe speed', 'Priming speed', '… strafing', '… backwards'
 		],
 		[[
@@ -988,7 +988,7 @@ const statCards = [
 		[char => char],
 		() => 'General',
 		[
-			'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
+			'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay',
 			'Sprint exit delay', 'Zoom FOV', 'Priming duration', 'Health leach (hp/s)'
 		],
 		[[

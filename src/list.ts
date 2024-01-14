@@ -8,7 +8,7 @@ url = router.url
 
 const table = (() => {
 	let currentCategory: number[], currentDecimals: number[],
-	reversedOrder: boolean, filterType: number, sortID: number, 
+	reversedOrder: boolean, filterType: number, sortID: number,
 	currentOrder: [string | number, number][], currentStats: (number | null)[][]
 
 	const el = qs('table', container)
@@ -33,7 +33,7 @@ const table = (() => {
 			'Gravity','Ammo capacity','Reload time','Damage/clip','Shots/burst','Burst interval','Ammo/shot','Sustain­able RoF',
 			'Overheat time','Heat/bullet','Heat-gain/sec','Heat-drop/sec','Heat‑drop delay','Penalty time','Cooldown time',
 			'Damage/overheat',...chargeLabels,...chargeLabels,...chargeLabels,'Max HP','Regen delay','Regen rate','Armor',
-			'Shield HP','Shield regen','Shield regen delay','Priming time','Priming speed','Movement speed','Strafe speed', 
+			'Shield HP','Shield regen','Shield regen delay','Priming time','Priming speed','Movement speed','Strafe speed',
 			'Backwards speed', 'Sprint speed' ,'Speed (aiming)','Hover gravity','Max hover time','Jump height','In‑air jump height',
 			...recoilLabels, ...recoilLabels,'Max recoil angle Y','Max recoil angle X','Recovery time','Zoom scale',
 			...dispersionLabels, ...dispersionLabels, ...gunSwayLabels, 'Aim time', ...gunSwayLabels
@@ -41,7 +41,7 @@ const table = (() => {
 
 		const nodes: Text[] = [], cells: HTMLTableCellElement[] = []
 
-		for (let i = 0; i < 10; i++) cells[i] = element('th', { 
+		for (let i = 0; i < 10; i++) cells[i] = element('th', {
 			tabIndex: 0, onclick() {
 				body.sort(i)
 			}
@@ -80,7 +80,7 @@ const table = (() => {
 	const decimals: number[] = [
 		...Array(76).fill(2), ...Array(54).fill(3)
 	]
-	
+
 	const units: number[] = [
 		0,0,0,0,3,0,1,0,1,1,1,3,6,3,2,1,6,0,2,0,0,2,0,0,2,0,0,0,2,2,2,0, // ends at Damage/overheat 31
 		2,2,0,0,0,0,3,1,2,2,2,0,0,0,0,3,1,2,2,2,0,0,0,0,3,1,2,0,2,0,7,0, // ends at Shield HP 63
@@ -90,7 +90,7 @@ const table = (() => {
 	const unitText = [
 		'', 'm', 's', 'm/s', 'm²', '°', 'm/s²', '%'
 	]
-	
+
 	for (let i of [14,25,40,49,58]) decimals[i] = 3
 	units[121] = 2
 
@@ -158,7 +158,7 @@ const table = (() => {
 				...[0,1,2,3,4].map(i => (char: Character) => char.primary.overheat?.[i]), // Overheating 25 - 29
 				(char: Character) => char.primary.cooldown,//Cooldown duration 30
 				(char: Character) => char.primary.getDmgPerOverheat(distance, crit, move),//Damage/overheat 31
-				...[0,1,2].map(i => [ 
+				...[0,1,2].map(i => [
 					(char: Character) => char.primary.charges?.[i]?.[0],//Charge time 32
 					(char: Character) => char.primary.charges?.[i]?.[1],//Recovery time 33
 					(char: Character) => char.primary.getChargeDPS(distance, i, crit, move),//Charge DPS 34
@@ -168,7 +168,7 @@ const table = (() => {
 					(char: Character) => char.primary.projectiles[i + 1]?.startSpeed,//Launch velocity 38
 					(char: Character) => char.primary.getMaxRange(i + 1) || null,//Max range 39
 					(char: Character) => char.primary.travelTime(distance, i + 1),//Travel time 40
-				]).flat(), 
+				]).flat(),
 				(char: Character) => char.health,//Max HP 59
 				(char: Character) => char.regenDelay,//Regen delay 60
 				(char: Character) => char.regenRate,//Regen rate 61
@@ -204,7 +204,7 @@ const table = (() => {
 					(newVal: boolean) => (move = newVal, body.updateStats())
 				]
 			]
-			
+
 		})()
 
 		const rows: {
@@ -217,7 +217,7 @@ const table = (() => {
 
 		for (let i = 0; i < 34; i++) {
 			// Local state for each row making it faster to update
-			let oldData: number[], initialized: boolean, 
+			let oldData: number[], initialized: boolean,
 			nodes: Text[] = [], link: HTMLAnchorElement, oldChar: Character,
 			cells: HTMLTableCellElement[] = []
 
@@ -292,9 +292,9 @@ const table = (() => {
 
 				if (sortID) for (let i = 0; i < 34; i++)
 					currentOrder[i] = [currentStats[i][sortID - 1] ?? defaultValue, i]
-				else for (let i = 0; i < 34; i++) 
+				else for (let i = 0; i < 34; i++)
 					currentOrder[i] = [characters[i].name, i]
-				
+
 				currentOrder.sort(sortingFuncs[(sortID ? 0 : 2) + +reversedOrder])
 
 				body.update()
@@ -305,7 +305,7 @@ const table = (() => {
 
 				for (let i = 0, j = 0; i < 34; i++) {
 					const index = currentOrder[i][1],
-					char = characters[index], include = !team || char.team == team, 
+					char = characters[index], include = !team || char.team == team,
 					data = currentStats[index], row = rows[include ? i - j : 34 - ++j], isNewRow = !row.el
 					if (!include) {
 						if (!isNewRow) row.el.style.display = 'none'
@@ -347,12 +347,12 @@ const table = (() => {
 		})(),
 		setCategory(index: number) {
 			setCategory(index)
-			
+
 			if (sortID) {
 				head.setSortID(1, false)
 			}
 			body.updateStats()
-			url.setParam('g', index+'', '0', false)
+			url.setParam('g', index + '', '0', false)
 		},
 		setFilter(type: number) {
 			filterType = type
@@ -402,7 +402,7 @@ const setState = () => {
 	pageOptions.team.value = filter
 	pageOptions.category.value = category
 	table.setState(category, !!order, filter, sort, distance, !!crit, !!move);
-	
+
 	(onresize = pageOptions.setMaxWidth)()
 	settings.updateLinks()
 }

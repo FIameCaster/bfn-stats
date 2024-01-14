@@ -89,7 +89,7 @@ export function Options({ ability, param, maxWidth }: { ability: number, param: 
 				<Link title="Right ability" to={abilityLinks[2]} className={ability == 2 ? 'selected' : ''} />
 			</div>
 			<div className="nav_c">
-				<Link 
+				<Link
 					id="next" className="btn" title="(→)" ref={nextRef}
 					to={`/classes/${stats.characters[nextMap[charID] ?? charID + 1].folderName}/${ability == null ? '' : 'abilities'}${getParamStr(param + (ability ? '&a=' + ability : ''))}`}
 				>Next</Link>
@@ -103,7 +103,7 @@ export function Options({ ability, param, maxWidth }: { ability: number, param: 
 			<UpgradeContainer upgs={upgs} owner={owner} className='upg-container' temp={temp} updateTemp={setTemp} updateUpgs={setUpgs} />
 			<div className="group_c2">
 				<div className="upgrades">{
-					upgs.size ? upgIcons.slice(0, 6) : 'No upgrades selected'	
+					upgs.size ? upgIcons.slice(0, 6) : 'No upgrades selected'
 				}</div>
 				<div>{
 					linkTargets.map((char, i) => char && (

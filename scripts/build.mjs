@@ -113,7 +113,7 @@ const specialUpgs = [
 ]
 
 const pronouns = [
-	'his', 'his', 'his', 'her', 'his', 'her', 'his', 'his', 'her', 'her', 'their', 
+	'his', 'his', 'his', 'her', 'his', 'her', 'his', 'his', 'her', 'her', 'their',
 	'his', 'his', 'his', 'his', 'her', 'his', 'his', 'her', 'his', 'his', 'his', 'his',
 	'his', 'its', 'its', 'his', 'her', 'his'
 ]
@@ -150,7 +150,7 @@ const options = {
 				'moveData','getDispersion','getRecoil','splashDPS','getChargeDPS','getDPS','getChargeRof','getMaxRange','sprayRange','arcs',
 				'getDmgPerOverheat','getDmgPerClip','getCloud','getDamage','cooldown','overheatTime','sustainableRof','effectiveRof',
 				'timeToFireClip','ammo','primeTime','primeSpeed','compareChars','travelTime','travelDistance','updateLinks','links','goTo',
-				'shotsToOverheat','recoilAngle','searchStr','prefetchedStylesheets','prefetch','partiallyReset','resetCache','addAbility', 
+				'shotsToOverheat','recoilAngle','searchStr','prefetchedStylesheets','prefetch','partiallyReset','resetCache','addAbility',
 				'folderName','upgrades','armor','dashes','upgradeMenu','tempUpgMenu','abilityCards','isClosed','setAbilities','abilities',
 				'classes','upgraded','resetStats','deployTime','backDelay','buff','debuff','spreadRad','buff2','stamina','decayRate',
 				'decayRateM','explosion','explosionDelay','beam','healSpray','warpDist','healRate','healRad','linkUpRange','spottingRange',
@@ -163,13 +163,13 @@ const options = {
 };
 
 [
-	'abilities', 'classes', 'list', 'stats', 'ttk', 'upgrades', 
+	'abilities', 'classes', 'list', 'stats', 'ttk', 'upgrades',
 	'about', 'upgradeMenu', 'compare', 'compareMenu', 'router'
 ].forEach(async name => {
 
 	let file = fs.readFileSync(`dest/${name}.js`, 'utf-8')
 	// Adding v-param and replacing const with let
-	file = file.replace(/(?<=\.(css|txt|js))(?=[^\w])/g, cacheParam).replace(/const /g, 'let ')
+	file = file.replace(/(?<=\.(css|txt|js))\b/g, cacheParam).replace(/const /g, 'let ')
 
 	if (name == 'classes')
 		file = file.replace(/\.html/g, '') // Removing .html extensions
@@ -203,7 +203,7 @@ async function copyDir(src, dest) {
 
 		if (entry.isDirectory()) await copyDir(srcPath, destPath)
 		else await fs.promises.copyFile(srcPath, destPath)
-	}	
+	}
 }
 
 function getBuild(html) {

@@ -119,7 +119,7 @@ export class Ability {
 	decayRateM?: number
 	explosion?: [number, number, number?]
 	vehicle?: [
-		number, number, number, number, number?, number?, number?, Weapon?, 
+		number, number, number, number, number?, number?, number?, Weapon?,
 		number?, number?, number?, number?, number?, number?, number?, number?
 	]
 	explosionDelay?: number
@@ -202,7 +202,7 @@ export const abilityCards = [
 		[
 			'Cooldown', 'Charges', 'Deploy time', 'Switch back delay', 'Duration',
 			'Buffspread radius', 'Stamina', 'Decay rate (/sec)', '… moving', 'Explosion delay',
-			'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range', 
+			'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range',
 			'Spotting range', 'Ally armor'
 		],
 		[[
@@ -339,7 +339,7 @@ export const abilityCards = [
 		[ability => ability.object],
 		() => 'Object',
 		[
-			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius', 
+			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius',
 			'Shield HP', 'Max time to live', 'Swarm size', 'Shield radius', 'Max count'
 		],
 		[
@@ -367,7 +367,7 @@ export const abilityCards = [
 		[ability => ability.buffZone],
 		() => 'Buff Zone',
 		[
-			'Zone radius', 'Armor multiplier', 'Speed penalty', 
+			'Zone radius', 'Armor multiplier', 'Speed penalty',
 			'Debuff charge (/sec)', 'Debuff decay (/sec)', 'DoT', 'Period'
 		],
 		[
@@ -397,7 +397,7 @@ export const abilityCards = [
 		[ability => ability.beam],
 		() => 'Healbeam',
 		[
-			'Heal rate (hp/s)', 'Application range', 'Max range', 
+			'Heal rate (hp/s)', 'Application range', 'Max range',
 		],
 		[[
 			beam => beam[2],

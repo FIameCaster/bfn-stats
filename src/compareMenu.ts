@@ -10,7 +10,7 @@ type MenuState = [
 interface CompareMenuEventMap {
 	"menusave": CustomEvent<MenuState>
 }
-interface CompareMenuContainer extends HTMLDivElement { 
+interface CompareMenuContainer extends HTMLDivElement {
   addEventListener<K extends keyof CompareMenuEventMap>(type: K, listener: (this: CompareMenuContainer, ev: CompareMenuEventMap[K]) => void): void
   addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: CompareMenuContainer, ev: HTMLElementEventMap[K]) => void): void
 	dispatchEvent<K extends keyof CompareMenuEventMap>(ev: CompareMenuEventMap[K]): boolean
@@ -29,7 +29,7 @@ currentState: MenuState, selectedID = 0
 
 const btns: HTMLElement[] = [],
 icon = element('img', { src: '/images/all-icons-large.webp' }),
-nameText = text(''), roleText = text(''), roleIcon = element('span'), 
+nameText = text(''), roleText = text(''), roleIcon = element('span'),
 upgEl: UpgradeMenuElement = element('div', { id: 'upg', className: 'select', onkeydown(e) {
   e.code == 'Escape' && upgradeMenu.close()
   e.stopPropagation()

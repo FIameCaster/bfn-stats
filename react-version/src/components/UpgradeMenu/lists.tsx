@@ -52,14 +52,14 @@ export function PerkList({ cost, setCost, upgs, owner, maxHeight, setOpen, temp,
 								}
 							}}
 						>
-							<span 
+							<span
 								className="perk-type" style={{
 									backgroundPositionX: -2 * upg[2] + 'em'
 								}}
 							/>
 							{upgradeNames[upg[0]]}
 							<span className="perk-role-container">
-								<span 
+								<span
 									className="perk-role"
 									style={{
 										backgroundImage: getRoleImg(upg[3]),
@@ -69,7 +69,7 @@ export function PerkList({ cost, setCost, upgs, owner, maxHeight, setOpen, temp,
 							</span>
 							<span className="cost">{upg[1]}</span>
 						</button>
-						<button 
+						<button
 							className="perk-toggle"
 							onClick={e => {
 								const newOpen = opened.slice()
@@ -86,7 +86,7 @@ export function PerkList({ cost, setCost, upgs, owner, maxHeight, setOpen, temp,
 			))
 		}
 		<li>
-			<BuildContainer 
+			<BuildContainer
 				id={owner.id} upgs={upgs} temp={temp} updateTemp={updateTemp}
 				setCost={setCost} maxHeight={maxHeight}
 			/>
@@ -112,12 +112,12 @@ export function TempList({ upgs, owner, temp, updateTemp }: { upgs: Set<number>,
 	for (const id of upgs) {
 		const tempUpg = charUpgs[id][5]
 		if (!tempUpg) continue
-		
+
 		controls[i++] = (
 			<li key={id} className={tempUpg[1] ? 'range' : 'input-group'}>
 				<label htmlFor={'input' + i}>{upgradeNames[charUpgs[id][0]]}</label>
 				{ !!tempUpg[1] && <label htmlFor={'input' + i}>Stage: {tempState[id] || 0}</label> }
-				<input 
+				<input
 					type={tempUpg[1] ? 'range' : 'checkbox'}
 					id={'input' + i}
 					max={tempUpg.length - 1}
@@ -182,7 +182,7 @@ function BuildItem({ i, id, temp, upgs, setCost, updateTemp }: { i: number, id: 
 		<div className="build">{
 			count ? icons : "Empty build"
 		}</div>
-		<button 
+		<button
 			className="btn"
 			onClick={() => {
 				setBuild(upgs.size ? `${getUpgParam(upgs)}.${getTempParam(temp)}` : '')

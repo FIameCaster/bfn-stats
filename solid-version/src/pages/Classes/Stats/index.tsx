@@ -18,7 +18,7 @@ export function Stats() {
 		}
 		return cards
 	})
-	
+
 	createEffect(() => {
 		updateTitle(char().fullName + ' stats', char().name)
 	})
@@ -38,7 +38,7 @@ const statCards = [
 		() => 'Charge',
 		[
 			'Charge time', 'Recovery time', 'Charge DPS', 'Damage/shot', 'Ammo/shot', 'Splash damage',
-			'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration', 
+			'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration',
 			'Max velocity', 'Travel time', 'Max range', 'Bullet radius', 'Recoil amp scale Y',
 			'Recoil amp scale X', 'Speed penalty'
 		],
@@ -60,7 +60,7 @@ const statCards = [
 			(charge, char) => (getWeapon(char).projectiles[i + 1])?.radius,
 			(charge, char) => charge[zoom ? 3 : 5],
 			(charge, char) => charge[zoom ? 4 : 6],
-			(charge, char) => charge[7] * 100 || 0 
+			(charge, char) => charge[7] * 100 || 0
 		]),
 		[,,,,,,,,,,,,3,1,,,,1],
 		[1,1,,,1,,,,,,,,1],
@@ -97,7 +97,7 @@ const statCards = [
 		[char => !!char.dashes],
 		() => 'Uppercut',
 		[
-			'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage', 
+			'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage',
 			'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
 		],
 		[[
@@ -161,7 +161,7 @@ const statCards = [
 		() => 'Mobility',
 		[
 			'Movement speed', '… strafing', '… backwards', '… sprinting', '… aiming',
-			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height', 
+			'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height',
 			'Jump hover time', 'Hover strafe speed', 'Priming speed', '… strafing', '… backwards'
 		],
 		[[
@@ -179,7 +179,7 @@ const statCards = [
 		[char => char],
 		() => 'General',
 		[
-			'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
+			'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay',
 			'Sprint exit delay', 'Zoom FOV', 'Priming duration', 'Health leach (hp/s)'
 		],
 		[[

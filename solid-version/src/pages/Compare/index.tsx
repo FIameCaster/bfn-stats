@@ -19,10 +19,10 @@ menuIndex: number
 export function Compare() {
 	const [chargeLvl, setChargeLvl] = createSignal(0)
 	const [zoomState, setZoom] = createParamSignal<boolean>('z', '', b => b ? '1' : '', s => !!s, true)
-	
+
 	updateTitle('Compare')
-	
-	let obsEl: HTMLDivElement, 
+
+	let obsEl: HTMLDivElement,
 	content: HTMLDivElement,
 	addBtn: HTMLButtonElement
 
@@ -155,7 +155,7 @@ export function Compare() {
 								<span>{ char.fullName }</span>
 							</A>
 							<div class="header_co">
-								<A 
+								<A
 									href={getColumnLink(colParam, char)}
 									class="icon_co" style={{
 										"background-position-x": -8.2 * char.iconId + 'rem'
@@ -199,7 +199,7 @@ export function Compare() {
 					}
 				}</For>
 				<div>
-					<button 
+					<button
 						class="add_co btn"
 						ref={addBtn}
 						onClick={() => {
@@ -210,14 +210,14 @@ export function Compare() {
 					>Add</button>
 					<For each={categorySizes}>{
 						(size, i) => <>
-							<button 
+							<button
 								class="toggle_co"
 								title="toggle category visibility"
 								onClick={e => {
 									rules[i()].display = e.currentTarget.classList.toggle('hidden_co') ? 'none' : 'grid'
 								}}
 							/>
-							<div 
+							<div
 								class={'group_co group_co' + i()}
 								style={{ height: size * 2.8 + 'rem' }}
 							/>
@@ -322,7 +322,7 @@ const statFuncs: ((category: unknown, char: Character, buttonState?: number) => 
 		(charge: number[][], char, i) => (getWeapon(char).projectiles[i + 1])?.radius,
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 3 : 5],
 		(charge: number[][], char, i) => charge[i]?.[zoom ? 4 : 6],
-		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0 
+		(charge: number[][], char, i) => charge[i]?.[7] * 100 || 0
 	],
 	[
 		(weapon: Weapon) => weapon.ammo,

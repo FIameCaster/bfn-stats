@@ -9,18 +9,18 @@ const rows: {
 	update: (data: [Character, number, string]) => void,
 	updateLink: () => void
 }[] = Array(55)
-const template = element('div', { 
-	className: 'row_t', 
+const template = element('div', {
+	className: 'row_t',
 	innerHTML: '<a></a><div class="ttk"> </div> '
 })
 
 for (let i = 0; i < 55; i++) {
 	let oldData: [Character, number, string],
-	ttkNode: Text, notesText: Text, initialized: boolean, 
+	ttkNode: Text, notesText: Text, initialized: boolean,
 	link: HTMLAnchorElement, ttkEl: HTMLDivElement
 
 	const init = () => {
-		if (initialized == (initialized = true)) return		
+		if (initialized == (initialized = true)) return
 		[
 			link, ttkEl, notesText
 		] = <any>(rows[i].el = <HTMLDivElement>template.cloneNode(true)).childNodes
@@ -78,7 +78,7 @@ const createColumns = () => {
 	if (colCount == prevColCount && prevRowCount == rowCount) return
 
 	const sizeRatio = (prevRowCount * colCount) / (rowCount * prevColCount) || 0
-	
+
 	if (sizeRatio != 1) for (let i = 0; i < colCount; i++) {
 		const column = columns[i], firstChild = column.firstChild
 		const max = rowCount / colCount * (i + 1)
@@ -126,7 +126,7 @@ health.onblur = () =>{
 }
 defaultOnly.onchange = () => {
 	updateRows()
-	url.setParam('e', +defaultOnly.checked+'', '0', false)
+	url.setParam('e', +defaultOnly.checked + '', '0', false)
 }
 
 const setState = () => {
@@ -174,7 +174,7 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 		remaining = shots % periodLength || periodLength
 		if (time) {
 			let remainingTime = getTime(remaining)
-			return time + remainingTime - (!overheat ? 0 : 
+			return time + remainingTime - (!overheat ? 0 :
 				Math.floor(30 * (1 - (overheat[0] * remaining || overheat[1] * remainingTime)) / overheat[2]) / 30)
 		}
 		return getTime(shots)
@@ -215,7 +215,7 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 			cloud: number[][] = [], l = move ? 2 : 6
 			for (let i = 0; i < l; i++) cloud[i] = [.3 + .25 * i, 10]
 			if (!move) cloud.push([1.65, 6], [1.9, 6])
-	
+
 			const dmgArr: number[][] = []
 			for (let i = 0; i < periodLength; i++) {
 				const time = i * 60 / 58
@@ -223,7 +223,7 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 					[time, 12], ...cloud.map(arr => [arr[0] + time, arr[1]])
 				)
 			}
-	
+
 			let hp = health - (mags * ammo * dmg), totalDmg = 0, i = -1
 			while (totalDmg < hp) totalDmg += dmgArr[++i][1]
 			result.push([
@@ -259,7 +259,7 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 		for (let i = 1; i <= l; i++) damages[i] = weapon.getDamage(distance, i, crit, move)
 		for (let i = 0; i < l; i++) {
 			const [, recovery, ammoPerShot] = charges[i],
-			chargeDmg = damages[i + 1], 
+			chargeDmg = damages[i + 1],
 			shots: number[] = Array(l + 1).fill(0)
 
 			shots[i + 1]++
@@ -271,15 +271,15 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 			for (let j = 0; j <= l; j++) {
 				const currentDmg = damages[j]
 				if (!currentDmg) continue
-				let tempHP = health - chargeDmg, 
-				time = 0, 
+				let tempHP = health - chargeDmg,
+				time = 0,
 				tempShots = shots.slice(),
 				delay = recovery || j ? 30 * recovery + 1 : 1800 / rof,
-				tempShotCount = Math.ceil(tempHP / currentDmg) - 1, 
+				tempShotCount = Math.ceil(tempHP / currentDmg) - 1,
 				tempAmmo = ammo - ammoPerShot,
 				[chargeTime, ,ammoPerShot1] = charges[j - 1] || [0, ammoPerShot]
 				chargeTime *= 30
-				
+
 				for (let i = 0; i < tempShotCount; i++) {
 					time = ammo && tempAmmo <= 0 ? Math.ceil(time + reload + 1) : time + delay
 					if (j) time = Math.ceil(time + chargeTime)
@@ -291,10 +291,10 @@ const calcTTK = (char: Character, distance: number, crit: boolean, move: boolean
 				for (let k = 0; k <= l; k++) {
 					const currentDmg = damages[k]
 					if (!currentDmg) continue
-					let tempHP2 = tempHP, 
-					tempAmmo2 = tempAmmo, 
+					let tempHP2 = tempHP,
+					tempAmmo2 = tempAmmo,
 					tempTime = time,
-					delay = recovery || k ? 30 * recovery + 1 : 1800 / rof, 
+					delay = recovery || k ? 30 * recovery + 1 : 1800 / rof,
 					tempShots2 = tempShots.slice(),
 					[chargeTime, ,ammoPerShot1] = charges[k - 1] || [0, ammoPerShot]
 					chargeTime *= 30

@@ -56,7 +56,7 @@ export function PerkList(props: { upgs: Signal1<Set<number>>, temp: Signal1<numb
 							props.upgs[1](new Set(upgs()))
 						}}
 					>
-						<span 
+						<span
 							class="perk-type" style={{
 								"background-position-x": -2 * upg()[2] + 'em'
 							}}
@@ -73,7 +73,7 @@ export function PerkList(props: { upgs: Signal1<Set<number>>, temp: Signal1<numb
 						</span>
 						<span class="cost">{ upg()[1] }</span>
 					</button>
-					<button 
+					<button
 						class="perk-toggle"
 						onClick={e => {
 							setOpen(i, open => !open)
@@ -99,7 +99,7 @@ export function PerkList(props: { upgs: Signal1<Set<number>>, temp: Signal1<numb
 						"max-height": props.maxHeight - buildContainer.getBoundingClientRect().height - 10 + 'px'
 					}}>
 						<For each={[0,1,2]}>{
-							i => <BuildItem 
+							i => <BuildItem
 								key={() => `build${props.owner().id.toString(36)}${i}`}
 								upgs={props.upgs} temp={props.temp} upgrades={charUpgrades}
 							/>
@@ -172,14 +172,14 @@ export function TempList(props: { upgs: Signal1<Set<number>>, temp: Signal1<numb
 			(id, i) => <li class={getTemp(id)?.[1] ? 'range' : 'input-group'}>
 				<label for={"input" + i()}>{ upgradeNames[charUpgrades()[id][0]] }</label>
 				<Show when={getTemp(id)?.[1]} fallback={
-					<input 
+					<input
 						type="checkbox" id={"input" + i()} checked={props.temp[0]()[id] == 0}
 						onInput={e => updateTemp(id, e.currentTarget.checked ? 0 : null)}
 					/>
 				}>
 					<label for={'input' + i}>Stage: {props.temp[0]()[id] || 0}</label>
-					<input 
-						type="range" id={"input" + i()} 
+					<input
+						type="range" id={"input" + i()}
 						max={getTemp(id).length - 1}
 						value={props.temp[0]()[id] || 0}
 						onInput={e => updateTemp(id, +e.currentTarget.value)}

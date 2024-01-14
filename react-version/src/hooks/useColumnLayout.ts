@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react"
-import { clamp } from "../utils" 
+import { clamp } from "../utils"
 
 const getWidth = () => document.documentElement.getBoundingClientRect().width
 

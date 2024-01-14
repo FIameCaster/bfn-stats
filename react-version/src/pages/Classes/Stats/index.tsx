@@ -38,7 +38,7 @@ export function Stats() {
 	useMemo(() => classData.addUpgrades(charID, upgs, temp, getSpecialUpg(noSpecial, char.owner?.id || charID)), [charID, upgs, temp, noSpecial])
 
 	const [heights, cards] = createCards(
-		allCards, char, baseChar, btnIndex, setIndex, 
+		allCards, char, baseChar, btnIndex, setIndex,
 		upgs, temp, dist, crit, move, zoom, noSpecial
 	)
 
@@ -76,7 +76,7 @@ bulletCard: Card<Bullet | Missile, Character> = [
 	[char => getWeapon(char).projectiles[0]],
 	() => 'Bullet speed',
 	[
-		'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity', 
+		'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity',
 		'Acceleration', 'Max velocity', 'Travel time', 'Max range', 'Gravity', 'Bullet radius',
 		'Bullet height', 'Bullet width'
 	],
@@ -123,7 +123,7 @@ chargeCard: Card<number[], Character> = [
 	() => 'Charge',
 	[
 		'Charge time', 'Recovery time', 'Charge DPS', 'Damage/shot', 'Ammo/shot', 'Splash damage',
-		'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration', 
+		'Launch velocity', 'Drag start', 'Drag end', 'Post-drag velocity', 'Acceleration',
 		'Max velocity', 'Travel time', 'Max range', 'Bullet radius', 'Recoil amp scale Y',
 		'Recoil amp scale X', 'Speed penalty'
 	],
@@ -145,7 +145,7 @@ chargeCard: Card<number[], Character> = [
 		(charge, char) => (getWeapon(char).projectiles[i + 1])?.radius,
 		(charge, char) => charge[zoom ? 3 : 5],
 		(charge, char) => charge[zoom ? 4 : 6],
-		(charge, char) => charge[7] * 100 || 0 
+		(charge, char) => charge[7] * 100 || 0
 	]),
 	[,,,,,,,,,,,,3,1,,,,1],
 	[1,1,,,1,,,,,,,,1],
@@ -182,7 +182,7 @@ uppercutCard: Card<boolean, Character> = [
 	[char => !!char.dashes],
 	() => 'Uppercut',
 	[
-		'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage', 
+		'Launch force Y', 'Launch force Z', 'Cooldown', 'Trapezoid Damage',
 		'Length', 'Offset Z', 'Height', 'Near Width', 'Far Width', 'Area'
 	],
 	[[
@@ -261,7 +261,7 @@ overheatCard: Card<number[], Character> = [
 	[char => getWeapon(char)?.overheat],
 	() => 'Overheating',
 	[
-		'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time', 
+		'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time',
 		'Overheat threshold', 'Cooldown time', 'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 	],
 	[[
@@ -286,7 +286,7 @@ mobilityCard: Card<number[], Character> = [
 	() => 'Mobility',
 	[
 		'Movement speed', '… strafing', '… backwards', '… sprinting', '… aiming',
-		'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height', 
+		'Hover gravity', 'Max hover time', 'Jump height', 'In-air jump height',
 		'Jump hover time', 'Hover strafe speed', 'Priming speed', '… strafing', '… backwards'
 	],
 	[[
@@ -301,7 +301,7 @@ gunSwayCard: Card<number[], Character> = [
 	[char => getWeapon(char)?.[zoom ? 'gunSwayZoom' : 'gunSway'] || getWeapon(char)?.gunSway],
 	() => 'Gunsway',
 	[
-		'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping', 
+		'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping',
 		'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 	],
 	[[
@@ -340,7 +340,7 @@ generalCard: Card<Character, Character> = [
 	[char => char],
 	() => 'General',
 	[
-		'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay', 
+		'Max health', 'Armor', 'Regen rate (hp/s)', 'Regen delay',
 		'Sprint exit delay', 'Zoom FOV', 'Priming duration', 'Health leach (hp/s)'
 	],
 	[[
@@ -361,7 +361,7 @@ homingCard: Card<number[], Character> = [
 	[char => getWeapon(char)?.homing],
 	() => 'Homing',
 	[
-		'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time', 
+		'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time',
 		'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 	],
 	[[
@@ -449,9 +449,9 @@ cloudCard: Card<[number, number, number, number, [number, number]], Character> =
 const allCards = [
 	damageCard, bulletCard, trapezoidCard,
 	chargeCard, dashCard, uppercutCard,
-	stunCard, swarmCard, ammoCard, 
-	overheatCard, mobilityCard, gunSwayCard, 
-	recoilAmpCard, dispersionCard, generalCard, 
-	homingCard, shieldCard, recoilAngleCard, 
+	stunCard, swarmCard, ammoCard,
+	overheatCard, mobilityCard, gunSwayCard,
+	recoilAmpCard, dispersionCard, generalCard,
+	homingCard, shieldCard, recoilAngleCard,
 	fireCard, arcCard, cloudCard
 ]

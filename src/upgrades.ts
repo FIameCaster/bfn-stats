@@ -85,7 +85,7 @@ defensiveUpgrades: Upgrade[] = [
 		"regenDelay": 4,
 		"vehicle_regenDelay": 4,
 		"passenger_regenDelay": 4
-	}], 
+	}],
 	[13, 3, 9, 2, , [{ // Adrenaline Rush
 		"modifiers_3": 93 / 70,
 		"vehicle_modifiers_3": 93 / 70
@@ -133,7 +133,7 @@ const upgrades: Upgrade[][] = [
 			"primary_projectiles_0": {
 				"impactDmg": 23.294,
 				"splashDmg": 16.306
-			} 
+			}
 		}],
 		commonUpgrades[2],
 		offensiveUpgrades[3],
@@ -390,7 +390,7 @@ const upgrades: Upgrade[][] = [
 			"vehicle_primary_ammoCapacity": 14
 		}],
 		[93, 2, 1, 10, {
-			"vehicle_abilities_2_weapon_ammoCapacity": 9, 
+			"vehicle_abilities_2_weapon_ammoCapacity": 9,
 			"vehicle_abilities_2_weapon_projectiles_0": { startSpeed: 25, endSpeed: 25 }
 		}],
 		[94, 2, 11, 5, {
@@ -520,7 +520,7 @@ const upgrades: Upgrade[][] = [
 		supportUpgrades[4],
 		commonUpgrades[3],
 		[129, 3, 3, 7],
-		[130, 3, 8, 4],	
+		[130, 3, 8, 4],
 		commonUpgrades[4],
 		[131, 4, 7, 4, {
 			"health": 125,

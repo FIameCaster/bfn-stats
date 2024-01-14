@@ -14,7 +14,7 @@ const getWidth = () => document.documentElement.getBoundingClientRect().width
 export function List() {
 	const [team, setTeam] = useUrlState('0', 't', str => str, str => str, { replace: true })
 	const [category, setCategory] = useUrlState('0', 'g', str => str, str => str, { replace: false })
-	const [sort, setSort] = useUrlState(1, 's', v => v+'', s => +s, { replace: true })
+	const [sort, setSort] = useUrlState(1, 's', v => v + '', s => +s, { replace: true })
 	const [ascending, setAscending] = useUrlState(false, 'o', b => b ? '1' : '', s => !!s, { replace: true })
 	const options = useRef<HTMLHeadingElement>()
 
@@ -71,7 +71,7 @@ export function List() {
 }
 
 function Table({ category, team, sort, setSort, ascending, setAscending }: {category: string, team: string, sort: number, setSort: (newState: number) => void, ascending: boolean, setAscending: (newState: boolean) => void}) {
-	
+
 	const commonProps = {
 		categoryID: category, sort, ascending
 	}
@@ -236,7 +236,7 @@ const funcs = [
 	...[0,1,2,3,4].map(i => (char: Character) => char.primary.overheat?.[i]), // Overheating 25 - 29
 	(char: Character) => char.primary.cooldown,//Cooldown duration 30
 	(char: Character) => char.primary.getDmgPerOverheat(distance, crit, move),//Damage/overheat 31
-	...[0,1,2].map(i => [ 
+	...[0,1,2].map(i => [
 		(char: Character) => char.primary.charges?.[i]?.[0],//Charge time 32
 		(char: Character) => char.primary.charges?.[i]?.[1],//Recovery time 33
 		(char: Character) => char.primary.getChargeDPS(distance, i, crit, move),//Charge DPS 34
@@ -246,7 +246,7 @@ const funcs = [
 		(char: Character) => char.primary.projectiles[i + 1]?.startSpeed,//Launch velocity 38
 		(char: Character) => char.primary.getMaxRange(i + 1) || null,//Max range 39
 		(char: Character) => char.primary.travelTime(distance, i + 1),//Travel time 40
-	]).flat(), 
+	]).flat(),
 	(char: Character) => char.health,//Max HP 59
 	(char: Character) => char.regenDelay,//Regen delay 60
 	(char: Character) => char.regenRate,//Regen rate 61

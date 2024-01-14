@@ -15,7 +15,7 @@ export function Abilities() {
 		syncNavbarState(getNavbarSettings())
 		syncZoom(zoomSignal[0]())
 
-		const char1 = char().abilities[ability()], 
+		const char1 = char().abilities[ability()],
 		baseChar1 = baseChar().abilities[ability()],
 		cards: ReturnType<typeof statCards[0]>[] = []
 		for (let i = 0, j = 0, l = statCards.length; i < l; i++) {
@@ -145,7 +145,7 @@ class Ability {
 	decayRateM?: number
 	explosion?: [number, number, number?]
 	vehicle?: [
-		number, number, number, number, number?, number?, number?, Weapon?, 
+		number, number, number, number, number?, number?, number?, Weapon?,
 		number?, number?, number?, number?, number?, number?, number?, number?
 	]
 	explosionDelay?: number
@@ -229,7 +229,7 @@ const statCards = [
 		[
 			'Cooldown', 'Charges', 'Deploy time', 'Switch back delay', 'Duration',
 			'Buffspread radius', 'Stamina', 'Decay rate (/sec)', '… moving', 'Explosion delay',
-			'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range', 
+			'Warp distance', 'Heal rate (hp/s)', 'Healing radius', 'Link-up range',
 			'Spotting range', 'Ally armor'
 		],
 		[[
@@ -304,8 +304,8 @@ const statCards = [
 		[ability => ability.vehicle],
 		() => 'Drone',
 		[
-			'Health', 'Movement speed', '… strafing', '… backwards', 
-			'… ascending', '… descending', 'Jump height', 
+			'Health', 'Movement speed', '… strafing', '… backwards',
+			'… ascending', '… descending', 'Jump height',
 		],
 		[
 			[0,1,2,3,4,5,6].map(i => vehicle => vehicle[i] as number)
@@ -366,7 +366,7 @@ const statCards = [
 		[ability => ability.object],
 		() => 'Object',
 		[
-			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius', 
+			'Launch speed', 'Launch speed Y', 'Health', 'Fuse', 'Arming time', 'Trigger radius',
 			'Shield HP', 'Max time to live', 'Swarm size', 'Shield radius', 'Max count'
 		],
 		[
@@ -394,7 +394,7 @@ const statCards = [
 		[ability => ability.buffZone],
 		() => 'Buff Zone',
 		[
-			'Zone radius', 'Armor multiplier', 'Speed penalty', 
+			'Zone radius', 'Armor multiplier', 'Speed penalty',
 			'Debuff charge (/sec)', 'Debuff decay (/sec)', 'DoT', 'Period'
 		],
 		[
@@ -424,7 +424,7 @@ const statCards = [
 		[ability => ability.beam],
 		() => 'Healbeam',
 		[
-			'Heal rate (hp/s)', 'Application range', 'Max range', 
+			'Heal rate (hp/s)', 'Application range', 'Max range',
 		],
 		[[
 			beam => beam[2],

@@ -1,4 +1,4 @@
-import { Outlet, A } from "@solidjs/router" 
+import { Outlet, A } from "@solidjs/router"
 import { createSignal, Show } from "solid-js"
 import { createParamSignal } from "../../hooks/createParamSignal"
 import { useDropdownState } from "../../hooks/useDropdownState"
@@ -61,14 +61,14 @@ export function Navbar() {
 						</li>
 						<li class="input-group">
 							<label for="crit">Crit damage</label>
-							<input 
+							<input
 								type="checkbox" id="crit" checked={crit()}
 								oninput={e => setCrit(e.currentTarget.checked)}
 							/>
 						</li>
 						<li class="input-group">
 							<label for="move">Moving target</label>
-							<input 
+							<input
 								type="checkbox" id="move" checked={move()}
 								oninput={e => setMove(e.currentTarget.checked)}
 							/>

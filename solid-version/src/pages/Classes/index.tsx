@@ -21,7 +21,7 @@ function Classes() {
 	const location = useLocation()
 	const [search] = useSearchParams()
 	const abilityID = createMemo(() => {
-		return location.pathname.includes('/abilities') ? 
+		return location.pathname.includes('/abilities') ?
 			search.a ? +search.a : 0 : null
 	})
 
@@ -29,7 +29,7 @@ function Classes() {
 	const temp = createParamSignal('t', '', getTempParam, parseTempParam, true)
 	const [zoom, setZoom] = createParamSignal<boolean>('z', '', b => b ? '1' : '', s => !!s, true, zoomSignal)
 	const [special, setSpecial] = createParamSignal<boolean>('s', '', b => b ? '1' : '', s => !!s, true)
-	
+
 	const charID = () => getCharID(params.name)
 	const char = createMemo(() => characters[charID()])
 	const owner = createMemo(() => char().owner || char())
@@ -265,14 +265,14 @@ const classData = (() => {
 			if (classes[id]) return classes[id]
 			const ownerID = characters[id].owner?.id ?? id,
 			{ passenger, vehicle } = characters[ownerID]
-			
+
 			addCharacter(ownerID)
 			if (passenger || vehicle) {
 				passenger && addCharacter(passenger.id)
 				vehicle && addCharacter(vehicle.id)
 				linkClasses(ownerID)
 			}
-			
+
 			return classes[id]
 		},
 		resetCache(char: Character) {
@@ -383,7 +383,7 @@ const createStatCard = <Category, StatSource>(
 		const [statText, setStat] = createSignal<string>()
 		const [color, setColor] = createSignal<string>()
 		const rowData = [label, statText, color] as const
-		
+
 		return (char: StatSource, baseChar: StatSource, prop: Category, baseProp: Category, index: number, isSameProp: boolean) => {
 			const stat = getStats[index][i](prop, char)
 			if (stat == null) return
@@ -401,7 +401,7 @@ const createStatCard = <Category, StatSource>(
 			else setColor((
 				colors[i] ^ +(Math.abs(stat) > Math.abs(baseStat)) ? 'rgba(30, 100, 0, ' : 'rgba(120, 40, 0, '
 				) + Math.min(1, (Math.max(Math.abs(baseStat / stat), Math.abs(stat / baseStat)) - 1) * .9 + .1) + ')')
-				
+
 			return rowData
 		}
 	})
@@ -462,7 +462,7 @@ function createWeaponCards<StatSource>(getWeapon: (char: StatSource) => Weapon) 
 			[char => getWeapon(char)?.projectiles[0]],
 			() => 'Bullet speed',
 			[
-				'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity', 
+				'Launch velocity', 'Launch velocity Y', 'Drag start', 'Drag end', 'Post-drag velocity',
 				'Acceleration', 'Max velocity', 'Travel time', 'Max range', 'Gravity', 'Bullet radius',
 				'Bullet height', 'Bullet width'
 			],
@@ -526,7 +526,7 @@ function createWeaponCards<StatSource>(getWeapon: (char: StatSource) => Weapon) 
 			[char => getWeapon(char)?.overheat],
 			() => 'Overheating',
 			[
-				'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time', 
+				'Overheat time', 'Heat/bullet', 'Heat-gain/sec', 'Heat-drop/sec', 'Heat-drop delay', 'Penalty time',
 				'Overheat threshold', 'Cooldown time', 'Damage/overheat', 'Sustainable RoF', 'Sustainable DPS'
 			],
 			[[
@@ -550,7 +550,7 @@ function createWeaponCards<StatSource>(getWeapon: (char: StatSource) => Weapon) 
 			[char => getWeapon(char)?.[zoom ? 'gunSwayZoom' : 'gunSway'] || getWeapon(char)?.gunSway],
 			() => 'Gunsway',
 			[
-				'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping', 
+				'Min angle', '… moving', '… jumping', 'Max angle', '… moving', '… jumping',
 				'Bloom/shot', '… moving', '… jumping', 'Decrease/sec', 'Aim time'
 			],
 			[[
@@ -589,7 +589,7 @@ function createWeaponCards<StatSource>(getWeapon: (char: StatSource) => Weapon) 
 			[char => getWeapon(char)?.homing],
 			() => 'Homing',
 			[
-				'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time', 
+				'Lock-on range', 'Lock-on angle', 'Lock-on time', 'Release time',
 				'Turnangle multiplier', 'Time to activate', 'Distance to activate'
 			],
 			[[

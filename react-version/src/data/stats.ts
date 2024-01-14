@@ -211,8 +211,8 @@ class Missile {
 	}
 
 	travelTime(distance: number): number {
-		const ss = this.startSpeed, 
-		se = this.maxSpeed, 
+		const ss = this.startSpeed,
+		se = this.maxSpeed,
 		a = this.engineAccel
 
 		if (distance <= 0) return 0
@@ -222,8 +222,8 @@ class Missile {
 		return ((ss * ss + 2 * a * distance) ** .5 - ss) / a
 	}
 	travelDistance(time: number): number {
-		const ss = this.startSpeed, 
-		se = this.maxSpeed, 
+		const ss = this.startSpeed,
+		se = this.maxSpeed,
 		a = this.engineAccel
 
 		if (!a) return ss * time
@@ -331,13 +331,13 @@ class Weapon {
 			}
 			return this.cache[6] = time
 		}
-		return this.cache[6] = (ammo - 1) / this.rof * 60 
+		return this.cache[6] = (ammo - 1) / this.rof * 60
 	}
 
 	get effectiveRof(): number {
 		const burst = this.burstSize
 		if (burst) return burst / ((burst - 1) / this.rof * 60 + this.burstInterval)
-		if (this.rofInc) return (this.ammo - 1) / this.timeToFireClip 
+		if (this.rofInc) return (this.ammo - 1) / this.timeToFireClip
 		return this.rof / 60
 	}
 
@@ -377,11 +377,11 @@ class Weapon {
 	}
 
 	getDamage(distance: number, index: number, crit: boolean, move: boolean): number {
-		const bullet = this.projectiles[index], 
+		const bullet = this.projectiles[index],
 		trapezoid = !index && this.trapezoid,
 		critMultiplier = crit && bullet?.critMultiplier || 1
 
-		return !trapezoid && !bullet ? null : ((this.getMaxRange(index) >= distance ? 
+		return !trapezoid && !bullet ? null : ((this.getMaxRange(index) >= distance ?
 			((bullet?.splashDmg || 0) + (bullet ? bullet.impactDmg * critMultiplier : 0)) * this.shotsPerShell : 0)
 			+ (trapezoid && this.sprayRange >= distance ? trapezoid[0] * (crit ? this.multipliers[8] : 1) : 0)
 			+ this.getCloud(distance, index, move) + this.getSideArrows(distance, index) * critMultiplier) * this.multipliers[6] * this.multipliers[7]
@@ -416,7 +416,7 @@ class Weapon {
 	}
 
 	getMaxRange(index: number): number {
-		const cache = this.cache[0], 
+		const cache = this.cache[0],
 		projectile = this.projectiles[index]
 		if (cache[index] != null) return cache[index]
 		if (!projectile) return cache[index] = 0
@@ -459,8 +459,8 @@ class Weapon {
 		const [maxAmpY, maxAmp, ampIncY, minAmpInc, maxAmpInc, decFactor] = recoil
 
 		return this.cache[index + 1] = [
-			maxAmpY, maxAmp, ampIncY, (minAmpInc + maxAmpInc) / 2, 
-			Math.abs((maxAmpInc - minAmpInc) / 2), decFactor, 
+			maxAmpY, maxAmp, ampIncY, (minAmpInc + maxAmpInc) / 2,
+			Math.abs((maxAmpInc - minAmpInc) / 2), decFactor,
 			decFactor * this.recoil[2], this.recoil[3]
 		]
 	}
@@ -481,7 +481,7 @@ class Weapon {
 		if (!this.dispersion || (this.type && this.type + 2 != index)) return this.cache[index] = null
 		const [minAngle, maxAngle, incPerShot, decrease, jumpDisp, moveDisp, moveDispZoom, zoomScale, shellDisp] = this.dispersion
 		const result = [
-			minAngle, maxAngle, incPerShot, incPerShot && Math.max(0, incPerShot - decrease * 60 / this.rof), 
+			minAngle, maxAngle, incPerShot, incPerShot && Math.max(0, incPerShot - decrease * 60 / this.rof),
 			decrease, jumpDisp, zoom ? moveDispZoom : moveDisp, shellDisp
 		]
 
@@ -495,7 +495,7 @@ class Character {
 	name: string
 	type?: string
 	role: "Attack" | "Defend" | "Support" | "Swarm"
-	team: "Plant" | "Zombie" 
+	team: "Plant" | "Zombie"
 	primary: Weapon
 	alt: Weapon | null
 	health: number
@@ -578,7 +578,7 @@ class Character {
 
 		return this.moveCache = [
 			speed, speed * strafe, speed * back, sprint && 6.2 * sprint * multiplier,
-			speed * this.zoomSpeed * (this.shield?.[3] || 1) * (this.primary.primeSpeed?.[0] || 1), 
+			speed * this.zoomSpeed * (this.shield?.[3] || 1) * (this.primary.primeSpeed?.[0] || 1),
 			hoverGrav * 100, hoverDuration || null, jump, airJump, hoverTime, hoverStrafe && hoverStrafe * speed
 		]
 	}

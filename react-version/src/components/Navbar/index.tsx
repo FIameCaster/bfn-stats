@@ -27,7 +27,7 @@ function Links() {
 
 	let searchStr = ''
 	const [search] = useSearchParams()
-	
+
 	// Filtering away params which should be kept between navigations
 	for (const [key, value] of search) {
 		if ('dmc'.includes(key)) searchStr += `&${key}=${value}`
