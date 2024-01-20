@@ -4,7 +4,7 @@ import { minify } from "terser"
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=24'
+const cacheParam = '?v=25'
 
 const stats = (() => {
 	const charData = [

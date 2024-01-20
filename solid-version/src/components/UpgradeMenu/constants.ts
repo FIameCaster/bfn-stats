@@ -159,7 +159,7 @@ export const upgradeText = [
 	"Double launch speed of Blazing Trail.",
 	"Create a column of fire at enemy's location on every third vanquish lasting for 5 seconds.",
 	"Reset weapon heat and reduce ability cooldown by 12 seconds over 8 seconds upon using Blue Blazes.",
-	"Swoop Slam ignites enemies in a 3 meter radius around the impact.",
+	"Swoop Slam ignites enemies in a 3 meter radius around the impact. Each vanquish with Swoop Slap decreases its cooldown over 1.5 seconds by 5.25 seconds.",
 	// Cactus
 	"Decrease charge time by 67% for 2 seconds after exiting Petal Propeller.",
 	"Decrease tunnel vision effect while zooming by 50%.",

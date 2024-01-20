@@ -137,7 +137,7 @@ export const upgradeText = [
 	"Decrease Butter Beacon's cooldown by 12 seconds over 4 seconds by vanquishing a highlighted enemy.",
 	"Decrease reload time by 75%.",
 	"Increase Cob Buster's RoF by 7% for 10 seconds upon vanquishing an enemy. Can stack up to three times.",
-	"Swap Kernel Corn's primary weapon and give him a shield activated by aiming.",
+	"Swoop Slam ignites enemies in a 3 meter radius around the impact. Each vanquish with Swoop Slap decreases its cooldown over 1.5 seconds by 5.25 seconds.",
 	// Night Cap
 	"Half the revive time of allies within Casting Shadows.",
 	"Increase ammo capacity by 10 for 30 seconds upon damaging multiple enemies with a single shot. Can stack up to 4 times.",
