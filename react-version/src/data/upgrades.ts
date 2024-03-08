@@ -193,7 +193,8 @@ const upgrades: Upgrade[][] = [
 		commonUpgrades[2],
 		offensiveUpgrades[3],
 		[45, 2, 4, 4, ,[{
-			"modifiers_5": 1.25
+			"modifiers_5": 1.25,
+			"abilities_1_weapon_ammoCapacity": 19.2
 		}]],
 		offensiveUpgrades[4],
 		[46, 3, 3, 7],

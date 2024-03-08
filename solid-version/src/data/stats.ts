@@ -554,9 +554,9 @@ class Character {
 		this.primary.cache = [[]]
 		if (this.alt) this.alt.cache = [[]]
 
-		if (this.abilities) for (const ability of this.abilities) {
-			if (ability.weapon) ability.weapon.cache = [[]]
-		}
+		this.abilities?.forEach(({ weapon }) => {
+			if (weapon) weapon.cache = [[]]
+		})
 	}
 
 	partiallyReset() {
