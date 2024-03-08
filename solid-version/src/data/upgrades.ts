@@ -538,7 +538,7 @@ const upgrades: Upgrade[][] = [
 		offensiveUpgrades[5],
 		[142, 4, 4, 4, {
 			"primary": {
-				"rofInc": 6, "maxRof": 680
+				"rofInc": 5, "maxRof": 680
 			}
 		}]
 	],

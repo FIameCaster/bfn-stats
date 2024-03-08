@@ -237,7 +237,7 @@ export const upgradeText = [
 	"Allies inside the Super Stink Cloud are revived twice as fast.",
 	"Recover 22 ammo upon earning a vanquish.",
 	"Super Stink Cloud sticks to enemies and moving surfaces.",
-	"RoF of Z-1 Assault Blaster is increased by 6 per shot until a max of 680.",
+	"RoF of Z-1 Assault Blaster is increased by 5 per shot until a max of 680.",
 	// Imp
 	"Double hover duration.",
 	"Increase movement speed by 25% for 5 seconds after using Explosive Escape.",
