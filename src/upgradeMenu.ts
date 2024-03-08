@@ -607,7 +607,7 @@ const upgradeText = [
 	"Double healing rate when the ally is at low health.",
 	"Spawn with max overhealth after respawning. Overhealth decays after 20 seconds.",
 	"Recover 50% of a full magazine upon using Warp.",
-	"Allies healed by Sticky Healy Thingy are revived twice as fast for 10 seconds.",
+	"Allies healed by Sticky Healy Thingy can revive twice as fast for 10 seconds.",
 	"Increase heal range by 66.7% and width by 25% when aiming Healing Hose. Should increase heal rate by 42%, but doesn't due to a bug.",
 	"Increse distance traveled with Warp by 80%.",
 	"Double healing radius of Sticky Healy Thingy when stucky to an ally or enemy.",
