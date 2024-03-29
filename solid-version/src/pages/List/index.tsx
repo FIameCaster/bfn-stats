@@ -83,6 +83,7 @@ export function List() {
 								onKeyDown={e => {
 									e.code == 'Space' && e.preventDefault()
 								}}
+								colSpan={index ? 1 : 2}
 								aria-sort={sort() == index ? (ascending() ? 'ascending' : 'descending') : 'none'}
 								onClick={() => {
 									if (sort() == index) setAscending(!ascending())

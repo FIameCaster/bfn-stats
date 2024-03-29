@@ -49,6 +49,8 @@ const table = (() => {
 			element('div', 0, [i ? nodes[i - 1] = text('') : 'Character'])
 		])
 
+		cells[0].colSpan = 2
+
 		return {
 			el: element('thead', 0, [
 				element('tr', {
@@ -337,12 +339,12 @@ const table = (() => {
 		setLastColumnVisibility: (() => {
 			let currentState = true
 			const sheet = document.head.appendChild(element('style')).sheet
-			sheet.insertRule('td:last-child,th:last-child { display: table-cell; }')
+			sheet.insertRule('td:last-child,th:last-child{}')
 
 			const style = (<CSSStyleRule>sheet.cssRules[0]).style
 
 			return (visibility: boolean) => {
-				if (currentState != (currentState = visibility)) style.display = visibility ? 'table-cell' : 'none'
+				if (currentState != (currentState = visibility)) style.display = visibility ? '' : 'none'
 			}
 		})(),
 		setCategory(index: number) {

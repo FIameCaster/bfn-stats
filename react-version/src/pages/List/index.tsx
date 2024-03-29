@@ -99,7 +99,7 @@ function Head({ categoryID, sort, ascending, setSort, setAscending }: { category
 	}
 
 	for (let i = 0; i < length; i++) cells[i] = (
-		<th key={i} {...headerProps} aria-sort={sort == i ? (ascending ? 'ascending' : 'descending') : 'none'} onClick={() => {
+		<th key={i} {...headerProps} colSpan={i ? 1 : 2} aria-sort={sort == i ? (ascending ? 'ascending' : 'descending') : 'none'} onClick={() => {
 			if (sort == i) setAscending(!ascending)
 			else {
 				setAscending(false)
