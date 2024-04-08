@@ -4,7 +4,7 @@ import { minify } from "terser"
 import cssnano from 'cssnano'
 
 // Increment before pushing to production
-const cacheParam = '?v=26'
+const cacheParam = '?v=27'
 
 const stats = (() => {
 	const charData = [
@@ -184,10 +184,15 @@ const options = {
 	})
 })
 
-const prosessor = cssnano([cssnano({ preset: 'default' })]);
+const prosessor = cssnano([cssnano({ preset: 'default' })])
+let count = 0
+const customProps = {
+	'icon': 'icon'
+};
 
 ['classes.css','list.css','style.css','ttk.css','upgradeMenu.css','about.css','compareMenu.css','compare.css'].forEach(name => {
-	fs.readFile(`css/${name}`, async (err, css) => {
+	fs.readFile(`css/${name}`, { encoding: 'utf-8' }, async (err, css) => {
+		css = css.replace(/(?<=--)[\w-]+/g, s => customProps[s] ||= (++count).toString(36))
 		const result = await prosessor.process(css, { from: undefined, to: undefined })
 		fs.writeFile(`build/css/${name}`, result.css, logError)
 	})
